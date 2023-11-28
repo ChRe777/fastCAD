@@ -10,7 +10,7 @@ import { useSelectionStore } from 'stores/selection'
 const template = `
 <h5 class="mt-2">Debug Info</h5>
 <div class="container bg-light mt-2 rounded-1">
-    selected: {{this.selectionStore.selectedElements.map(el => el.type)}}
+    selected: {{selectedTypes}}
 </div>
 `
 
@@ -26,5 +26,12 @@ function data() {
 //
 export default {
     data,
-    template
+    template,
+    computed: {
+        selectedTypes() {
+            let res = []
+            this.selectionStore.selectedElements.forEach(el => res.push(el.type))
+            return res
+        }
+    }
 }

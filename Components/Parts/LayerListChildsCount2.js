@@ -14,20 +14,7 @@ const template = `
 
 // Get number of child layers
 //
-function getNumChilds(layer) {
 
-    let childs = layer.elements.length
-
-    if (layer.layers != undefined) {
-        return childs + layer.layers
-            .map(getNumChilds)
-            .reduce((accumulator, currentValue) => {
-                return accumulator + currentValue
-            }, 0);
-    }
-
-    return childs
-}
 
 function badgeClass() {
     let classes = 'badge bg-primary rounded-pill me-1'
@@ -37,7 +24,7 @@ function badgeClass() {
 
 function childsCount() {
     const layer = api.getLayerById(this.id)
-    return getNumChilds(layer)
+    return api.numLayerChilds(layer)
 }
 
 // Component

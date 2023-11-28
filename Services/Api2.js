@@ -11,7 +11,15 @@
 // Imports
 //
 import { useStore } from 'stores/store'
+import { useViewStore } from 'stores/view'
+import { useEditorStore } from 'stores/editor'
+import { useMessageStore } from 'stores/message'
 import { useSelectionStore } from 'stores/selection'
+
+import io from 'services/io'
+
+import { addPoints, subPoints } from 'services/utils'
+import { defaults } from 'services/defaults'
 
 // Create unique id
 // see https://shortunique.id
@@ -25,7 +33,7 @@ function create(type, attrs) {
     if (type === 'layer') {
         return createLayer_(type, attrs)
     }
-
+    
     // Create new object
     //
     let obj = {
@@ -63,9 +71,12 @@ function createLayer_(type, attrs) {
     }
 
     store.scene.layers.push(newLayer)
+
     return newLayer
 }
 
+
+// TODO: REFACTOR
 function removeFromLayer_(layer, element) {
     layer.elements = layer.elements.filter(obj => obj.id !== element.id)
     if (layer.layers != undefined) { // layer should be []
@@ -129,6 +140,11 @@ function mirror(element, type, axis, value) {
     api.modify(element, type, attrsMirrored)
 }
 
+function isSelected(element) {
+    const store = useSelectionStore()
+    return store.selectedElements.has(element)
+}
+
 // select
 //
 function select(element, type, attrs) {
@@ -139,20 +155,24 @@ function select(element, type, attrs) {
         setCurrentLayer(element)
         return element
     }
-
-    let isAlreadySelect = store.selectedElements.find((obj) => obj.id === element.id) !== undefined
-    if (isAlreadySelect === false) {
-        store.selectedElements.push(element)
-    }
-
+    store.selectedElements.add(element)
     return element
+}
+
+function selectFirstLayer() {
+    const store = useStore()
+    const selectionStore = useSelectionStore()
+    
+    if (store.scene.layers && store.scene.layers.length > 0) {
+        selectionStore.selectedLayers.add(store.scene.layers[0])
+    }
 }
 
 // deselect
 //
 function deselect(element, type, attrs) {
     const store = useSelectionStore()
-    store.selectedElements = store.selectedElements.filter(obj => obj.id !== element.id);
+    store.selectedElements.delete(element);
     return element
 }
 
@@ -160,7 +180,8 @@ function deselect(element, type, attrs) {
 //
 function setCurrentLayer(layer) {
     const store = useSelectionStore()
-    store.selectedLayers[0] = layer
+    store.selectedLayers.clear()
+    store.selectedLayers.add(layer)
 }
 
 function getCurrentLayer() {
@@ -172,7 +193,7 @@ function getCurrentLayer() {
 //
 function isCurrentLayer(layer) {
     const store = useSelectionStore()
-    return store.selectedLayers[0] === layer
+    return store.selectedLayers.has(layer)
 }
 
 // get Element by Id
@@ -206,21 +227,48 @@ function getElementById(id) {
     return undefined
 }
 
-function getLayerById_(id, layers) {
-    if (layers === undefined) {
-        return undefined
+function toogleLayerOpen(layer) {
+    layer['layers-open'] = !layer['layers-open']
+}
+
+function hasLayerChilds(layer) {
+    if (layer.layers !== undefined) {
+        return layer.layers.length > 0
     }
+    return false
+}
+
+function numLayerChilds(layer) {
+    let childs = layer.elements.length
+
+    if (layer.layers != undefined) {
+        return childs + layer.layers
+            .map(numLayerChilds)
+            .reduce((accumulator, currentValue) => {
+                return accumulator + currentValue
+            }, 0);
+    }
+
+    return childs
+}
+
+function isLayerOpen(layer) {
+    return layer['layers-open']
+}
+
+// TODO: Refactor
+function getLayerById_(id, layers) {
 
     for (const layer of layers) {
         if (layer.id === id) {
             return layer
         }
-        
-        let found = getLayerById_(id, layer.layers)
-        if (found !== undefined) {
-            return found
+        if (layer.layers !== undefined) {
+            let found = getLayerById_(id, layer.layers)
+            if (found !== undefined) {
+                return found
+            }
         }
-        
     }
 
     return undefined
@@ -229,6 +277,350 @@ function getLayerById_(id, layers) {
 function getLayerById(id) {
     const store = useStore()
     return getLayerById_(id, store.scene.layers)
+}
+
+
+function clearSelection() {
+    const selectionStore = useSelectionStore()
+    selectionStore.selectedElements.clear()
+    selectionStore.selectedLayers.clear()
+}
+
+function clearEditor() {
+    const editorStore = useEditorStore()
+    editorStore.editingAttributes = {}
+    editorStore.layerEditingAttributes = {}
+}
+
+function clearScene() {
+    const store = useStore()
+    store.scene.layers = []
+}
+
+
+function newScene() {
+
+    clearScene()
+    clearSelection()
+    clearEditor()
+}
+
+function saveScene(name) {
+    const store = useStore()
+    const messagesStore = useMessageStore()
+
+    const successFn = function (data, name) {
+        console.log("data", data)
+        messagesStore.messages.push(`Saved ${name}`)
+    }
+
+    io.save(store.scene, name, successFn)
+}
+
+function setScene_(scene) {
+    const store = useStore()
+    store.scene = scene
+}
+
+function loadScene(name) {
+
+    let onLoaded = function (scene, name) {
+
+        setScene_(scene) 
+        selectFirstLayer()  
+        newMessage(`Loaded ${name}`)
+
+    }
+
+    io.load(onLoaded, name)
+}
+
+function forEachSelected(fn) {
+    const selectionStore = useSelectionStore()
+    selectionStore.selectedElements.forEach(selectedElement => fn(selectedElement))
+}
+
+function destroySelected() {
+    
+
+    // Remove from layers
+    //
+    forEachSelected(selectedElement => {
+        api.destroy(selectedElement)
+    })
+
+    // Remove from selection
+    //
+    store.selectedElements.clear()
+}
+
+function copySelected() {
+    forEachSelected(selectedElement => {
+        let { id, type, ...attrs } = selectedElement
+        api.create(type, attrs)
+    })
+}
+
+function mirrorSelected(axis, value) {
+
+    forEachSelected(selectedElement => {
+        let { id, type, ...attrs } = selectedElement
+        let obj = api.create(type, attrs)
+        api.mirror(obj, type, axis, value)
+    })
+
+}
+
+function deselectAll() {
+    const selectionStore = useSelectionStore()
+    selectionStore.selectedElements.clear()
+}
+
+// TODO: REFACTOR !!
+function setLayer_(name) {
+    const store = useStore()
+    const selectionStore = useSelectionStore()
+
+    let newLayer = store.scene.layers.find((layer) => layer.name === name);
+    if (newLayer === undefined) {
+        // TODO: Info wrong layer name
+        return
+    }
+
+    console.log("setLayer", name)
+    selectionStore.selectedElements.forEach(selectedElement => {
+        
+        // Remove from old layer
+        console.log("setLayer", "remove")
+        for (let oldLayer of store.scene.layers) {
+            oldLayer.elements = oldLayer.elements.filter(obj => obj.id !== selectedElement.id)
+        }
+
+        console.log("setLayer", "add")
+        // Add to new layer
+        newLayer.elements.push(selectedElement)
+    })
+}
+
+function modifySelected(prop, value) {
+    const store = useStore()
+
+    if (prop === 'layer') {
+        let name = value
+        return setLayer_(name)
+    }
+
+    forEachSelected(selectedElement => {
+        let attrs = {};
+        attrs[prop] = value
+        api.modify(selectedElement, selectedElement.type, attrs)
+    })
+
+    if (store.lastCreatedElement !== undefined) {
+        let attrs = {};
+        attrs[prop] = value
+        api.modify(store.lastCreatedElement, store.lastCreatedElement.type, attrs)
+    }
+}
+
+function moveGeneric1(d, attrs /*axis*/, relative, selectedElement) {
+    attrs.forEach(attr => { // e.g. cx, cy or x1, x2
+        if (relative) {
+            // cx = "30" -> 30
+            selectedElement[attr] = parseFloat(selectedElement[attr]) + d
+        } else {
+            selectedElement[attr] = d
+        }
+    })
+}
+
+function moveGeneric2(p, xs, ys, relative, selectedElement) {
+    moveGeneric1(p.x, xs, relative, selectedElement)
+    moveGeneric1(p.y, ys, relative, selectedElement)
+}
+
+function toPoint(xy) {
+    xy = xy.split(',').map(parseFloat)
+    console.log("toPoint", xy)
+    return {
+        x: xy[0],
+        y: xy[1],
+    }
+}
+
+function toXY(p) {
+    return p.x + "," + p.y
+}
+
+function movePointsXY(p, attr, relative, selectedElement) {
+    let xys = selectedElement[attr].split(" ")
+
+    if (!relative) {
+        let p1 = toPoint(xys[0])
+        p = subPoints(p, p1)
+    }
+
+    let zs = xys
+        .map(toPoint)
+        .map((x) => addPoints(p, x))
+        .map(toXY)
+
+    selectedElement[attr] = zs.join(" ")
+}
+
+function moveSelected(p, relative) {
+
+    forEachSelected(selectedElement => {
+        if (selectedElement.type === 'circle') {
+            moveGeneric2(p, ['cx'], ['cy'], relative, selectedElement)
+        }
+        else if (selectedElement.type === 'line') {
+            moveGeneric2(p, ['x1', 'x2'], ['y1', 'y2'], relative, selectedElement)
+        }
+        else if (selectedElement.type === 'image') {
+            moveGeneric2(p, ['x'], ['y'], relative, selectedElement)
+        }
+        else if (selectedElement.type === 'text') {
+            moveGeneric2(p, ['x'], ['y'], relative, selectedElement)
+        }
+        else if (selectedElement.type === 'polyline') {
+            movePointsXY(p, 'points', relative, selectedElement)
+        }
+        else if (selectedElement.type === 'polygon') {
+            movePointsXY(p, 'points', relative, selectedElement)
+        }
+        else if (selectedElement.type === 'path') {
+            // TODO: M 0 0 m 30 30
+        }
+    })
+}
+
+function newMessage(text) {
+    const messageStore = useMessageStore()
+    messageStore.messages.push(text)
+}
+
+function viewZoomIn() {
+    const viewStore = useViewStore()
+    let step = Math.log2(viewStore.zoomFactor)
+
+    // -19 .. 19
+    if (-19 <= step && step < 19) {
+        viewStore.zoomFactor *= 2;
+    }
+}
+
+function viewZoomOut() {
+    const viewStore = useViewStore()
+    let step = Math.log2(viewStore.zoomFactor)
+
+    // -19 .. 19
+    if (-19 < step && step <= 19) {
+        viewStore.zoomFactor /= 2;
+    }
+}
+
+function createLine() {
+
+    const store = useStore()
+
+    if (relative1) {
+        p1 = addPoints(store.lastPoint, p1)
+    }
+
+    if (relative2) {
+        p2 = addPoints(p1, p2)
+    }
+
+    create('line', {
+        x1: p1.x,
+        y1: p1.y,
+        x2: p2.x,
+        y2: p2.y,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p2
+}
+
+function createLineTo(p2, relative2) {
+
+    const store = useStore()
+
+    if (store.lastPoint !== undefined) {
+        p1 = store.lastPoint
+    }
+
+    if (relative2) {
+        p2 = addPoints(p1, p2)
+    }
+
+    create('line', {
+        x1: p1.x,
+        y1: p1.y,
+        x2: p2.x,
+        y2: p2.y,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p2
+}
+
+function createCircle(p, relative, r) {
+    
+    const store = useStore()
+
+    if (relative && store.lastPoint !== undefined) {
+        p = addPoints(store.lastPoint, p)
+    }
+
+    create('circle', {
+        cx: p.x,
+        cy: p.y,
+        r: r,
+        fill: defaults.style.fill,
+        stroke: defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p
+}
+
+function createText(p, relative, text) {
+
+    const store = useStore()
+
+    if (relative && store.lastPoint !== undefined) {
+        p = addPoints(store.lastPoint, p)
+    }
+
+    create('text', {
+        x: p.x,
+        y: p.y,
+        text: text,
+        "font-family": defaults.font.family,
+        "font-size": defaults.font.size,
+        "fill": defaults.style.fill,
+        "stroke": defaults.style.stroke,
+        "stroke-width": 0 //defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p
+}
+
+
+
+function createLayer(name, description) {
+
+    const newLayer = create("layer", {
+        'name': name,
+        'description': description,
+        ...defaults.layer
+    })
+
+    setCurrentLayer(newLayer)
 }
 
 // Export API
@@ -243,13 +635,41 @@ const api = {
     //
     select,
     deselect,
+    deselectAll,
+    isSelected,
     //
     getElementById,
     //
     setCurrentLayer,
     getCurrentLayer,
     isCurrentLayer,
-    getLayerById
+    getLayerById,
+    hasLayerChilds,
+    numLayerChilds,
+    isLayerOpen,
+    toogleLayerOpen,
+    //
+    newScene,
+    saveScene,
+    loadScene,
+    //
+    destroySelected,
+    copySelected,
+    mirrorSelected,
+    modifySelected,
+    moveSelected,
+    //
+    //
+    newMessage,
+    //
+    viewZoomIn,
+    viewZoomOut,
+    //
+    createLayer,
+    createLine,
+    createLineTo,
+    createCircle,
+    createText,
 }
 
 export default api;

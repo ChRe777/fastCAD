@@ -101,14 +101,8 @@ function createResizeObserver(self) {
     new ResizeObserver(outputsize).observe(svg)
 }
 
-function isSelected(element) {
-    return this.selectionStore.selectedElements.find((el) => el.id === element.id) !== undefined
-}
-
 function selectElement(element) {
-    console.log("select", this.selectionStore)
-    // Deselect
-    if (this.selectionStore.selectedElements.find((el) => el.id === element.id) !== undefined) {
+    if (api.isSelected(element)) {
         api.deselect(element)
     } else {
         api.select(element)
@@ -137,7 +131,9 @@ export default {
     },
     methods: {
         selectElement,
-        isSelected
+        isSelected(element) {
+            return api.isSelected(element)
+        }
     },
     components: {
         selectionFrame
