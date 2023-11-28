@@ -17,6 +17,7 @@
 
     /* Toolbar */
     --toolbar-gap: 10px;
+    --toolbar-btn-size: 77px;
 
     /* Editor */
     --editor-width: 250px;

@@ -14,7 +14,5 @@ export const useEditorStore = defineStore('editorStore', {
     state: () => ({
         editingAttributes: {},
         layerEditingAttributes: {},
-    }),
-    actions: {
-    }
+    })
 })

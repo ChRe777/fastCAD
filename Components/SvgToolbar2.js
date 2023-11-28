@@ -3,13 +3,20 @@
 
 // Import
 //
-import { useCmdStore } from 'stores/cmd'
+import ToolbarButton from 'parts/button'
 
 // Template
 //
 const template = `
+<div class="d-flex flex-wrap gap-2">
+    <template v-for="btn in buttons">
+        <toolbar-button :iconClass="btn.iconClass" :text="btn.text" :cmdName="btn.cmdName"></toolbar-button>
+    </template>
+</div>`
+
+const templateOLD = `
 <div class="flex-toolbar">
-    <div class="flex-btn" v-for="btn in buttons" @click="onClick(btn.cmd)">
+    <div class="flex-btn rounded-1 border-1 border-primary" v-for="btn in buttons" @click="onClick(btn.cmd)">
         <i :class="btn.iconClass"></i>
         <div class="flex-btn-text">{{btn.text}}</div>
     </div>
@@ -18,15 +25,12 @@ const template = `
 // Data
 //
 function data() {
-
-
     return {
-        cmdStore: useCmdStore(),
         buttons: [
-            { text: "Circle", iconClass: "bi bi-circle"    , cmd: "circle" },
-            { text: "Line",   iconClass: "bi bi-slash-lg"  , cmd: "line"   },
-            { text: "Text",   iconClass: "bi bi-textarea-t", cmd: "text"   },
-            { text: "Image",  iconClass: "bi bi-image"     , cmd: "image"  }
+            { text: "Circle", iconClass: "bi bi-circle"    , cmdName: "circle" },
+            { text: "Line",   iconClass: "bi bi-slash-lg"  , cmdName: "line"   },
+            { text: "Text",   iconClass: "bi bi-textarea-t", cmdName: "text"   },
+            { text: "Image",  iconClass: "bi bi-image"     , cmdName: "image"  }
         ]
     }
 }
@@ -36,13 +40,7 @@ function data() {
 export default {
     data,
     template,
-    methods: {
-        onClick(cmdName) {
-            // console.log("click cmd ", cmdName)
-            if (cmdName in this.cmdStore.registeredCmdsByName) {
-                const cmd = this.cmdStore.registeredCmdsByName[cmdName]
-                cmd.action() // TODO: args
-            }
-        }
+    components: {
+        ToolbarButton
     }
 }

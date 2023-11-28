@@ -12,7 +12,7 @@ export const useSelectionStore = defineStore('selectionStore', {
     // State
     //
     state: () => ({
-        selectedElements: new Set([]),
-        selectedLayers: new Set([]),
+        selectedElementsSet: new Set([]),
+        selectedLayersSet: new Set([]),
     }),
 })

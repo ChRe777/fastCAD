@@ -142,7 +142,7 @@ function mirror(element, type, axis, value) {
 
 function isSelected(element) {
     const store = useSelectionStore()
-    return store.selectedElements.has(element)
+    return store.selectedElementsSet.has(element)
 }
 
 // select
@@ -155,7 +155,7 @@ function select(element, type, attrs) {
         setCurrentLayer(element)
         return element
     }
-    store.selectedElements.add(element)
+    store.selectedElementsSet.add(element)
     return element
 }
 
@@ -164,7 +164,8 @@ function selectFirstLayer() {
     const selectionStore = useSelectionStore()
     
     if (store.scene.layers && store.scene.layers.length > 0) {
-        selectionStore.selectedLayers.add(store.scene.layers[0])
+        selectionStore.selectedLayersSet.clear()
+        selectionStore.selectedLayersSet.add(store.scene.layers[0])
     }
 }
 
@@ -172,28 +173,28 @@ function selectFirstLayer() {
 //
 function deselect(element, type, attrs) {
     const store = useSelectionStore()
-    store.selectedElements.delete(element);
+    store.selectedElementsSet.delete(element);
     return element
 }
 
 // set current layer
 //
 function setCurrentLayer(layer) {
-    const store = useSelectionStore()
-    store.selectedLayers.clear()
-    store.selectedLayers.add(layer)
+    const selectionStore = useSelectionStore()
+    selectionStore.selectedLayersSet.clear()
+    selectionStore.selectedLayersSet.add(layer)
 }
 
 function getCurrentLayer() {
-    const store = useSelectionStore()
-    return store.selectedLayers[0]
+    const selectionStore = useSelectionStore()
+    return Array.from(selectionStore.selectedLayersSet)[0]
 }
 
 // is current layer
 //
 function isCurrentLayer(layer) {
-    const store = useSelectionStore()
-    return store.selectedLayers.has(layer)
+    const selectionStore = useSelectionStore()
+    return selectionStore.selectedLayersSet.has(layer)
 }
 
 // get Element by Id
@@ -286,7 +287,7 @@ function getLayerByName_(name, layers) {
             return layer
         }
         if (layer.layers !== undefined) {
-            let found = getLayerByName_(id, layer.layers)
+            let found = getLayerByName_(name, layer.layers)
             if (found !== undefined) {
                 return found
             }
@@ -304,8 +305,8 @@ function getLayerByName(name) {
 
 function clearSelection() {
     const selectionStore = useSelectionStore()
-    selectionStore.selectedElements.clear()
-    selectionStore.selectedLayers.clear()
+    selectionStore.selectedElementsSet.clear()
+    selectionStore.selectedLayersSet.clear()
 }
 
 function clearEditor() {
@@ -359,7 +360,7 @@ function loadScene(name) {
 
 function forEachSelected(fn) {
     const selectionStore = useSelectionStore()
-    selectionStore.selectedElements.forEach(selectedElement => fn(selectedElement))
+    selectionStore.selectedElementsSet.forEach(selectedElement => fn(selectedElement))
 }
 
 function destroySelected() {
@@ -373,7 +374,7 @@ function destroySelected() {
 
     // Remove from selection
     //
-    store.selectedElements.clear()
+    store.selectedElementsSet.clear()
 }
 
 function copySelected() {
@@ -395,42 +396,55 @@ function mirrorSelected(axis, value) {
 
 function deselectAll() {
     const selectionStore = useSelectionStore()
-    selectionStore.selectedElements.clear()
+    selectionStore.selectedElementsSet.clear()
 }
 
-// TODO: REFACTOR !!
-function setLayer_(name) {
-    
+
+function forEachLayer_(fn, layers) {
+    layers.forEach((layer) => {
+        fn(layer)
+        if (layer.layers) {
+            forEachLayer_(fn, layer.layers)
+        }
+    })
+}
+
+function forEachLayer(fn) {
     const store = useStore()
+    forEachLayer_(fn, store.scene.layers)
+}
+
+function removeFromLayer(layer, element) {
+    layer.elements = layer.elements.filter(obj => obj.id !== element.id)
+}
+
+function addToLayer(layer, element) {
+    layer.elements.push(element)
+}
+
+function setLayer_(name) {
 
     const newLayer = getLayerByName(name)
-
-    console.log("setLayer", name)
-    selectedElementsForEach(selectedElement => {
+    forEachSelected(selectedElement => {
         
-        // Remove from old layer
-        console.log("setLayer", "remove")
-
-        throw new Error('Not implement - remove from all layers also sublayers')
-        
-        /*
-        for (let oldLayer of store.scene.layers) {
-            oldLayer.elements = oldLayer.elements.filter(obj => obj.id !== selectedElement.id)
+        function removeElement(layer) {
+            removeFromLayer(layer, selectedElement)
         }
-        */
 
-        console.log("setLayer", "add")
-        // Add to new layer
-        newLayer.elements.push(selectedElement)
+        forEachLayer(removeElement)
+        addToLayer(newLayer, selectedElement)
     })
 }
 
 function modifySelected(prop, value) {
     const store = useStore()
 
+    // set PROP VALUE
+    // set layer {layerName}
     if (prop === 'layer') {
-        let name = value
-        return setLayer_(name)
+        console.log("modifySelected", prop, value)
+        let layerName = value
+        return setLayer_(layerName)
     }
 
     forEachSelected(selectedElement => {
@@ -543,7 +557,7 @@ function viewZoomOut() {
     }
 }
 
-function createLine() {
+function createLine(p1, relative1, p2, relative2) {
 
     const store = useStore()
 

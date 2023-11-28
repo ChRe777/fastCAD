@@ -22,9 +22,9 @@
 
     overflow: scroll;
 
-    border: var(--debug-border2);
+    /*border: var(--debug-border2);*/
 
-    gap: 10px;
+    gap: var(--toolbar-gap);
 }
 
 .flex-btn {
@@ -38,10 +38,10 @@
     justify-content: center;
     align-items: center;
 
-    height: 77px !important;
-    width: 77px !important;
+    height: var(--toolbar-btn-size) !important;
+    width: var(--toolbar-btn-size) !important;
 
-    border: var(--debug-border2);
+    /*border: var(--debug-border2);*/
 
 }
 

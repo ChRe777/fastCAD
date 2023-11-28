@@ -7,6 +7,7 @@
 import api from 'services/api'
 
 import { argFns} from 'services/utils'
+import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
 
 // Commands

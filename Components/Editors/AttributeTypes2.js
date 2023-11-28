@@ -43,10 +43,6 @@ const attrFont = `
 </select>
 `
 
-//<option value="Arial">Arial</option>
-//<option value="Chalkduster">Chalkduster</option>
-//<option value="Menlo">Menlo</option>
-
 const editorTemplate = `
 <h5>{{title}}</h5>
 {{#groups}}

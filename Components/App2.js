@@ -53,7 +53,7 @@ function data() {
 
 const onSelectedElements = {
     handler() {
-        console.log("app - selectionStore.selectedElements changed")
+        console.log("app - selectionStore.selectedElementsSet changed")
         updateEditingAttributes()
     },
     deep: true /* Watch changes of objects inside array */
@@ -61,7 +61,7 @@ const onSelectedElements = {
 
 const onSelectedLayers = {
     handler() {
-        console.log("app - selectionStore.selectedLayers changed")
+        console.log("app - selectionStore.selectedLayersSet changed")
         updateLayerEditingAttributes()
     },
     deep: true /* Watch changes of objects inside array */
@@ -102,8 +102,8 @@ export default {
         Message
     },
     watch: {
-        'selectionStore.selectedElements': onSelectedElements,
-        'selectionStore.selectedLayers': onSelectedLayers,
+        'selectionStore.selectedElementsSet': onSelectedElements,
+        'selectionStore.selectedLayersSet': onSelectedLayers,
         'editorStore.editingAttributes': onEditingAttributes,
         'editorStore.layerEditingAttributes': onLayerEditingAttributes
     },
@@ -114,11 +114,11 @@ function updateLayerEditingAttributes() {
     const selectionStore = useSelectionStore()
     const editorStore = useEditorStore()
 
-    console.log(selectionStore.selectedLayers)
-    if (selectionStore.selectedLayers.size >= 1) {
-        // TODO: Shared Attributes if multi-layer-selection
-        console.log(selectionStore.selectedLayers[0])
-        editorStore.layerEditingAttributes = selectionStore.selectedLayers[0]
+    console.log("updateLayerEditingAttributes layers:", selectionStore.selectedLayersSet)
+
+    if (selectionStore.selectedLayersSet.size >= 1) {
+        const selectedLayer = Array.from(selectionStore.selectedLayersSet)[0] // Set to Array
+        editorStore.layerEditingAttributes = selectedLayer
     } else {
         editorStore.layerEditingAttributes = {}
     }
@@ -130,19 +130,19 @@ function updateEditingAttributes() {
     const editorStore = useEditorStore()
     const selectionStore = useSelectionStore()
 
-    if (selectionStore.selectedElements.size === 1) {
-        let element = selectionStore.selectedElements[0]
-
-        const { id, type, ...editingAttributes } = element
-        editorStore.editingAttributes = editingAttributes
-
-        console.log("editorStore.editingAttributes", editorStore.editingAttributes)
-
-    } else if (selectionStore.selectedElements.size === 0) {
+    if (selectionStore.selectedElementsSet.size === 0) {
         editorStore.editingAttributes = {}
+        return
+    }
+
+    if (selectionStore.selectedElementsSet.size === 1) {
+        const selectedElement = Array.from(selectionStore.selectedElementsSet)[0]
+        const { id, type, ...editingAttributes } = selectedElement
+        editorStore.editingAttributes = editingAttributes
+        console.log("editorStore.editingAttributes", editorStore.editingAttributes)
     } else {
 
-        const sharedProperties = getSharedProperties(selectionStore.selectedElements)
+        const sharedProperties = getSharedProperties(Array.from(selectionStore.selectedElementsSet))
         const { id, type, ...sharedPropertiesWithout } = sharedProperties
 
         // { id:"1", type:"circle", fill: '#ff0000', stroke: '#000000', 'stroke-dasharray': '5,5'}
@@ -153,7 +153,7 @@ function updateEditingAttributes() {
         // ---------------------------------------------------------------------------------------
         // {                        fill: '#ff0000',                  , 'stroke-dasharray': '5,5'}
 
-        let editingAttributes = fillSharedValues(selectionStore.selectedElements, sharedPropertiesWithout)
+        let editingAttributes = fillSharedValues(Array.from(selectionStore.selectedElementsSet), sharedPropertiesWithout)
         editingAttributes = removeUndefined(editingAttributes)
 
         editorStore.editingAttributes = editingAttributes
@@ -167,17 +167,17 @@ function updateSelectionAttributes() {
     const selectionStore = useSelectionStore()
 
     // Update the selected element's attributes with the values in editingAttributes
-    if (selectionStore.selectedElements.size === 1) {
+    if (selectionStore.selectedElementsSet.size === 1) {
         // Copy the values of all of the enumerable own properties from one or 
         // more source objects to a target object. Returns the target object
-        let selectedElement = selectionStore.selectedElements[0]
+        let selectedElement = Array.from(selectionStore.selectedElementsSet)[0]
         Object.assign(selectedElement, editorStore.editingAttributes);
     }
 
     // HERE ONLY SHARED ATTRIBUTES SHOULD BE PUSHED BACK!!!
 
-    if (selectionStore.selectedElements.size > 1) {
-        selectionStore.selectedElements.forEach(selectedElement => {
+    if (selectionStore.selectedElementsSet.size > 1) {
+        selectionStore.selectedElementsSet.forEach(selectedElement => {
             //The Object.assign() static method copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
             Object.assign(selectedElement, editorStore.editingAttributes);
         })

@@ -84,10 +84,10 @@ function data() {
 // Computed Attributes
 //
 function typeSelected() {
-    if (this.selectionStore.selectedElements.length === 0) {
+    if (this.selectionStore.selectedElementsSet.size === 0) {
         return undefined
-    } else if (this.selectionStore.selectedElements.length === 1) {
-        const type = this.selectionStore.selectedElements[0].type
+    } else if (this.selectionStore.selectedElementsSet.size === 1) {
+        const type = Array.from(this.selectionStore.selectedElementsSet)[0].type
         return type
     } else {
         return 'multi'
@@ -95,7 +95,7 @@ function typeSelected() {
 }
 
 function isNoSelection() {
-    return this.selectionStore.selectedElements.length === 0
+    return this.selectionStore.selectedElementsSet.size === 0
 }
 
 // Export module

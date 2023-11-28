@@ -30,7 +30,7 @@ export default {
     computed: {
         selectedTypes() {
             let res = []
-            this.selectionStore.selectedElements.forEach(el => res.push(el.type))
+            this.selectionStore.selectedElementsSet.forEach(el => res.push(el.type))
             return res
         }
     }

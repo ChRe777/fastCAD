@@ -12,61 +12,13 @@
     z-index: 55;
     top: calc(var(--toolbar-gap) + var(--ruler-height));
     left: calc(var(--toolbar-gap) + var(--ruler-height));
-    width: 77px;
+    width: 79px;
     height: auto;
     max-height: calc(100% - var(--ruler-height) - var(--cmd-line-height) - 2*var(--toolbar-gap));
-
+    
     overflow: scroll;
-
     border: var(--debug-border);
-
     cursor: pointer;
-
 }
 
-/*scope*/
-#appbar .flex-appbar {
-    display: flex;
-    flex-direction: column;
 
-    border: var(--debug-border);
-    gap: 10px;
-}
-
-/*scope*/
-#appbar .flex-appbar-btn {
-    display: flex;
-    flex-direction: column;
-
-    height: var(--appbar-width);
-    width: var(--appbar-width) !important;
-
-    color: var(--color-white);
-    background-color: rgb(51, 51, 51);
-    border: 1px solid rgb(62, 62, 62);
-
-    /* center center */
-    justify-content: center;
-    align-items: center;
-}
-
-/*scope*/
-#appbar .flex-appbar-btn:hover {
-    background-color: rgb(39, 39, 39);
-}
-
-/*scope*/
-#appbar .flex-appbar-btn-icon {
-    font-size: 20px;
-    border: var(--debug-border);
-}
-
-#appbar
-
-/*scope*/
-.flex-appbar-btn-text {
-    display: block;
-    font-size: 15px;
-    border: var(--debug-border);
-    margin-top: 5px;
-}
