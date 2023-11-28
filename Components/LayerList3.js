@@ -2,14 +2,15 @@
 
 // Imports
 //
+import api from 'services/api'
+//
 import { useStore } from 'stores/store'
-import api from 'scripts/api'
 
 // Parts
 //
-import LayerListChilds from "./Parts/LayerListChildsCount2.js"
-import LayerListToggler from "./Parts/LayerListToggler2.js"
-import LayerListVisible from "./Parts/LayerListVisible2.js"
+import LayerListChilds from 'parts/childs'
+import LayerListToggler from 'parts/toggler'
+import LayerListVisible from 'parts/visible'
 
 // Template
 //

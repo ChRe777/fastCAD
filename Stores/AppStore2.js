@@ -54,7 +54,7 @@ let layers = [
 
 // Store 'store'
 //
-export const useStore = defineStore('AppStore', {
+export const useStore = defineStore('appStore', {
     state: () => ({
         scene: {
             layers: layers,

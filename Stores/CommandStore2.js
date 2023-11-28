@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 
 // Store 'commands'
 //
-export const useCmdStore = defineStore('CommandStore', {
+export const useCmdStore = defineStore('commandStore', {
     //
     // State
     //

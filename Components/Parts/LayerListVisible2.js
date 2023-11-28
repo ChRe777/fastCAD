@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'scripts/api'
+import api from 'services/api'
 
 // Template
 //

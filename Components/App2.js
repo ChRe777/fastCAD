@@ -3,9 +3,9 @@
 
 // Imports
 //
-import { useSelectionStore } from "stores/selection"
-import { useEditorStore } from "stores/editor"
-import { getSharedProperties, fillSharedValues, removeUndefined } from 'scripts/utils'
+import { useSelectionStore } from 'stores/selection'
+import { useEditorStore } from 'stores/editor'
+import { getSharedProperties, fillSharedValues, removeUndefined } from 'services/utils'
 
 
 // Components

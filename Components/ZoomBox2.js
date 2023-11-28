@@ -3,7 +3,7 @@
 
 // Imports
 //
-import cmds from 'scripts/cmds'
+import cmds from 'services/cmds'
 
 // Template
 //

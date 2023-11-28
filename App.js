@@ -19,7 +19,7 @@ app.mount('#app')
 
 // Init Commands
 //
-import { init as initCmds } from 'scripts/cmds'
+import { init as initCmds } from 'services/cmds'
 
 initCmds()
 

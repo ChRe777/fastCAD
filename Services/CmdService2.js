@@ -3,11 +3,11 @@
 
 // Imports
 //
-import io from 'scripts/io'
-import api from 'scripts/api'
+import io from 'services/io'
+import api from 'services/api'
 
-import { defaults } from 'scripts/defaults'
-import { argFns, addPoints, subPoints } from 'scripts/utils'
+import { defaults } from 'services/defaults'
+import { argFns, addPoints, subPoints } from 'services/utils'
 
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'

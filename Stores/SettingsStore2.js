@@ -164,7 +164,7 @@ if (getOS() === 'Windows') {
 
 // Store 'settings'
 //
-export const useSettingsStore = defineStore('settings', {
+export const useSettingsStore = defineStore('settingsStore', {
     //
     // State
     //

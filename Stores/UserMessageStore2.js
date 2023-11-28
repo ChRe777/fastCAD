@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 
 // Store editor stuff
 //
-export const useMessageStore = defineStore('UserMessageStore', {
+export const useMessageStore = defineStore('userMessageStore', {
     //
     // State
     //

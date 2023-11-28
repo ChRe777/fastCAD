@@ -20,26 +20,32 @@
             "imports": {
                 "pinia"     : "https://unpkg.com/pinia@2.1.7/dist/pinia.esm-browser.js",
                 "underscore": "https://unpkg.com/underscore@1.13.6/underscore-esm-min.js",
+                "wontache"  : "https://unpkg.com/wontache@0.2.0/mustache-esm.js",
+
                 "vue"       : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.js",
                 "vue-demi"  : "https://unpkg.com/vue-demi@0.14.6/lib/v3/index.mjs",
                 "vue-prod"  : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.prod.js",
                 "@vue/devtools-api": "https://unpkg.com/@vue/devtools-api@6.5.1/lib/esm/index.js",
-                "wontache"  : "https://unpkg.com/wontache@0.2.0/mustache-esm.js",
 
-                "components/app" : "./Components/App2.js",
-                "components/appbar" : "./Components/AppToolbar2.js",
-                "components/batch" : "./Components/BatchEditor2.js",
-                "components/box" : "./Components/ZoomBox2.js",
-                "components/cmdline" : "./Components/CommandLine2.js",
-                "components/editor" : "./Components/AttributeEditor2.js",
-                "components/layer" : "./Components/LayerList3.js",
-                "components/message" : "./Components/UserMessage2.js",
-                "components/ruler" : "./Components/SvgSceneRuler2.js",
-                "components/scene" : "./Components/SvgScene2.js",
+                "components/app"       : "./Components/App2.js",
+                "components/appbar"    : "./Components/AppToolbar2.js",
+                "components/batch"     : "./Components/BatchEditor2.js",
+                "components/box"       : "./Components/ZoomBox2.js",
+                "components/cmdline"   : "./Components/CommandLine2.js",
+                "components/editor"    : "./Components/AttributeEditor2.js",
+                "components/layer"     : "./Components/LayerList3.js",
+                "components/message"   : "./Components/UserMessage2.js",
+                "components/ruler"     : "./Components/SvgSceneRuler2.js",
+                "components/scene"     : "./Components/SvgScene2.js",
                 "components/selection" : "./Components/SelectionHandler2.js",
-                "components/settings" : "./Components/SettingsDialog2.js",
-                "components/toolbar" : "./Components/SvgToolbar2.js",
-                "components/types" : "./Components/SvgTypes2.js",
+                "components/settings"  : "./Components/SettingsDialog2.js",
+                "components/toolbar"   : "./Components/SvgToolbar2.js",
+                "components/types"     : "./Components/SvgTypes2.js",
+
+                "parts/toast"      : "./Components/Parts/UserMessageToast2.js",
+                "parts/childs"     : "./Components/Parts/LayerListChildsCount2.js",
+                "parts/toggler"    : "./Components/Parts/LayerListToggler2.js",
+                "parts/visible"    : "./Components/Parts/LayerListVisible2.js",
 
                 "editors/common"   : "./Components/Editors/CommonEditor2.js",
                 "editors/line"     : "./Components/Editors/LineEditor2.js",
@@ -58,12 +64,14 @@
                 "stores/editor"    : "./Stores/EditorStore2.js",
                 "stores/message"   : "./Stores/UserMessageStore2.js",
                 "stores/selection" : "./Stores/SelectionStore2.js",
+                "stores/settings"  : "./Stores/SettingsStore2.js",
 
                 "services/io"       : "./Services/IOService2.js",
                 "services/api"      : "./Services/Api2.js",
                 "services/cmds"     : "./Services/CmdService2.js",
                 "services/utils"    : "./Services/UtilsFunctions2.js",
-                "services/defaults" : "./Services/Defaults2.js"
+                "services/defaults" : "./Services/Defaults2.js",
+                "services/interpreter" : "./Services/CmdInterpreter2.js"
             }
         }
         </script>

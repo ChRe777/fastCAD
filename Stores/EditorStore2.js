@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 
 // Store editor stuff
 //
-export const useEditorStore = defineStore('EditorStore', {
+export const useEditorStore = defineStore('editorStore', {
     //
     // State
     //

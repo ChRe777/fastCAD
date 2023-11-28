@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 
 // Store editor stuff
 //
-export const useSelectionStore = defineStore('SelectionStore', {
+export const useSelectionStore = defineStore('selectionStore', {
     //
     // State
     //

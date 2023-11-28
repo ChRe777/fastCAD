@@ -3,7 +3,7 @@
 // Import
 //
 import { useStore } from 'stores/store'
-import { interpret } from '../scripts/interpret2.js'
+import { interpret } from 'services/interpreter'
 
 // Template
 //

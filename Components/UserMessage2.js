@@ -9,7 +9,7 @@ import { useMessageStore } from 'stores/message'
 
 // Parts
 //
-import Toast from "./parts/toast2.js"
+import Toast from 'parts/toast'
 
 // Template
 //

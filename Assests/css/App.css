@@ -1,13 +1,13 @@
-@import url("./vars.css");
+@import url("./AppCssVars.css");
 
-@import url("./cmdLine.css");
-@import url("./ruler.css");
-@import url("./box.css");
-@import url("./scene.css");
-@import url("./editor.css");
-@import url("./toolbar.css");
-@import url("./appbar.css");
-@import url("./layer.css");
+@import url("./CommandLine.css");
+@import url("./SvgRuler.css");
+@import url("./ZoomBox.css");
+@import url("./SvgScene.css");
+@import url("./AttributeEditor.css");
+@import url("./Toolbar.css");
+@import url("./AppToolbar.css");
+@import url("./LayerList.css");
 
 html,
 body {

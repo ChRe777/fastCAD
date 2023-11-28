@@ -5,8 +5,9 @@
 //
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
-import { interpret } from '../scripts/interpret2.js'
-import Batch from './batch2.js'
+import { interpret } from 'services/interpreter'
+//
+import Batch from 'components/batch'
 
 
 // Template

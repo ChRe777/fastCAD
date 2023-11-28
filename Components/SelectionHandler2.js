@@ -5,7 +5,7 @@
 import { useStore } from 'stores/store';
 import { useViewStore } from 'stores/view';
 
-import api from 'scripts/api'
+import api from 'services/api'
 
 
 // Template

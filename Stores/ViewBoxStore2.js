@@ -4,7 +4,7 @@
 // Imports
 //
 import { defineStore } from 'pinia'
-import { defaults } from 'scripts/defaults'
+import { defaults } from 'services/defaults'
 
 //
 //
@@ -16,13 +16,12 @@ function calcViewBox(state) {
     let x = (-w / 2) + state.scrollX
     let y = (-h / 2) + state.scrollY
 
-    // console.log("viewStore:", this.viewBox)
     return [x, y, w, h]
 }
 
 // Store 'view'
 //
-export const useViewStore = defineStore('ViewBoxStore', {
+export const useViewStore = defineStore('viewBoxStore', {
     //
     // State
     //

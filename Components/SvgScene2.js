@@ -6,10 +6,10 @@
 import { useStore } from 'stores/store'
 import { useViewStore } from 'stores/view'
 import { useSelectionStore } from 'stores/selection'
-import { svgTypesVue, renderLayerAttributes } from './types2.js'
+import { svgTypesVue, renderLayerAttributes } from 'components/types'
 
-import api from 'scripts/api'
-import selectionFrame from './selection2.js';
+import api from 'services/api'
+import selectionFrame from 'components/selection';
 
 
 // Template
