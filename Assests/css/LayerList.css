@@ -1,0 +1,18 @@
+/*scope*/
+#layer {
+    /* Position */
+    position: absolute;
+    top: calc(var(--toolbar-gap) + var(--ruler-height));
+    left: calc(var(--toolbar-gap) + var(--ruler-height) + var(--appbar-width) + var(--toolbar-gap));
+
+    /* Size */
+    width: var(--layer-width);
+    height: auto;
+
+    /* Other */
+    z-index: 99;
+    overflow: scroll;
+
+    /* TODO: Only over text */
+    cursor: pointer;
+}

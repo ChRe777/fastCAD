@@ -1,0 +1,19 @@
+#box {
+    position: relative;
+    height: 30px;
+    width: 30px;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+}
+
+#boxCentered {
+    height: 100%;
+    width: 100%;
+    /*background-color: rgb(178, 178, 178);*/
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+}

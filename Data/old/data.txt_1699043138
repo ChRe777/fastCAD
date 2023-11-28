@@ -1,0 +1,10 @@
+<circle stroke-width="2" stroke="#ebebeb" fill-opacity="0.8" fill="rgb(220,220,220)" r="50" cy="0" cx="-70" id="0"></circle>
+<circle stroke-width="2" stroke="#aaaaaa" fill-opacity="0.8" fill="white" r="50" cy="0" cx="0" id="2"></circle>
+<circle stroke-width="10" stroke="rgba(230, 187, 18, 0.5)" fill-opacity="0.8" fill="#606060" r="50" cy="0" cx="70" id="4" class="selected" stroke-dasharray="1,2" y2="null" y1="null" x2="null" x1="null" rotate="undefined" font-size="undefined" font-family="undefined" y="undefined" x="undefined"></circle>
+<line stroke-width="1" stroke-dasharray="100,2,1,2" stroke="#aaaaaa" y2="0" x2="150" y1="0" x1="-150" id="6"></line>
+<line class="" stroke-dasharray="70,4,2,4" fill-opacity="1" stroke-width="1" stroke="#aaaaaa" y2="100" x2="0" y1="-100" x1="0" id="8"></line>
+<text textlength="130" font-family="Chalkduster" rotate="2" fill="#eeeeee" y="-100" x="50" id="10" class="selected" stroke="#ffffff" stroke-dasharray="1,1" font-size="25">I love SVG!</text>
+<text textlength="130" font-family="Chalkduster" rotate="6" fill="#c0c0c0" y="100" x="50" id="12" class="" fill-opacity="1" y2="null" y1="null" x2="null" x1="null" stroke-width="1" stroke-dasharray="1,1" stroke="#ffffff">I like FastCAD</text>
+<img width="100" height="100" href="https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png" y="-150" x="-200" id="14">
+<img width="100" height="100" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Firefox_logo%2C_2017.svg/2048px-Firefox_logo%2C_2017.svg.png" y="50" x="-200" id="16">
+&lt;<line stroke-width="2" stroke="white" y2="400" x2="400" y1="0" x1="0"></line>

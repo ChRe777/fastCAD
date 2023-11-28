@@ -1,0 +1,50 @@
+<html>
+    <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+    <script type="text/javascript">
+hotkeys('ctrl+a,ctrl+b,r,f,shift, ⌘', function (event, handler){
+  switch (handler.key) {
+    case 'ctrl+a': alert('you pressed ctrl+a!');
+      break;
+    case 'ctrl+b': alert('you pressed ctrl+b!');
+      break;
+    case 'r': alert('you pressed r!');
+      break;
+    case 'f': alert('you pressed f!');
+      break;
+    case '⌘': alert('you pressed ⌘!');
+      break;
+    default: alert(event);
+  }
+});
+
+hotkeys('*', function() {
+  if (hotkeys.shift) {
+    console.log('shift is pressed!');
+  }
+
+  if (hotkeys.ctrl) {
+    console.log('ctrl is pressed!');
+  }
+
+  if (hotkeys.alt) {
+    console.log('alt is pressed!');
+  }
+
+  if (hotkeys.option) {
+    console.log('option is pressed!');
+  }
+
+  if (hotkeys.control) {
+    console.log('control is pressed!');
+  }
+
+  if (hotkeys.cmd) {
+    console.log('cmd is pressed!');
+  }
+
+  if (hotkeys.command) {
+    console.log('command is pressed!');
+  }
+});
+</script>
+</html>

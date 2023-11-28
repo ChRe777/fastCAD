@@ -1,0 +1,279 @@
+<html>
+    <head>
+
+        <script src="//daybrush.com/ruler/release/latest/dist/ruler.min.js"></script>
+        <script src="//daybrush.com/gesto/release/latest/dist/gesto.min.js"></script>
+        <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/keypress/2.1.5/keypress.min.js"
+            integrity="sha512-JjqUcblrwIZTQBPL/azOhVHwq5uaeXkKzq7da3JZEP14Zg926vZZVhRhBBi+L2pWYquZ6r5P8OZYDYgOChtkOw==" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+        <script src="//daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
+
+        <link src="https://unpkg.com/normalize.css@7.0.0/normalize.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <style>
+
+            :root {
+                /* Define color variables */
+                --primary-color: #3498db;
+                --secondary-color: #e74c3c;
+                --color-grey: black;
+                --grid-width: 20px;
+            }
+
+            #box {
+                position: relative;
+                height: 30px;
+                width: 30px;
+                background-color: rgb(178, 178, 178);
+                background-color: white;
+
+                display: flex;
+                justify-content: center; /* Center horizontally */
+                align-items: center; /* Center vertically */
+            }
+            
+            #rulerHorz {
+                position: absolute;
+                top: 0;
+                left: 0;
+                left: 30px;
+                height: 30px;
+                width: calc(100% - 30px);
+            }
+
+            #rulerVert {
+                position:absolute;
+                top: 30px;
+                left: 0;
+                width: 30px;
+                height: calc(100%)
+            }
+
+            #scene {
+                position: absolute;
+                top: 30px;
+                left: 30px;
+                width: calc(100% - 30px);
+                height: calc(100% - 30px - 38px);
+            }
+
+            .grid {
+                background: linear-gradient(0deg, transparent 1px, transparent 1px, var(--color-grey) 1px, var(--color-grey) var(--grid-width)),
+                            linear-gradient(90deg, transparent 1px, transparent 1px, var(--color-grey) 1px, var(--color-grey) var(--grid-width));
+                background-size: var(--grid-width) var(--grid-width), var(--grid-width) var(--grid-width);
+                background-position: 0 0, 0 0;
+            }
+
+            html, body {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                background-color: grey;/*#e74c3c;*/
+                overflow: hidden; /*no scrollbar*/
+                touch-action: manipulation;
+            }
+
+            #cmdLine {
+                position: absolute;
+                top: calc(100% - 38px);
+                width: calc(100%);
+                height: 38px;
+                background-color: white;
+            }
+
+            #cmd-line, #cmd-line-suggestion {
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                border-top-left-radius: 0px !important;
+                border-top-right-radius: 0px !important;
+            }
+
+            #cmd-line {
+                z-index: 2;
+                background-color: transparent;
+            }
+
+            #customTooltip {
+                display: none;
+                position: absolute;
+                background-color: rgb(62,126,235); /*#333;*/
+                color: #fff;
+                padding: 5px;
+                border-radius: 5px;
+                z-index: 1;
+            }
+
+        </style>
+    </head>
+
+    <body id="body">
+
+        <div id="box" onclick="doubleZoom()"><i class="bi bi-zoom-in"></i></div>
+        <div id="rulerHorz"></div>
+        <div id="rulerVert"></div>
+        <svg id="scene">
+            <circle id="svg-1" class="box" cx="-50" cy="0" r="50" fill="rgb(220,220,220)" stroke="white" stroke-width="2" />
+            <circle id="svg-2" class="box" cx="0" cy="0" r="50" fill="white" stroke="rgb(122,122,122)" stroke-width="2" />
+            <circle id="svg-3" class="box" cx="50" cy="0" r="50" fill="rgb(22,22,22)" stroke="white" stroke-width="2" />
+        </svg>
+        <div id="cmdLine" class="border-0">
+            <input id="cmd-line" class="form-control shadow-none border-0" type="text" onclick="cmdLine.focus()"
+                placeholder>
+            <input id="cmd-line-suggestion" class="form-control shadow-none border-0" type="text" onclick="cmdLine.focus()"
+                placeholder="enter a cmd">
+        </div>
+
+        <div id="customTooltip">This is a custom tooltip</div>
+
+        <script>
+
+    let rulerVertDiv  = document.getElementById("rulerVert")
+    let rulerHorzDiv = document.getElementById("rulerHorz")
+    let sceneSVG = document.getElementById('scene')
+    let cmdLine = document.getElementById('cmd-line')
+    let cmdLineSuggestion = document.getElementById('cmd-line-suggestion')
+
+    const rulerHorz = new Ruler(rulerHorzDiv, {type: "horizontal"})
+    const rulerVert = new Ruler(rulerVertDiv, {type: "vertical"  })
+
+    let scrollX = 0
+    let scrollY = 0
+    let zoomFactor = 2
+    let zoomIn = true
+
+    suggestions = [
+        "line {p1}, {p2}",
+        "lineTo {p1}",
+        "load",
+        "save",
+        "move {n} {p1}",
+        "zoom {in}/{out}",
+        "clear",
+        "circle {p1} {r} "
+    ]
+
+    function getSuggestion(str) {
+        if (str == "") {
+            return "enter a cmd"
+        }
+        for (let i = 0; i < suggestions.length; i++) {
+            if (suggestions[i].startsWith(str))
+                return suggestions[i]
+        }
+        return ""
+    }
+
+
+    // Add an input event listener to the input element
+    cmdLine.addEventListener('input', function(event) {
+        // This function will be called when the user types in the input box
+        const inputValue = event.target.value;
+        console.log('cmd input value: ' + inputValue);
+        if (inputValue == "") {
+            console.log('empty')
+            cmdLineSuggestion.setAttribute('placeHolder', '')
+        }
+
+        let suggestion = getSuggestion(inputValue);
+        cmdLineSuggestion.setAttribute('placeHolder', suggestion)
+    });
+
+    function doubleZoom() {
+        if (zoomIn) {
+            zoomFactor *= 2
+        } else {
+            zoomFactor /= 2
+        }
+        updateViewBox()
+    }
+    
+    function calcViewBox() {
+        
+        let w = sceneSVG.clientWidth / zoomFactor
+        let h = sceneSVG.clientHeight / zoomFactor
+
+        let x = (-w / 2) + scrollX
+        let y = (-h / 2) + scrollY
+
+        return [x,y, w,h, zoomFactor]
+    }
+
+    function initViewBox() {
+        updateViewBox()
+    }
+
+    function updateViewBox() {
+    
+        let [x,y, w,h, zoomFactor] = calcViewBox()
+
+        sceneSVG.setAttribute('viewBox', `${x} ${y} ${w} ${h}`)
+
+        rulerHorz.scroll(x)
+        rulerHorz.zoom = zoomFactor
+        rulerHorz.unit = 50 / zoomFactor
+
+        rulerVert.scroll(y)
+        rulerVert.zoom = zoomFactor
+        rulerVert.unit = 50 / zoomFactor
+    }
+
+    window.addEventListener("resize", () => {
+        rulerHorz.resize()
+        rulerVert.resize()
+        updateViewBox()
+    });
+
+    new Gesto(document.body).on("drag", e => {
+        scrollX -= (e.deltaX / zoomFactor)
+        scrollY -= (e.deltaY / zoomFactor)
+        updateViewBox()
+    });
+
+    function changeZoomIcon() {
+        let icon = document.querySelector(".bi.bi-zoom-in, .bi.bi-zoom-out")
+        if (zoomIn) {
+            icon.className = "bi bi-zoom-in"
+        } else {
+            icon.className = "bi bi-zoom-out"
+        }
+    }
+
+    new window.keypress.Listener().register_many([
+    {
+        "keys"          : "shift",
+        "is_exclusive"  : true,
+        "on_keydown"    : function(e) {
+            console.log("You pressed shift")
+            zoomIn = false
+            changeZoomIcon()
+        },
+        "on_keyup"      : function(e) {
+            console.log("You released shift")
+            zoomIn = true
+            changeZoomIcon()
+        },
+    }])
+
+    // Init
+    //
+    initViewBox()
+    cmdLine.focus()
+
+    document.body.addEventListener("keypress", function (event) {
+        cmdLine.focus()
+    })
+
+    document.body.addEventListener("mouseup", (event) => {
+        cmdLine.focus()
+    })
+
+    </script>
+
+    </body>
+</html>

@@ -1,0 +1,10 @@
+
+<circle id="svg-1" cx="-70" cy="0" r="50" fill="rgb(220,220,220)" fill-opacity="0.8" stroke="#ebebeb" stroke-width="2"></circle>
+<circle id="svg-2" cx="0" cy="0" r="50" fill="white" fill-opacity="0.8" stroke="#aaaaaa" stroke-width="2"></circle>
+<circle id="svg-3" cx="70" cy="0" r="50" fill="#606060" fill-opacity="0.8" stroke="#929292" stroke-width="2"></circle>
+<line id="svg-4" x1="-150" y1="0" x2="150" y2="0" stroke="#aaaaaa" stroke-dasharray="100,2,1,2" stroke-width="1"></line>
+<line id="svg-5" x1="0" y1="-100" x2="0" y2="100" stroke="#aaaaaa" stroke-width="1"  fill-opacity="1" stroke-dasharray="70,4,2,4"></line>
+<text id="svg-6" x="50" y="-100" fill="#eeeeee" rotate="2" font-family="Chalkduster" textLength="100">IloveSVG!</text>
+<image id="svg-7" x="-200" y="-150" href="https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png" height="100" width="100" />
+<image id="svg-8" x="-200" y="50" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Firefox_logo%2C_2017.svg/2048px-Firefox_logo%2C_2017.svg.png" height="100" width="100" />
+<text id="svg-9" x="50" y="100" fill="#eeeeee" rotate="2" font-family="Chalkduster" textLength="130">IlikeFastCAD</text>

@@ -1,0 +1,48 @@
+#editor {
+    position: absolute;
+    z-index: 99;
+    width: var(--editor-width);
+    left: calc(100% - var(--editor-width));
+    top: var(--ruler-height);
+    height: calc(100% - var(--ruler-height) - var(--cmd-line-height));
+    background-color: rgb(70, 70, 70);
+    overflow: scroll;
+}
+
+/*
+ Title
+*/
+#editor h5 {
+    color: white !important;
+}
+
+/* 
+    Color Chooser 
+*/
+#editor input[type="color"]::-webkit-color-swatch {
+    border: 1px solid grey !important;
+}
+
+/* see https://vuejs.org/guide/built-ins/transition.html */
+/*
+  Enter and leave animations can use different
+  durations and timing functions.
+*/
+.slide-fade-enter-active {
+    transition: all 0.1s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.0s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+#editor h5,
+#editor .input-group-text {
+    cursor: default;
+}

@@ -1,0 +1,326 @@
+{
+    "layers": [
+        {
+            "type": "layer",
+            "style": "visibility:visible",
+            "id": "layer0",
+            "description": "This default layer 0",
+            "fill": "white",
+            "stroke": "white",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "line",
+                    "id": "line-Hs7JqEcPxJ",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 600,
+                    "y2": 0,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-lJMWRlBLeX",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 0,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-0tOETABJt9",
+                    "x1": 0,
+                    "y1": 250,
+                    "x2": 600,
+                    "y2": 250,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "20,2,1,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-mwaZKam7jA",
+                    "x1": 0,
+                    "y1": 500,
+                    "x2": 600,
+                    "y2": 500,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "20,2,1,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-flW2DDkcYf",
+                    "x1": 600,
+                    "y1": 0,
+                    "x2": 600,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-PdRxCYl1on",
+                    "x1": 0,
+                    "y1": 800,
+                    "x2": 600,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-fbd3Ohi4nE",
+                    "x1": 300,
+                    "y1": 0,
+                    "x2": 300,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "20,2,1,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-SV6vA4Vy8U",
+                    "x1": 285,
+                    "y1": 485,
+                    "x2": 315,
+                    "y2": 485,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-1ErICxuy77",
+                    "x1": 315,
+                    "y1": 485,
+                    "x2": 315,
+                    "y2": 515,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-EwTPYUeDDh",
+                    "x1": 315,
+                    "y1": 515,
+                    "x2": 285,
+                    "y2": 515,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-NJ6h3gaoCM",
+                    "x1": 285,
+                    "y1": 515,
+                    "x2": 285,
+                    "y2": 485,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-WtSOZ6UU9T",
+                    "x1": 0,
+                    "y1": 487,
+                    "x2": 600,
+                    "y2": 487,
+                    "stroke": "#777777",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-c1PQ4tjZg1",
+                    "x1": 600,
+                    "y1": 487,
+                    "x2": 600,
+                    "y2": 513,
+                    "stroke": "#777777",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-QqyZ6ag3nf",
+                    "x1": 600,
+                    "y1": 513,
+                    "x2": 0,
+                    "y2": 513,
+                    "stroke": "#777777",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-kEzajBo8XD",
+                    "x1": 0,
+                    "y1": 513,
+                    "x2": 0,
+                    "y2": 487,
+                    "stroke": "#777777",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "text",
+                    "id": "text-2rZ11YIFfs",
+                    "x": 605,
+                    "y": 505,
+                    "text": "Tr\u00e4ger 26wx28h",
+                    "font-family": "Chalkduster",
+                    "font-size": "15px",
+                    "fill": "#ffffff",
+                    "stroke": "#777777",
+                    "stroke-width": 0
+                },
+                {
+                    "type": "line",
+                    "id": "line-6Z6BMSIqlj",
+                    "x1": 422.5,
+                    "y1": 560,
+                    "x2": 422.5,
+                    "y2": 800,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-QJopu4ab83",
+                    "x1": 307.5,
+                    "y1": 710,
+                    "x2": 292.5,
+                    "y2": 710,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-HsrI3jiAWx",
+                    "x1": 292.5,
+                    "y1": 515,
+                    "x2": 292.5,
+                    "y2": 710,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-BPcQ2uqUgR",
+                    "x1": 307.5,
+                    "y1": 515,
+                    "x2": 307.5,
+                    "y2": 710,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-JUGlPflrZi",
+                    "x1": 177.5,
+                    "y1": 560,
+                    "x2": 177.5,
+                    "y2": 800,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-ECf0WNEPxS",
+                    "x1": 307.5,
+                    "y1": 710,
+                    "x2": 407.5,
+                    "y2": 715,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-BoULsGBLQQ",
+                    "x1": 192.5,
+                    "y1": 560,
+                    "x2": 192.5,
+                    "y2": 800,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-U8jTH1PDvM",
+                    "x1": 407.5,
+                    "y1": 560,
+                    "x2": 407.5,
+                    "y2": 800,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-xoAW0I0YhA",
+                    "x1": 407.5,
+                    "y1": 560,
+                    "x2": 422.5,
+                    "y2": 560,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-uhj180oeBm",
+                    "x1": 307.5,
+                    "y1": 575,
+                    "x2": 407.5,
+                    "y2": 575,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-QRmf3OX49l",
+                    "x1": 307.5,
+                    "y1": 603,
+                    "x2": 407.5,
+                    "y2": 603,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-pfv4HKK32O",
+                    "x1": 307.5,
+                    "y1": 631,
+                    "x2": 407.5,
+                    "y2": 631,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-QvPsmMdIEu",
+                    "x1": 307.5,
+                    "y1": 659,
+                    "x2": 407.5,
+                    "y2": 659,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-Ljn1eNIoar",
+                    "x1": 307.5,
+                    "y1": 687,
+                    "x2": 407.5,
+                    "y2": 687,
+                    "stroke": "#fffb00",
+                    "stroke-width": 2
+                }
+            ]
+        }
+    ],
+    "currentLayerId": "layer0"
+}

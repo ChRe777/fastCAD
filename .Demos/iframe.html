@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Post Request in Iframe</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- https://github.com/niutech/x-frame-bypass -->
+        <!-- script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+        <script type="module" src="https://unpkg.com/x-frame-bypass"></script-->
+
+        <style>
+            :root {
+                --navbar-height: 56px;
+            }
+
+            .iframe-container {
+                display: flex;
+                border: 0px dashed red;
+                height: calc(100vh - var(--navbar-height));
+                /*https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window*/
+                width: 100%;
+            }
+
+            #myIframe {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="iframe-container">
+            <iframe id="myIframe" is="x-frame-bypass" src=""></iframe>
+        </div>
+
+
+        <script>
+            // Function to make a POST request
+            function makePostRequest(url, data) {
+                let params = new URLSearchParams(data).toString()
+                return fetch(url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        // Not need to send the header here, only set mode = cors
+                        //'Access-Control-Allow-Origin': 'http://0.0.0.0:8000/lti',
+                    },
+                    body: params,
+                })
+                    .then(response => response.text());
+            }
+
+            // Example data for the POST request
+            const postData = {
+                oauth_consumer_key: 'key123',
+                user_id: 'user123',
+                custom_course_id: 'course123'
+            };
+
+            // Replace the document content inside the iframe
+            function replaceDocumentInIframe(url, data) {
+                const iframe = document.getElementById('myIframe');
+
+                makePostRequest(url, data)
+                    .then(responseText => {
+                        // Replace the document content of the iframe
+                        iframe.contentDocument.open();
+                        iframe.contentDocument.write(responseText);
+                        iframe.contentDocument.close();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Replace the document content inside the iframe with a POST request
+            replaceDocumentInIframe('http://0.0.0.0:8000/lti', postData);
+        </script>
+
+    </body>
+
+</html>

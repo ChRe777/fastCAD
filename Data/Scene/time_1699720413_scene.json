@@ -1,0 +1,124 @@
+{
+    "layers": [
+        {
+            "type": "layer",
+            "style": "visibility: visible;",
+            "id": "layer0",
+            "description": "This default layer 0",
+            "fill": "white",
+            "stroke": "white",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "circle",
+                    "id": "circle-NlwqaSQuTI",
+                    "cx": 0,
+                    "cy": "50",
+                    "r": 50,
+                    "fill": "#7a7a7a",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2,
+                    "stroke-dasharray": "7,7"
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-GhcrzWUpIp",
+                    "cx": "-50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2,
+                    "fill-opacity": "0.5",
+                    "stroke-dasharray": "5,5"
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-zSL8FF4N6V",
+                    "cx": "50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2,
+                    "fill-opacity": "0.5",
+                    "stroke-dasharray": "5,5"
+                },
+                {
+                    "type": "text",
+                    "id": "text-Grtl3Tj5dL",
+                    "x": "-75",
+                    "y": "-70",
+                    "text": "I like SVG CAD!",
+                    "font-family": "Chalkduster",
+                    "font-size": "25px",
+                    "fill": "#ffffff",
+                    "stroke": "#777777",
+                    "stroke-width": 0,
+                    "textLength": "180"
+                }
+            ]
+        }
+    ],
+    "activeLayer": {
+        "type": "layer",
+        "style": "visibility: visible;",
+        "id": "layer0",
+        "description": "This default layer 0",
+        "fill": "white",
+        "stroke": "white",
+        "stroke-width": "2",
+        "stroke-opacity": "1.0",
+        "elements": [
+            {
+                "type": "circle",
+                "id": "circle-NlwqaSQuTI",
+                "cx": 0,
+                "cy": "50",
+                "r": 50,
+                "fill": "#7a7a7a",
+                "stroke": "#ffffff",
+                "stroke-width": 2,
+                "stroke-dasharray": "7,7"
+            },
+            {
+                "type": "circle",
+                "id": "circle-GhcrzWUpIp",
+                "cx": "-50",
+                "cy": 0,
+                "r": 50,
+                "fill": "#ffffff",
+                "stroke": "#ffffff",
+                "stroke-width": 2,
+                "fill-opacity": "0.5",
+                "stroke-dasharray": "5,5"
+            },
+            {
+                "type": "circle",
+                "id": "circle-zSL8FF4N6V",
+                "cx": "50",
+                "cy": 0,
+                "r": 50,
+                "fill": "#ffffff",
+                "stroke": "#ffffff",
+                "stroke-width": 2,
+                "fill-opacity": "0.5",
+                "stroke-dasharray": "5,5"
+            },
+            {
+                "type": "text",
+                "id": "text-Grtl3Tj5dL",
+                "x": "-75",
+                "y": "-70",
+                "text": "I like SVG CAD!",
+                "font-family": "Chalkduster",
+                "font-size": "25px",
+                "fill": "#ffffff",
+                "stroke": "#777777",
+                "stroke-width": 0,
+                "textLength": "180"
+            }
+        ]
+    }
+}

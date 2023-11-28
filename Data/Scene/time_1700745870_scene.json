@@ -1,0 +1,208 @@
+{
+    "currentLayerId": "layer0",
+    "layers": [
+        {
+            "type": "layer",
+            "style": "visibility: visible",
+            "id": "layer0",
+            "name": "layer0",
+            "description": "Default layer 0 description long",
+            "fill": "#ffffff",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "circle",
+                    "id": "circle-NlwqaSQuTI",
+                    "cx": 0,
+                    "cy": "50",
+                    "r": 50,
+                    "fill": "#00f900",
+                    "stroke": "#00f900",
+                    "stroke-width": 17,
+                    "stroke-dasharray": "7,7",
+                    "fill-opacity": "0.5",
+                    "stroke-opacity": 0.3
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-GhcrzWUpIp",
+                    "cx": "-50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#831100",
+                    "stroke": "#ff6251",
+                    "stroke-width": 3,
+                    "fill-opacity": "0.5",
+                    "stroke-dasharray": "5,5"
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-zSL8FF4N6V",
+                    "cx": "50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#fffb00",
+                    "stroke": "#ffffff",
+                    "stroke-width": 10,
+                    "fill-opacity": 0.9,
+                    "stroke-dasharray": "5,5",
+                    "stroke-opacity": 0.7
+                },
+                {
+                    "type": "line",
+                    "id": "line-XHOwjee2Le",
+                    "x1": "0",
+                    "y1": "100",
+                    "x2": "0",
+                    "y2": "200",
+                    "stroke": "#7a4a00",
+                    "stroke-width": "10",
+                    "stroke-dasharray": "5,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-KQIhcgRvRi",
+                    "x1": -50,
+                    "y1": "200",
+                    "x2": 50,
+                    "y2": "200",
+                    "stroke": "#0061ff",
+                    "stroke-width": "5",
+                    "stroke-dasharray": "",
+                    "stroke-opacity": 0.85
+                }
+            ],
+            "layers": [
+                {
+                    "type": "layer",
+                    "style": "visibility: visible",
+                    "id": "layer0.1",
+                    "name": "layer0.1",
+                    "description": "Layer 0.1",
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": "2",
+                    "stroke-opacity": "1.0",
+                    "elements": [
+                        {
+                            "type": "circle",
+                            "id": "circle-CiwqaSQuTI",
+                            "cx": 0,
+                            "cy": "-150",
+                            "r": 25,
+                            "fill": "#00f900",
+                            "stroke": "#00f900",
+                            "stroke-width": 17,
+                            "stroke-dasharray": "7,7",
+                            "fill-opacity": "0.5",
+                            "stroke-opacity": 0.3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "layer",
+            "style": "visibility: visible",
+            "id": "layer1",
+            "name": "layer1",
+            "description": "Text layer description long",
+            "fill": "#ffffff",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "text",
+                    "id": "text-Grtl3Tj5dL",
+                    "x": "-120",
+                    "y": "-70",
+                    "text": "I like SVG CAD!",
+                    "font-family": "Chalkduster",
+                    "font-size": "30px",
+                    "fill": "#ffffff",
+                    "stroke": "#ebebeb",
+                    "stroke-width": "1",
+                    "textLength": "250",
+                    "fill-opacity": "1",
+                    "rotate": "5deg"
+                },
+                {
+                    "type": "text",
+                    "id": "text-yuCX9NvHd5",
+                    "x": "-80",
+                    "y": "250",
+                    "text": "I like SVG!",
+                    "font-family": "Chalkduster",
+                    "font-size": "25px",
+                    "fill": "#ffffff",
+                    "stroke": "#777777",
+                    "stroke-width": 0
+                }
+            ]
+        },
+        {
+            "type": "layer",
+            "style": "visibility: visible",
+            "id": "layer2",
+            "name": "layer2",
+            "description": "Image layer description long",
+            "fill": "#ffffff",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "image",
+                    "id": "image-Grtl3Tj5d5",
+                    "x": "-300",
+                    "y": "-50",
+                    "width": "100px",
+                    "height": "100px",
+                    "href": "https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png"
+                }
+            ]
+        },
+        {
+            "type": "layer",
+            "style": "visibility:visible",
+            "id": "layer3",
+            "name": "layer3",
+            "description": "Polyline layer description long",
+            "fill": "#00ff00",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "polyline",
+                    "id": "polyline-Pltl3Tj575",
+                    "points": "200,-150 200,-50 300,-50 300,-150",
+                    "fill-opacity": 0,
+                    "stroke-dasharray": "5",
+                    "pathLength": 105
+                },
+                {
+                    "type": "polygon",
+                    "id": "polygon-Pgtl3Tj575",
+                    "points": "200,150 200,250 300,250 300,150 200,150",
+                    "fill": "#fffb00",
+                    "stroke": "#fff76b",
+                    "fill-opacity": 0.5,
+                    "stroke-dasharray": "5"
+                },
+                {
+                    "type": "path",
+                    "id": "path-Pathl3Tj575",
+                    "d": "M 225 0 h 50 v 50 h -50 v 50 h 50",
+                    "fill-opacity": 0,
+                    "stroke-dasharray": "5",
+                    "stroke-width": 5,
+                    "pathLength": 105
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+<html>
+
+    <head>
+        <script type="importmap">
+            {
+                "imports": {
+                    "lit-html": "https://unpkg.com/lit-html@1.3.0/lit-html.js"
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <div id="box"></div>
+        <script type="module">
+            import { html, render } from 'lit-html'
+            const template = (name) => html`<div>Hello ${name}!</div>`
+            render(template('Steve'), document.getElementById('box'));
+        </script>
+    </body>
+
+</html>

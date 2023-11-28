@@ -1,0 +1,7 @@
+<circle id="0" cx="-70" cy="0" r="50" fill="rgb(220,220,220)" fill-opacity="0.8" stroke="#ebebeb" stroke-width="2"></circle>
+<circle id="2" cx="0" cy="0" r="50" fill="white" fill-opacity="0.8" stroke="#aaaaaa" stroke-width="2"></circle>
+<circle id="4" cx="70" cy="0" r="50" fill="#606060" fill-opacity="0.8" stroke="#929292" stroke-width="2"></circle>
+<line id="6" x1="-150" y1="0" x2="150" y2="0" stroke="#aaaaaa" stroke-dasharray="100,2,1,2" stroke-width="1"></line>
+<line id="8" x1="0" y1="-100" x2="0" y2="100" stroke="#aaaaaa" stroke-width="1" fill-opacity="1" stroke-dasharray="70,4,2,4"></line>
+<text id="10" x="50" y="-100" fill="#eeeeee" rotate="2" font-family="Chalkduster" textlength="100">IloveSVG!</text>
+<text id="12" x="50" y="100" fill="#eeeeee" rotate="2" font-family="Chalkduster" textlength="130">IlikeFastCAD</text>

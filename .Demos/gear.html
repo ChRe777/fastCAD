@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            canvas {
+                border: 1px solid #000;
+            }
+        </style>
+        <title>Draw Gear</title>
+    </head>
+
+    <body>
+        <canvas id="gearCanvas" width="400" height="400"></canvas>
+
+        <script>
+            const canvas = document.getElementById('gearCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function drawGear(teeth, radius, holeRadius) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const toothWidth = Math.PI * 2 / (teeth * 2);
+
+                ctx.beginPath();
+                for (let i = 0; i < teeth * 2; i++) {
+                    const angle = i * toothWidth;
+                    const radiusAtAngle = i % 2 === 0 ? radius : holeRadius;
+
+                    const x = canvas.width / 2 + Math.cos(angle) * radiusAtAngle;
+                    const y = canvas.height / 2 + Math.sin(angle) * radiusAtAngle;
+
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+
+                ctx.closePath();
+                ctx.stroke();
+            }
+
+            // Example usage
+            const teethCount = 12;
+            const gearRadius = 100;
+            const holeRadius = 40;
+
+            drawGear(teethCount, gearRadius, holeRadius);
+        </script>
+    </body>
+
+</html>

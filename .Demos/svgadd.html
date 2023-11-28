@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Load and Append SVG</title>
+    </head>
+
+    <body>
+        <svg id="existingSvg" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Your existing SVG content goes here -->
+            <rect x="10" y="10" width="50" height="50" fill="blue" />
+        </svg>
+
+        <script>
+            // Your SVG content as a string (replace with your SVG content)
+            var svgString = `
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" fill="red" />
+                <circle cx="100" cy="10" r="30" fill="green" />
+            </svg>
+            `;
+
+            // Create a new SVG element from the string
+            var parser = new DOMParser();
+            var newSvgElement = parser.parseFromString(svgString, "image/svg+xml").documentElement;
+
+            console.log('newSvgElement childs', newSvgElement.childNodes)
+
+            // Get the existing SVG node by its ID
+            var existingSvg = document.getElementById('existingSvg');
+
+            newSvgElement.childNodes.forEach(child => {
+                if (child.nodeName !== '#text') {
+                    existingSvg.appendChild(child)
+                }
+            })
+
+
+            // Append the new SVG element to the existing SVG node
+
+
+        </script>
+    </body>
+
+</html>

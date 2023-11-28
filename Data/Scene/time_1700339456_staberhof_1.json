@@ -1,0 +1,94 @@
+{
+    "layers": [
+        {
+            "type": "layer",
+            "style": "visibility:visible",
+            "id": "layer0",
+            "description": "This default layer 0",
+            "fill": "white",
+            "stroke": "white",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "line",
+                    "id": "line-Hs7JqEcPxJ",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 600,
+                    "y2": 0,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-lJMWRlBLeX",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 0,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-0tOETABJt9",
+                    "x1": 0,
+                    "y1": 250,
+                    "x2": 600,
+                    "y2": 250,
+                    "stroke": "#ff40ff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "20,2,1,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-mwaZKam7jA",
+                    "x1": 0,
+                    "y1": 500,
+                    "x2": 600,
+                    "y2": 500,
+                    "stroke": "#777777",
+                    "stroke-width": 2,
+                    "stroke-dasharray": "20,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-flW2DDkcYf",
+                    "x1": 600,
+                    "y1": 0,
+                    "x2": 600,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-PdRxCYl1on",
+                    "x1": 0,
+                    "y1": 800,
+                    "x2": 600,
+                    "y2": 800,
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "10,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-fbd3Ohi4nE",
+                    "x1": 300,
+                    "y1": 0,
+                    "x2": 300,
+                    "y2": 800,
+                    "stroke": "#777777",
+                    "stroke-width": 1,
+                    "stroke-dasharray": "20,1,2,1"
+                }
+            ]
+        }
+    ],
+    "currentLayerId": "layer0"
+}

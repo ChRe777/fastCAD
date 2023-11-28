@@ -1,0 +1,23 @@
+[
+    {
+        "type": "circle",
+        "id": "VekwvnIVdf",
+        "cx": "50",
+        "cy": 0,
+        "r": 50,
+        "fill": "#ffffff",
+        "stroke": "#777777",
+        "stroke-width": 2
+    },
+    {
+        "type": "circle",
+        "id": "FzZsJF8DlJ",
+        "cx": 0,
+        "cy": 0,
+        "r": 50,
+        "fill": "#ffffff",
+        "stroke": "#777777",
+        "stroke-width": 2,
+        "fill-opacity": "0.5"
+    }
+]

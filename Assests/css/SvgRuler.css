@@ -1,0 +1,15 @@
+#rulerHorz {
+    position: absolute;
+    top: 0;
+    left: 30px;
+    height: 30px;
+    width: calc(100% - 30px);
+}
+
+#rulerVert {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 30px;
+    height: calc(100% - 38px - 30px)
+}

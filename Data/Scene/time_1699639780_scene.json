@@ -1,0 +1,26 @@
+[
+    {
+        "type": "circle",
+        "id": "2KeD2EL0qf",
+        "cx": 0,
+        "cy": 0,
+        "r": 50,
+        "fill": "#ff0000",
+        "stroke": "#fffb00",
+        "stroke-width": "10",
+        "dash-array": "",
+        "stroke-dasharray": "5,5"
+    },
+    {
+        "type": "circle",
+        "id": "x0oTeGgUUw",
+        "cx": "50",
+        "cy": 0,
+        "r": 50,
+        "fill": "#ff0000",
+        "stroke": "#fffb00",
+        "stroke-width": "10",
+        "dash-array": "",
+        "stroke-dasharray": "5,5"
+    }
+]

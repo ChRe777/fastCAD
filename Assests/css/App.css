@@ -1,0 +1,52 @@
+@import url("./vars.css");
+
+@import url("./cmdLine.css");
+@import url("./ruler.css");
+@import url("./box.css");
+@import url("./scene.css");
+@import url("./editor.css");
+@import url("./toolbar.css");
+@import url("./appbar.css");
+@import url("./layer.css");
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background-color: grey;
+    /*#e74c3c;*/
+    overflow: hidden;
+    /*no scrollbar*/
+    touch-action: manipulation;
+    /*user can not select texts and elements*/
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+#customTooltip {
+    display: none;
+    position: absolute;
+    background-color: rgb(62, 126, 235);
+    /**/
+    color: #fff;
+    padding: 5px;
+    /**/
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.btn:focus,
+.form-control:focus {
+    outline: 0 !important;
+    box-shadow: none;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      svg {
+        border: 1px solid #000;
+      }
+    </style>
+    <title>Toggle SVG Use Element</title>
+  </head>
+
+  <body>
+
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+
+      <symbol id="layer1_def">
+        <circle id="myCircle1" cx="50" cy="35" r="20" fill="red" />
+        <circle id="myCircle2" cx="35" cy="35" r="20" fill="green" />
+      </symbol>
+
+      <symbol id="layer2_def">
+        <g id="group1">
+          <circle id="myCircle3" cx="50" cy="30" r="25" fill="orange" />
+          <circle id="myCircle4" cx="20" cy="30" r="20" fill="blue" />
+        </g>
+      </symbol>
+
+      <symbol id="layer3_def">
+        <g id="group1">
+          <circle id="myCircle3" cx="30" cy="20" r="45" fill="purple" />
+          <circle id="myCircle4" cx="10" cy="40" r="20" fill="yellow" />
+        </g>
+      </symbol>
+
+      <!-- LAYER REIHENFOLGE -->
+      <use xlink:href="#layer3_def" id="layer3" />
+      <use xlink:href="#layer2_def" id="layer2" /> <!-- 2 -->
+      <use xlink:href="#layer1_def" id="layer1" /> <!-- 1 -->
+      <!-- LAST IS ABOVE -->
+
+
+    </svg>
+
+    <button onclick="toggleUseElement('layer1')">Toggle Use Element</button>
+    <button onclick="toggleUseElement('layer2')">Toggle Use Element</button>
+    <button onclick="toggleUseElement('layer3')">Toggle Use Element</button>
+
+    <script>
+      function toggleUseElement(id) {
+        var useElement = document.getElementById(id);
+        if (useElement) {
+          useElement.style.display = useElement.style.display === 'none' ? 'inline' : 'none';
+        }
+      }
+    </script>
+
+  </body>
+
+</html>

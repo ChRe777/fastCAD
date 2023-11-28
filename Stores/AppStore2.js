@@ -1,0 +1,71 @@
+// store.js
+//
+
+// Imports
+//
+import { defineStore } from 'pinia'
+
+// Example Scene Layer 0
+//
+let layer0 = {
+    'id': 'layer0',
+    'name': 'layer0',
+    'description': 'This default layer 0',
+    'fill': "#ffff00",
+    'stroke': "#ffff00",
+    'stroke-width': "2",
+    'stroke-opacity': '0.5',
+    'style': 'visibility: visible',
+    elements: [
+        { id: '1', type: 'circle', cx: 0, cy: 0, r: 50, fill: '#0000ff' },
+        { id: '2', type: 'line', x1: -50, y1: 0, x2: 50, y2: 0, stroke: '#00ff00', 'stroke-width': 2 },
+        { id: '3', type: 'text', x: 0, y: 0, 'font-size': 27, fill: '#ffffff', text: 'Layer 0' },
+        { id: '4', type: 'path', d: 'M50 50 L100 50 L75 100 Z', fill: '#0f0f0f' }
+    ],
+    'layer-open': false,
+    'layers': []
+}
+
+// Example Scene Layer 1
+//
+let layer1 = {
+    'id': 'layer1',
+    'name': 'layer1',
+    'description': 'This is layer 1',
+    'fill': '#ffffff',
+    'stroke': "#00ff00",
+    'stroke-width': "4",
+    'style': 'visibility: visible',
+    elements: [
+        { id: '11', type: 'circle', cx: 0, cy: 50, r: 30, fill: '#0000ff' },
+        { id: '12', type: 'line', x1: 0, y1: 50, x2: 100, y2: 100, stroke: '#00ff00', 'stroke-width': 2 },
+        { id: '13', type: 'text', x: 0, y: 150, 'font-size': 16, fill: '#000000', text: 'Layer 2' },
+        { id: '14', type: 'path', d: 'M0 100 L100 50 L75 100 Z', fill: '#0f0f0f' },
+    ],
+    'layer-open': false,
+    'layers': []
+}
+
+layer0.layers.push(layer1)
+
+let layers = [
+    layer0
+]
+
+// Store 'store'
+//
+export const useStore = defineStore('AppStore', {
+    state: () => ({
+        scene: {
+            layers: layers,
+        },
+        //
+        lastCreatedElement: undefined,
+        lastPoint: undefined,
+        //
+        // TODO: Is not Part of Scene
+        //
+        showBatch: false,
+        showSettings: false,
+    }),
+})
