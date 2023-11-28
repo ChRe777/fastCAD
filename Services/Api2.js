@@ -279,6 +279,28 @@ function getLayerById(id) {
     return getLayerById_(id, store.scene.layers)
 }
 
+function getLayerByName_(name, layers) {
+
+    for (const layer of layers) {
+        if (layer.name === name) {
+            return layer
+        }
+        if (layer.layers !== undefined) {
+            let found = getLayerByName_(id, layer.layers)
+            if (found !== undefined) {
+                return found
+            }
+        }
+    }
+
+    return undefined
+}
+
+function getLayerByName(name) {
+    const store = useStore()
+    return getLayerByName_(name, store.scene.layers)
+}
+
 
 function clearSelection() {
     const selectionStore = useSelectionStore()
@@ -378,23 +400,24 @@ function deselectAll() {
 
 // TODO: REFACTOR !!
 function setLayer_(name) {
+    
     const store = useStore()
-    const selectionStore = useSelectionStore()
 
-    let newLayer = store.scene.layers.find((layer) => layer.name === name);
-    if (newLayer === undefined) {
-        // TODO: Info wrong layer name
-        return
-    }
+    const newLayer = getLayerByName(name)
 
     console.log("setLayer", name)
-    selectionStore.selectedElements.forEach(selectedElement => {
+    selectedElementsForEach(selectedElement => {
         
         // Remove from old layer
         console.log("setLayer", "remove")
+
+        throw new Error('Not implement - remove from all layers also sublayers')
+        
+        /*
         for (let oldLayer of store.scene.layers) {
             oldLayer.elements = oldLayer.elements.filter(obj => obj.id !== selectedElement.id)
         }
+        */
 
         console.log("setLayer", "add")
         // Add to new layer
@@ -644,6 +667,7 @@ const api = {
     getCurrentLayer,
     isCurrentLayer,
     getLayerById,
+    getLayerByName,
     hasLayerChilds,
     numLayerChilds,
     isLayerOpen,

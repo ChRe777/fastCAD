@@ -114,8 +114,10 @@ function updateLayerEditingAttributes() {
     const selectionStore = useSelectionStore()
     const editorStore = useEditorStore()
 
-    if (selectionStore.selectedLayers.length >= 1) {
+    console.log(selectionStore.selectedLayers)
+    if (selectionStore.selectedLayers.size >= 1) {
         // TODO: Shared Attributes if multi-layer-selection
+        console.log(selectionStore.selectedLayers[0])
         editorStore.layerEditingAttributes = selectionStore.selectedLayers[0]
     } else {
         editorStore.layerEditingAttributes = {}
@@ -128,7 +130,7 @@ function updateEditingAttributes() {
     const editorStore = useEditorStore()
     const selectionStore = useSelectionStore()
 
-    if (selectionStore.selectedElements.length === 1) {
+    if (selectionStore.selectedElements.size === 1) {
         let element = selectionStore.selectedElements[0]
 
         const { id, type, ...editingAttributes } = element
@@ -136,7 +138,7 @@ function updateEditingAttributes() {
 
         console.log("editorStore.editingAttributes", editorStore.editingAttributes)
 
-    } else if (selectionStore.selectedElements.length === 0) {
+    } else if (selectionStore.selectedElements.size === 0) {
         editorStore.editingAttributes = {}
     } else {
 
@@ -165,7 +167,7 @@ function updateSelectionAttributes() {
     const selectionStore = useSelectionStore()
 
     // Update the selected element's attributes with the values in editingAttributes
-    if (selectionStore.selectedElements.length === 1) {
+    if (selectionStore.selectedElements.size === 1) {
         // Copy the values of all of the enumerable own properties from one or 
         // more source objects to a target object. Returns the target object
         let selectedElement = selectionStore.selectedElements[0]
@@ -174,7 +176,7 @@ function updateSelectionAttributes() {
 
     // HERE ONLY SHARED ATTRIBUTES SHOULD BE PUSHED BACK!!!
 
-    if (selectionStore.selectedElements.length > 1) {
+    if (selectionStore.selectedElements.size > 1) {
         selectionStore.selectedElements.forEach(selectedElement => {
             //The Object.assign() static method copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
             Object.assign(selectedElement, editorStore.editingAttributes);
