@@ -80,11 +80,12 @@ function doCmdLoad(args) {
         name = args[1]
     }
 
-    function onLoaded(scene, name) {
+    let onLoaded = function (scene, name) {
         const store = useStore()
         const selectionStore = useSelectionStore()
 
         store.scene = scene
+        // TODO: ??
         if (store.scene.layers && store.scene.layers.length > 0) {
             selectionStore.selectedLayers[0] = store.scene.layers[0]
         }
