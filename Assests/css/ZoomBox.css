@@ -10,10 +10,7 @@
 #boxCentered {
     height: 100%;
     width: 100%;
-    /*background-color: rgb(178, 178, 178);*/
     display: flex;
-    justify-content: center;
-    /* Center horizontally */
-    align-items: center;
-    /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }

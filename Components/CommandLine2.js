@@ -45,14 +45,12 @@ function onClick() {
     focus(this)
 }
 
-let error = false
-
 function onEnter() {
     if (interpret(this.text)) {
-        error = false
+        this.error = false
         this.text = ""
     } else {
-        error = true
+        this.error = true
         this.text = ""
     }
 }
@@ -65,17 +63,6 @@ function onTab() {
 
 function getSuggestion(str) {
 
-    if (str == "") {
-        if (error) {
-            return "cmd not found - enter a cmd"
-        }
-        return "enter a cmd"
-    }
-
-    if (str.length < 2) {
-        return ""
-    }
-
     const cmdStore = useCmdStore()
     const cmdFound = cmdStore.registeredCmds.find((cmd) => cmd.suggestion.startsWith(str))
     if (cmdFound) {
@@ -86,12 +73,18 @@ function getSuggestion(str) {
 
 function onBatch() {
     const cmdStore = useCmdStore()
-    let cmd = cmdStore.registeredCmdsByName["batch"]
-    cmd.action()
+    const cmdName = "batch"
+    const cmd = cmdStore.registeredCmdsByName[cmdName]
+    const args = [cmdName]
+    cmd.action(args)
 }
 
 function onText(newValue, _) {
-    this.suggestion = getSuggestion(newValue)
+    if (newValue <= 2) {
+        this.suggestion = ""
+    } else {
+        this.suggestion = getSuggestion(newValue)
+    }
 }
 
 // Mounted
@@ -108,6 +101,7 @@ function data() {
     return {
         store: useStore(),
         text: "",
+        error: false,
         suggestion: "enter a command"
     }
 }

@@ -8,63 +8,10 @@
 
 #toolbar {
     height: auto;
-    /* calc(100% - 20px); */
     width: 100%;
     border: var(--debug-border2);
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
-.flex-toolbar {
-    display: flex;
 
-    flex-direction: row;
-    flex-wrap: wrap;
 
-    overflow: scroll;
-
-    /*border: var(--debug-border2);*/
-
-    gap: var(--toolbar-gap);
-}
-
-.flex-btn {
-    display: flex;
-    flex-direction: column;
-    /*Icon + Text flow down */
-
-    color: var(--color-white);
-    background-color: rgb(51, 51, 51);
-
-    justify-content: center;
-    align-items: center;
-
-    height: var(--toolbar-btn-size) !important;
-    width: var(--toolbar-btn-size) !important;
-
-    /*border: var(--debug-border2);*/
-
-}
-
-.flex-btn:hover {
-    background-color: rgb(39, 39, 39);
-}
-
-.flex-btn>.bi {
-    font-size: 25px;
-    font-weight: bold;
-
-    border: var(--debug-border2);
-}
-
-.flex-btn-text {
-    display: block;
-
-    font-size: 15px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-
-    line-height: 20px;
-
-    margin-top: 5px;
-    border: var(--debug-border2);
-}

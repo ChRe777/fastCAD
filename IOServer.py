@@ -163,4 +163,4 @@ async def lti_launch_cors():
 if __name__ == "__main__":
     from uvicorn import run
 
-    run("Server:app", host="0.0.0.0", port=8000, reload=True)
+    run("IOServer:app", host="0.0.0.0", port=8000, reload=True)

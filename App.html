@@ -7,82 +7,82 @@
         <meta http-equiv='expires' content='0'>
         <meta http-equiv='pragma' content='no-cache'>
 
-        <!-- LIBRARIES -->
-        <script src="https://daybrush.com/ruler/release/latest/dist/ruler.min.js"></script>
-        <script src="https://daybrush.com/gesto/release/latest/dist/gesto.min.js"></script>
-
-        <script src="https://unpkg.com/mousetrap@1.6.5/mousetrap.min.js"></script>
-        <script src="https://unpkg.com/short-unique-id@5.0.3/dist/short-unique-id.min.js"></script>
 
         <!-- LIBRARIES ES6 -->
         <script type="importmap">
         {
             "imports": {
-                "pinia"     : "https://unpkg.com/pinia@2.1.7/dist/pinia.esm-browser.js",
-                "underscore": "https://unpkg.com/underscore@1.13.6/underscore-esm-min.js",
-                "wontache"  : "https://unpkg.com/wontache@0.2.0/mustache-esm.js",
+                "pinia"                 : "https://unpkg.com/pinia@2.1.7/dist/pinia.esm-browser.js",
+                "underscore"            : "https://unpkg.com/underscore@1.13.6/underscore-esm-min.js",
+                "wontache"              : "https://unpkg.com/wontache@0.2.0/mustache-esm.js",
 
-                "vue"       : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.js",
-                "vue-demi"  : "https://unpkg.com/vue-demi@0.14.6/lib/v3/index.mjs",
-                "vue-prod"  : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.prod.js",
-                "@vue/devtools-api": "https://unpkg.com/@vue/devtools-api@6.5.1/lib/esm/index.js",
+                "vue"                   : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.js",
+                "vue-demi"              : "https://unpkg.com/vue-demi@0.14.6/lib/v3/index.mjs",
+                "vue-prod"              : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.prod.js",
+                "@vue/devtools-api"     : "https://unpkg.com/@vue/devtools-api@6.5.1/lib/esm/index.js",
 
-                "components/app"       : "./Components/App2.js",
-                "components/appbar"    : "./Components/AppToolbar2.js",
-                "components/batch"     : "./Components/BatchEditor2.js",
-                "components/box"       : "./Components/ZoomBox2.js",
-                "components/cmdline"   : "./Components/CommandLine2.js",
-                "components/editor"    : "./Components/AttributeEditor2.js",
-                "components/layer"     : "./Components/LayerList3.js",
-                "components/message"   : "./Components/UserMessage2.js",
-                "components/ruler"     : "./Components/SvgSceneRuler2.js",
-                "components/scene"     : "./Components/SvgScene2.js",
-                "components/selection" : "./Components/SelectionHandler2.js",
-                "components/settings"  : "./Components/SettingsDialog2.js",
-                "components/toolbar"   : "./Components/SvgToolbar2.js",
-                "components/types"     : "./Components/SvgTypes2.js",
+                "components/app"        : "./Components/App2.js",
+                "components/appbar"     : "./Components/AppToolbar2.js",
+                "components/batch"      : "./Components/BatchScriptingDialog2.js",
+                "components/box"        : "./Components/ZoomBox2.js",
+                "components/cmdline"    : "./Components/CommandLine2.js",
+                "components/editor"     : "./Components/AttributeEditor2.js",
+                "components/export"     : "./Components/ExportDialog2.js",
+                "components/layer"      : "./Components/LayerList3.js",
+                "components/message"    : "./Components/UserMessage2.js",
+                "components/ruler"      : "./Components/SvgSceneRuler2.js",
+                "components/scene"      : "./Components/SvgScene2.js",
+                "components/selection"  : "./Components/SelectionHandler2.js",
+                "components/settings"   : "./Components/SettingsDialog2.js",
+                "components/toolbar"    : "./Components/SvgToolbar2.js",
+                "components/types"      : "./Components/SvgTypes2.js",
 
-                "parts/toast"      : "./Components/Parts/UserMessageToast2.js",
-                "parts/childs"     : "./Components/Parts/LayerListChildsCount2.js",
-                "parts/toggler"    : "./Components/Parts/LayerListToggler2.js",
-                "parts/visible"    : "./Components/Parts/LayerListVisible2.js",
-                "parts/button"     : "./Components/Parts/ToolbarButton2.js",
+                "parts/toast"           : "./Components/Parts/UserMessageToast2.js",
+                "parts/childs"          : "./Components/Parts/LayerListChildsCount2.js",
+                "parts/toggler"         : "./Components/Parts/LayerListToggler2.js",
+                "parts/visible"         : "./Components/Parts/LayerListVisible2.js",
+                "parts/button"          : "./Components/Parts/ToolbarButton2.js",
+     
+                "editors/common"        : "./Components/Editors/CommonEditor2.js",
+                "editors/line"          : "./Components/Editors/LineEditor2.js",
+                "editors/circle"        : "./Components/Editors/CircleEditor2.js",
+                "editors/text"          : "./Components/Editors/TextEditor2.js",
+                "editors/image"         : "./Components/Editors/ImageEditor2.js",
+                "editors/polyline"      : "./Components/Editors/PolylineEditor2.js",
+                "editors/polygon"       : "./Components/Editors/PolygonEditor2.js",
+                "editors/path"          : "./Components/Editors/PathEditor2.js",
+                "editors/layer"         : "./Components/Editors/LayerEditor2.js",
+                "editors/debug"         : "./Components/Editors/DebugInfo2.js",
 
-                "editors/common"   : "./Components/Editors/CommonEditor2.js",
-                "editors/line"     : "./Components/Editors/LineEditor2.js",
-                "editors/circle"   : "./Components/Editors/CircleEditor2.js",
-                "editors/text"     : "./Components/Editors/TextEditor2.js",
-                "editors/image"    : "./Components/Editors/ImageEditor2.js",
-                "editors/polyline" : "./Components/Editors/PolylineEditor2.js",
-                "editors/polygon"  : "./Components/Editors/PolygonEditor2.js",
-                "editors/path"     : "./Components/Editors/PathEditor2.js",
-                "editors/layer"    : "./Components/Editors/LayerEditor2.js",
-                "editors/debug"    : "./Components/Editors/DebugInfo2.js",
+                "stores/cmd"            : "./Stores/CommandStore2.js",
+                "stores/store"          : "./Stores/AppStore2.js",
+                "stores/view"           : "./Stores/ViewBoxStore2.js",
+                "stores/editor"         : "./Stores/EditorStore2.js",
+                "stores/message"        : "./Stores/UserMessageStore2.js",
+                "stores/selection"      : "./Stores/SelectionStore2.js",
+                "stores/settings"       : "./Stores/SettingsStore2.js",
 
-                "stores/cmd"       : "./Stores/CommandStore2.js",
-                "stores/store"     : "./Stores/AppStore2.js",
-                "stores/view"      : "./Stores/ViewBoxStore2.js",
-                "stores/editor"    : "./Stores/EditorStore2.js",
-                "stores/message"   : "./Stores/UserMessageStore2.js",
-                "stores/selection" : "./Stores/SelectionStore2.js",
-                "stores/settings"  : "./Stores/SettingsStore2.js",
-
-                "services/io"       : "./Services/IOService2.js",
-                "services/api"      : "./Services/Api2.js",
-                "services/cmds"     : "./Services/CmdService2.js",
-                "services/utils"    : "./Services/UtilsFunctions2.js",
-                "services/defaults" : "./Services/Defaults2.js",
-                "services/interpreter" : "./Services/CmdInterpreter2.js"
+                "services/io"           : "./Services/IOService2.js",
+                "services/api"          : "./Services/Api2.js",
+                "services/cmds"         : "./Services/CmdService2.js",
+                "services/utils"        : "./Services/UtilsFunctions2.js",
+                "services/defaults"     : "./Services/Defaults2.js",
+                "services/interpreter"  : "./Services/CmdInterpreter2.js"
             }
         }
         </script>
 
         <!-- LIB STYLES -->
+
         <link rel="stylesheet" href="https://unpkg.com/normalize.css@7.0.0/normalize.css" />
         <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
 
         <!-- LIB SCRIPTS -->
+        <script src="https://daybrush.com/ruler/release/latest/dist/ruler.min.js"></script>
+        <script src="https://daybrush.com/gesto/release/latest/dist/gesto.min.js"></script>
+        <script src="https://unpkg.com/mousetrap@1.6.5/mousetrap.min.js"></script>
+        <script src="https://unpkg.com/short-unique-id@5.0.3/dist/short-unique-id.min.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2.8.6/dist/umd/popper.min.js"></script>
         <script src="https://unpkg.com/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 

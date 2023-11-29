@@ -15,10 +15,8 @@
     width: 79px;
     height: auto;
     max-height: calc(100% - var(--ruler-height) - var(--cmd-line-height) - 2*var(--toolbar-gap));
-    
     overflow: scroll;
     border: var(--debug-border);
-    cursor: pointer;
 }
 
 

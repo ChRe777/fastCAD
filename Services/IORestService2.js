@@ -1,8 +1,8 @@
-// io.js
+// IORestService.js
 //
 
 function makeOptions(data, name) {
-    
+
     const json = {
         'cmd': 'save_data',
         'data': data,
@@ -24,7 +24,7 @@ function makeOptions(data, name) {
 // Save
 //
 function save(data, name, onSuccessFn) {
-    
+
     const options = makeOptions(data, name)
     const url = 'http://localhost:8000/v2/save/'
 
@@ -36,7 +36,6 @@ function save(data, name, onSuccessFn) {
             return response.json()
         })
         .then(data => {
-            //console.log('POST request successful:', data);
             if (onSuccessFn) {
                 onSuccessFn(data, name)
             }
@@ -48,7 +47,7 @@ function save(data, name, onSuccessFn) {
 
 // Load
 //
-function load(onSuccessFn, name) {
+function load(name, onSuccessFn) {
 
     const url = 'http://localhost:8000/v2/load/'; // Replace with your API endpoint
     const json = {

@@ -2,13 +2,12 @@
 
 // Imports
 //
-import { useCmdStore } from 'stores/cmd'
+import api from 'services/api'
 
 const style = {
-    "bg" : "bg-gray-800 rounded",
-    "border": "border border-1 border-white border-opacity-25",
+    "bg" : "bg-dark-75 rounded",
+    "border": "border border-0",
     "text" : "text-white",
-    "padding" : "p-0",
     "size" : "77px"
 }
 
@@ -16,8 +15,11 @@ const style = {
 //
 const template =`
 <div class="${style.bg} ${style.padding} ${style.border} ${style.text}" 
+    style="width: ${style.size}; height: ${style.size}; 
+           background: rgb(51,51,51); 
+           border-color: rgb(41,41,41) !important; 
+           cursor: pointer;"
     @click="onClick"
-    style="width: ${style.size}; height: ${style.size};"
 >
     <div class="d-flex align-items-center h-100 w-100 text-center">
         <div class="m-auto">
@@ -28,23 +30,27 @@ const template =`
 </div>
 `
 
+// On click button
+//
+function onClick() {
+    const args = [this.cmdName]
+    api.invokeCmdByName(this.cmdName, args)
+}
+
+// Data
+//
+function data() {
+    return {
+    }
+}
+
 // Component
 export default {
     props: ['iconClass', 'text', 'cmdName'],
-    data() {
-        return {
-            cmdStore: useCmdStore()
-        }
-    },
+    data,
     template,
     methods: {
-        onClick() {
-            if (this.cmdName in this.cmdStore.registeredCmdsByName) {
-                const cmd = this.cmdStore.registeredCmdsByName[this.cmdName]
-                const args = [this.cmdName]
-                cmd.action(args)
-            }
-        }
+        onClick
     }
 }
 

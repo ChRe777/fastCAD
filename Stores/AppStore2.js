@@ -67,5 +67,6 @@ export const useStore = defineStore('appStore', {
         //
         showBatch: false,
         showSettings: false,
+        showExport: false,
     }),
 })

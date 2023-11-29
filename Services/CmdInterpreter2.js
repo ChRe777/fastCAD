@@ -3,21 +3,10 @@
 
 // Imports
 //
-import { useCmdStore } from 'stores/cmd';
+import api from 'services/api'
 
 // Functions
 //
-
-function invokeCmd(cmdName, args) {
-    let cmdStore = useCmdStore()
-    if (cmdName in cmdStore.registeredCmdsByName) {
-        let cmd = cmdStore.registeredCmdsByName[cmdName]
-        cmd.action(args)
-        return true
-    }
-    return false
-}
-
 function interpret(str) {
 
     console.log(`interpret -> ${str}`)
@@ -37,7 +26,7 @@ function interpret(str) {
     const args = str.split(' ')
     const cmdName = args[0]
 
-    return invokeCmd(cmdName, args)
+    return api.invokeCmdByName(cmdName, args)
 }
 
 // Exports

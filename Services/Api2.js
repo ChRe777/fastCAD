@@ -8,16 +8,26 @@
 // id -> select -> id/ id -> deselect -> id
 
 
+//
+// [UI/LOGIC] <--> [STORE] <--> [IO] <--> [SERVER] <--> [DB/FILE]
+//
+
 // Imports
 //
+
+import io from 'services/io'
+
+// Stores are the models
+//
 import { useStore } from 'stores/store'
+import { useCmdStore } from 'stores/cmd'
 import { useViewStore } from 'stores/view'
 import { useEditorStore } from 'stores/editor'
 import { useMessageStore } from 'stores/message'
 import { useSelectionStore } from 'stores/selection'
 
-import io from 'services/io'
-
+// Helper
+//
 import { addPoints, subPoints } from 'services/utils'
 import { defaults } from 'services/defaults'
 
@@ -33,7 +43,7 @@ function create(type, attrs) {
     if (type === 'layer') {
         return createLayer_(type, attrs)
     }
-    
+
     // Create new object
     //
     let obj = {
@@ -162,7 +172,7 @@ function select(element, type, attrs) {
 function selectFirstLayer() {
     const store = useStore()
     const selectionStore = useSelectionStore()
-    
+
     if (store.scene.layers && store.scene.layers.length > 0) {
         selectionStore.selectedLayersSet.clear()
         selectionStore.selectedLayersSet.add(store.scene.layers[0])
@@ -349,13 +359,13 @@ function loadScene(name) {
 
     let onLoaded = function (scene, name) {
 
-        setScene_(scene) 
-        selectFirstLayer()  
-        newMessage(`Loaded ${name}`)
+        setScene_(scene)
+        selectFirstLayer()
+        createMessage(`Loaded ${name}`)
 
     }
 
-    io.load(onLoaded, name)
+    io.load(name, onLoaded)
 }
 
 function forEachSelected(fn) {
@@ -364,7 +374,7 @@ function forEachSelected(fn) {
 }
 
 function destroySelected() {
-    
+
 
     // Remove from layers
     //
@@ -426,7 +436,7 @@ function setLayer_(name) {
 
     const newLayer = getLayerByName(name)
     forEachSelected(selectedElement => {
-        
+
         function removeElement(layer) {
             removeFromLayer(layer, selectedElement)
         }
@@ -532,7 +542,7 @@ function moveSelected(p, relative) {
     })
 }
 
-function newMessage(text) {
+function createMessage(text) {
     const messageStore = useMessageStore()
     messageStore.messages.push(text)
 }
@@ -606,7 +616,7 @@ function createLineTo(p2, relative2) {
 }
 
 function createCircle(p, relative, r) {
-    
+
     const store = useStore()
 
     if (relative && store.lastPoint !== undefined) {
@@ -660,12 +670,29 @@ function createLayer(name, description) {
     setCurrentLayer(newLayer)
 }
 
+function invokeCmdByName(cmdName, args) {
+    const cmdStore = useCmdStore()
+    if (cmdName in cmdStore.registeredCmdsByName) {
+        const cmd = cmdStore.registeredCmdsByName[cmdName]
+        if (cmd === undefined) {
+            console.log(cmdName, "not found in command store")
+            return false
+        } else {
+            try {
+                cmd.action(args)
+            } catch (error) {
+                console.log(cmdName, "error", error.message)
+                return false
+            }
+        }
+    }
+}
+
 // Export API
 //
 const api = {
     create,
     destroy,
-    //
     modify,
     //
     mirror,
@@ -691,6 +718,8 @@ const api = {
     saveScene,
     loadScene,
     //
+    // TODO: Refactor
+    //
     destroySelected,
     copySelected,
     mirrorSelected,
@@ -698,7 +727,7 @@ const api = {
     moveSelected,
     //
     //
-    newMessage,
+    createMessage,
     //
     viewZoomIn,
     viewZoomOut,
@@ -708,6 +737,8 @@ const api = {
     createLineTo,
     createCircle,
     createText,
+    //
+    invokeCmdByName
 }
 
 export default api;

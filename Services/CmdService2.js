@@ -6,7 +6,8 @@
 
 import api from 'services/api'
 
-import { argFns} from 'services/utils'
+import { defaults } from 'services/defaults'
+import { argFns } from 'services/utils'
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
 
@@ -108,7 +109,7 @@ function doCmdCircle(args) {
     let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let r = argFns.asFloat(args, 2) || 50
 
-    api.createCircle(p, relative, r) 
+    api.createCircle(p, relative, r)
 }
 
 // text 10,10 "text"
@@ -152,6 +153,14 @@ function doCmdBatch(args) {
     store.showBatch = !store.showBatch
 }
 
+// export
+//
+function doCmdExport(args) {
+    // GUI
+    const store = useStore()
+    store.showExport = !store.showExport
+}
+
 // settings
 //
 function doCmdSettings(args) {
@@ -180,7 +189,7 @@ function doCmdCopy(args) {
 // mirror y 300
 //
 function doCmdMirror(args) {
-    
+
     let axis = argFns.asString(args, 1)
     let value = argFns.asFloat(args, 2)
 
@@ -356,6 +365,15 @@ export function init() {
         shortCuts: [],
         hotKeys: undefined,
         action: doCmdBatch,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'export',
+        suggestion: 'export',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdExport,
     })
 
     cmdStore.registerCmd({

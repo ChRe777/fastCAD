@@ -72,18 +72,6 @@
                     "stroke-width": "5",
                     "stroke-dasharray": "",
                     "stroke-opacity": 0.85
-                },
-                {
-                    "type": "circle",
-                    "id": "circle-HCQmdGcdiN",
-                    "cx": -300,
-                    "cy": 200,
-                    "r": 46,
-                    "fill": "#ff6251",
-                    "stroke": "#ffa57d",
-                    "stroke-width": 47,
-                    "stroke-dasharray": "7,5",
-                    "pathLength": 9
                 }
             ],
             "layers-open": true,

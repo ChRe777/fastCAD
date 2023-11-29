@@ -16,15 +16,18 @@ import CmdLine from 'components/cmdline'
 import Editor from 'components/editor'
 import Scene from 'components/scene'
 import AppBar from 'components/appbar'
-import Batch from 'components/batch'
 import Settings from "components/settings"
 import Layer from 'components/layer'
 import Message from 'components/message'
+
+import Batch from 'components/batch'
+import Export from 'components/export'
 
 // Modals
 //
 const modals = `
 <batch id="batch"></batch>
+<export id="export"></export>
 <settings id="settings"></settings>
 `
 
@@ -97,6 +100,7 @@ export default {
         Scene,
         AppBar,
         Batch,
+        Export,
         Settings,
         Layer,
         Message
