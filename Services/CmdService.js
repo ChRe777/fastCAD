@@ -200,7 +200,7 @@ function doCmdMirror(args) {
 //
 function doCmdMessage(args) {
     let text = argFns.asString(args, 1)
-    api.newMessage(text)
+    api.createMessage(text)
 }
 
 const cmds = {

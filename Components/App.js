@@ -37,12 +37,13 @@ const template = `
 <div id="box"><box></box></div>
 <div id="rulerHorz"><ruler type="horizontal"></ruler></div>
 <div id="rulerVert"><ruler type="vertical"></ruler></div>
-<div id="scene"><scene></scene><message></message></div>
+<div id="scene"><scene></scene></div>
 <div id="cmdLine"><cmd-line></cmd-line></div>
 <div id="editor"><editor></editor></div>
 <div id="appbar"><app-bar></app-bar></div>
 <div id="layer"><layer></layer></div>
 <div id="customTooltip"></div>
+<div id="message"><message></message></div>
 `
 
 // Data

@@ -14,7 +14,7 @@ import Toast from 'parts/toast'
 // Template
 //
 const template = `
-<div class="toast-container p-2 bottom-0 start-0">
+<div class="toast-container p-3 top-50 start-50 translate-middle">
     <toast v-for="(message, index) in messages" :text="message" :id="index" />
 </div>
 `

@@ -3,12 +3,12 @@
 // Imports
 //
 import { useEditorStore } from 'stores/editor'
-import { renderGroups } from './AttributeTypes2.js'
+import { renderGroups } from 'editors/types'
 
 // Attributes for Template
 //
 let attributeGroups = {
-    title: 'Polyline Editor',
+    title: 'Polygon Editor',
     groups: [
         [
             { name: 'points', title: 'points', type: 'text' }

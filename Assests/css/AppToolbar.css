@@ -9,7 +9,7 @@
 /*scope*/
 #appbar {
     position: absolute;
-    z-index: 55;
+    z-index: 2;
     top: calc(var(--toolbar-gap) + var(--ruler-height));
     left: calc(var(--toolbar-gap) + var(--ruler-height));
     width: 79px;
@@ -18,5 +18,3 @@
     overflow: scroll;
     border: var(--debug-border);
 }
-
-

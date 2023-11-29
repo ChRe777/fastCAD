@@ -14,7 +14,7 @@ function getCarret(layer, level) {
     let i = `ps-${level * 2} `
     if (api.isLayerOpen(layer)) {
         return i + 'bi bi-caret-down-fill'
-    } 
+    }
     return i + 'bi bi-caret-right-fill'
 }
 
@@ -39,7 +39,6 @@ export default {
     },
     computed: {
         iconClass() {
-            console.log("layerId:", this.id)
             const layer = api.getLayerById(this.id)
             if (api.hasLayerChilds(layer, this.level)) {
                 return getCarret(layer)

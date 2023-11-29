@@ -1,16 +1,22 @@
-// common.js
+// layer.js
 
-// 
-// see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/Presentation
-
+import { useStore } from 'stores/store'
 import { useEditorStore } from 'stores/editor'
-import { renderGroups } from './AttributeTypes2.js'
+import { useSettingsStore } from 'stores/settings'
 
-// Attributes for Template
+import { renderGroups } from 'editors/types'
+
+// Template
 //
 let attributeGroups = {
-    title: 'Common Editor',
+    title: 'Layer Editor',
     groups: [
+        [
+            { name: 'name', title: 'name', type: 'text' }
+        ],
+        [
+            { name: 'description', title: 'desc', type: 'text' }
+        ],
         [
             { name: 'fill', title: 'fill', type: 'color' },
             { name: 'fill-opacity', title: 'op', type: 'opacity' }
@@ -20,44 +26,36 @@ let attributeGroups = {
             { name: 'stroke-opacity', title: 'op', type: 'opacity' }
         ],
         [
-
             { name: 'stroke-dasharray', title: 'dash', type: 'text' },
             { name: 'stroke-width', title: 'width', type: 'number' }
         ]
+
     ]
 }
 
-// Template
-//
 const template = renderGroups(attributeGroups)
-
 
 // Data
 //
 function data() {
+    let settingsStore = useSettingsStore()
+
     return {
-        store: useEditorStore(),
-        labelWidth: 50
+        store: useStore(),
+        editorStore: useEditorStore(),
+        labelWidth: 45,
+        fonts: settingsStore.fonts
     }
 }
 
-// Components
+// Component
 //
 export default {
     data,
     template,
-    /*   methods: {
-           updateAttributes() {
-               this.store.updateAttributes()
-           },
-           handleEnterKeyPress() {
-               this.updateAttributes()
-           },
-       },
-   */
     computed: {
         editingAttributes() {
-            return this.store.editingAttributes
+            return this.editorStore.layerEditingAttributes
         }
     }
 }

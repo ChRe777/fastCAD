@@ -1,23 +1,20 @@
-// line.js
-
+// polyline.js
 
 // Imports
 //
 import { useEditorStore } from 'stores/editor'
-import { renderGroups } from './AttributeTypes2.js'
+import { renderGroups } from 'editors/types'
 
 // Attributes for Template
 //
 let attributeGroups = {
-    title: 'Line Editor',
+    title: 'Polyline Editor',
     groups: [
         [
-            { name: 'x1', title: 'x1', type: 'number' },
-            { name: 'y1', title: 'y1', type: 'number' }
+            { name: 'points', title: 'points', type: 'text' }
         ],
         [
-            { name: 'x2', title: 'x2', type: 'number' },
-            { name: 'y2', title: 'y2', type: 'number' }
+            { name: 'pathLength', title: 'plen', type: 'number' }
         ]
     ]
 }

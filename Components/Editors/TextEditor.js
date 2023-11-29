@@ -2,7 +2,7 @@
 
 import { useEditorStore } from 'stores/editor'
 import { useSettingsStore } from 'stores/settings'
-import { renderGroups } from './AttributeTypes2.js'
+import { renderGroups } from 'editors/types'
 
 // Template
 //
