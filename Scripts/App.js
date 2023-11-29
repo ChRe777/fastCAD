@@ -30,7 +30,6 @@ import { useStore } from 'stores/store'
 import { useViewStore } from 'stores/view'
 import { useCmdStore } from 'stores/cmd'
 
-
 // Get stores
 //
 const store = useStore()
@@ -39,14 +38,6 @@ const cmdStore = useCmdStore()
 
 // Init store watches
 //
-watch(
-    store,
-    (state) => {
-        // persist the whole state to the local storage whenever it changes
-        localStorage.setItem('storeState', JSON.stringify(state))
-    },
-    { deep: true }
-)
 
 // Store full state
 //
@@ -58,6 +49,18 @@ watch(
     },
     { deep: true }
 )
+
+// Store App state
+watch(
+    store,
+    (state) => {
+        // persist the whole state to the local storage whenever it changes
+        localStorage.setItem('storeState', JSON.stringify(state))
+    },
+    { deep: true }
+)
+
+
 
 // View store
 //

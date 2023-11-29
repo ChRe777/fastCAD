@@ -1,6 +1,9 @@
 // IORestService.js
 //
 
+const loadURL = 'http://localhost:9000/v2/load/'
+const saveURL = 'http://localhost:8000/v2/save/'
+
 function makeOptions(data, name) {
 
     const json = {
@@ -26,7 +29,7 @@ function makeOptions(data, name) {
 function save(data, name, onSuccessFn) {
 
     const options = makeOptions(data, name)
-    const url = 'http://localhost:8000/v2/save/'
+    const url = saveURL
 
     fetch(url, options)
         .then(response => {
@@ -49,7 +52,7 @@ function save(data, name, onSuccessFn) {
 //
 function load(name, onSuccessFn) {
 
-    const url = 'http://localhost:8000/v2/load/'; // Replace with your API endpoint
+    const url = loadURL
     const json = {
         'cmd': 'load_data',
         'data': {},

@@ -1,0 +1,11 @@
+###
+GET http://0.0.0.0:8000/
+
+###
+GET http://0.0.0.0:8000/Assests/Image/svg.svg
+
+###
+GET http://0.0.0.0:8000/Scripts/App.js
+
+###
+GET http://0.0.0.0:8000/Assests/Image/favicon.ico

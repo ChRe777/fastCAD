@@ -7,6 +7,10 @@
         <meta http-equiv='expires' content='0'>
         <meta http-equiv='pragma' content='no-cache'>
 
+        <title>FastCAD</title>
+        <!-- see https://www.leereamsnyder.com/favicons-in-2021 -->
+        <link rel="icon" type="image/x-icon" href="./Assests/Image/favicon.ico">
+        <!--link rel="mask-icon" href="./Assests/Image/favicon.ico" color="rgb(75, 154,231)"-->
 
         <!-- LIBRARIES ES6 -->
         <script type="importmap">
@@ -63,11 +67,16 @@
                 "stores/settings"       : "./Stores/SettingsStore2.js",
 
                 "services/io"           : "./Services/IOService2.js",
+                "services/io-local"     : "./Services/IOLocalStorageService2.js",
+                "services/io-rest"      : "./Services/IORestStorageService2.js",
+
                 "services/api"          : "./Services/Api2.js",
                 "services/cmds"         : "./Services/CmdService2.js",
+                "services/interpreter"  : "./Services/CmdInterpreter2.js",
+
                 "services/utils"        : "./Services/UtilsFunctions2.js",
-                "services/defaults"     : "./Services/Defaults2.js",
-                "services/interpreter"  : "./Services/CmdInterpreter2.js"
+                "services/defaults"     : "./Services/Defaults2.js"
+                
             }
         }
         </script>
@@ -93,7 +102,7 @@
 
     <body id="body">
         <div id="app" />
-        <script src="./App.js" type="module"></script>
+        <script src="./Scripts/App.js" type="module"></script>
     </body>
 
 </html>

@@ -162,6 +162,15 @@ if (getOS() === 'Windows') {
     fonts_platform = windows10_fonts
 }
 
+const StorageTypes = {
+    "LocalStorage": {
+        Service: "IOLocalStorageService"
+    },
+    "RestStorage": {
+        Service: "IORestStorageService"
+    }
+}
+
 // Store 'settings'
 //
 export const useSettingsStore = defineStore('settingsStore', {
@@ -170,6 +179,7 @@ export const useSettingsStore = defineStore('settingsStore', {
     //
     state: () => ({
         text: "Settings",
-        fonts: fonts_platform
+        fonts: fonts_platform,
+        storage: "LocalStorage" // LocalStorage | RestStorage
     }),
 })
