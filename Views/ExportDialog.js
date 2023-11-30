@@ -3,6 +3,7 @@
 // Import
 //
 import { useStore } from 'stores/store'
+import api from 'services/api'
 
 // SVG Icons see https://www.svgrepo.com/
 
@@ -19,7 +20,7 @@ const body = `
             <div class="card-body">
                 <h5 class="card-title">SVG</h5>
                 <p class="card-text">Exports the scene in SVG Format so you can use anywhere.</p>
-                <a href="#" class="btn btn-primary">Export as SVG</a>
+                <a :href="hrefSVG" :download="downloadSVG" class="btn btn-primary">Export as SVG</a>
             </div>
         </div>
 
@@ -30,7 +31,7 @@ const body = `
             <div class="card-body">
                 <h5 class="card-title">JSON</h5>
                 <p class="card-text">Export the scene as JSON Format so you can Import it again.</p>
-                <a href="#" class="btn btn-primary">Export as JSON</a>
+                <a :href="hrefJSON" :download="downloadJSON" class="btn btn-primary">Export as JSON</a>
             </div>
         </div>
 
@@ -56,7 +57,21 @@ const template = `
 </div>
 `
 
+// prepareExportJSON
+//
+function prepareExportJSON() {
+    const blob = api.getBlobJSON()
+    this.hrefJSON = window.URL.createObjectURL(blob)
+    this.downloadJSON = "scene.json" // TODO: Name of Project
+}
 
+// prepareExportSVG
+//
+function prepareExportSVG() {
+    const blob = api.getBlobSVG()
+    this.hrefSVG = window.URL.createObjectURL(blob)
+    this.downloadSVG = "scene.svg" // TODO: Name of Project
+}
 
 
 // Data
@@ -64,7 +79,13 @@ const template = `
 function data() {
     return {
         store: useStore(),
-        modal: null
+        modal: null,
+        // SVG
+        hrefSVG: "",
+        downloadSVG: "",
+        // JSON
+        hrefJSON: "",
+        downloadJSON: ""
     }
 }
 
@@ -76,9 +97,13 @@ export default {
     watch: {
         'store.showExport'() {
             this.modal.show()
+            this.prepareExportSVG()
+            this.prepareExportJSON()
         }
     },
     methods: {
+        prepareExportSVG,
+        prepareExportJSON
     },
     mounted() {
         this.modal = new bootstrap.Modal(this.$refs['export-modal'], {

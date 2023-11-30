@@ -6,9 +6,6 @@
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
 import { interpret } from 'services/interpreter'
-//
-import Batch from 'components/batch'
-
 
 // Template
 //
@@ -111,9 +108,6 @@ function data() {
 export default {
     data,
     template,
-    components: {
-        Batch
-    },
     watch: {
         text: onText
     },

@@ -16,12 +16,12 @@ import CmdLine from 'components/cmdline'
 import Editor from 'components/editor'
 import Scene from 'components/scene'
 import AppBar from 'components/appbar'
-import Settings from "components/settings"
 import Layer from 'components/layer'
 import Message from 'components/message'
 
-import Batch from 'components/batch'
-import Export from 'components/export'
+import Settings from 'views/settings'
+import Batch from 'views/batch'
+import Export from 'views/export'
 
 // Modals
 //

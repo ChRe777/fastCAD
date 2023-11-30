@@ -1,90 +1,362 @@
 {
+    "currentLayerId": "layer0",
     "layers": [
         {
+            "type": "layer",
+            "style": "visibility:visible",
             "id": "layer0",
-            "fill": "yellow",
-            "stroke": "yellow",
+            "name": "group default",
+            "description": "Default layer 0 description long",
+            "fill": "#ffffff",
+            "stroke": "#ffffff",
             "stroke-width": "2",
-            "stroke-opacity": "0.5",
-            "style": "visibility: visible",
+            "stroke-opacity": "1.0",
             "elements": [
                 {
-                    "id": "1",
                     "type": "circle",
+                    "id": "circle-NlwqaSQuTI",
                     "cx": 0,
-                    "cy": 0,
+                    "cy": "50",
                     "r": 50,
-                    "fill": "#0000ff"
+                    "fill": "#00f900",
+                    "stroke": "#00f900",
+                    "stroke-width": 17,
+                    "stroke-dasharray": "7,7",
+                    "fill-opacity": "0.5",
+                    "stroke-opacity": 0.3
                 },
                 {
-                    "id": "2",
+                    "type": "circle",
+                    "id": "circle-GhcrzWUpIp",
+                    "cx": "-50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#831100",
+                    "stroke": "#ff6251",
+                    "stroke-width": 3,
+                    "fill-opacity": "0.5",
+                    "stroke-dasharray": "5,5"
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-zSL8FF4N6V",
+                    "cx": "50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#fffb00",
+                    "stroke": "#ffffff",
+                    "stroke-width": 10,
+                    "fill-opacity": 0.9,
+                    "stroke-dasharray": "5,5",
+                    "stroke-opacity": 0.7
+                },
+                {
                     "type": "line",
+                    "id": "line-XHOwjee2Le",
+                    "x1": "0",
+                    "y1": "100",
+                    "x2": "0",
+                    "y2": "200",
+                    "stroke": "#7a4a00",
+                    "stroke-width": "10",
+                    "stroke-dasharray": "5,2"
+                },
+                {
+                    "type": "line",
+                    "id": "line-KQIhcgRvRi",
                     "x1": -50,
+                    "y1": "200",
+                    "x2": 50,
+                    "y2": "200",
+                    "stroke": "#0061ff",
+                    "stroke-width": "5",
+                    "stroke-dasharray": "",
+                    "stroke-opacity": 0.85
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-HCQmdGcdiN",
+                    "cx": -300,
+                    "cy": 200,
+                    "r": 46,
+                    "fill": "#ff6251",
+                    "stroke": "#ffa57d",
+                    "stroke-width": 47,
+                    "stroke-dasharray": "7,5",
+                    "pathLength": 9
+                },
+                {
+                    "type": "line",
+                    "id": "line-DFSJUROzHC",
+                    "x1": 0,
                     "y1": 0,
                     "x2": 50,
                     "y2": 0,
-                    "stroke": "#00ff00",
+                    "stroke": "#ffffff",
                     "stroke-width": 2
                 },
                 {
-                    "id": "3",
-                    "type": "text",
-                    "x": 0,
-                    "y": 0,
-                    "font-size": 27,
-                    "fill": "#ffffff",
-                    "text": "Layer 0"
+                    "type": "line",
+                    "id": "line-IWvSLdD7g5",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 43.30127018922194,
+                    "y2": 24.999999999999996,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
                 },
                 {
-                    "id": "4",
-                    "type": "path",
-                    "d": "M50 50 L100 50 L75 100 Z",
-                    "fill": "#0f0f0f"
+                    "type": "line",
+                    "id": "line-Gr3nhnLtXL",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 25.000000000000007,
+                    "y2": 43.30127018922193,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-cBEMcM1JtP",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3.061616997868383e-15,
+                    "y2": 50,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-oims422CkY",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -24.999999999999993,
+                    "y2": 43.30127018922194,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-smaEGWNs32",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -43.30127018922194,
+                    "y2": 24.999999999999996,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-gcXWa8QBpJ",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -50,
+                    "y2": 6.123233995736766e-15,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-cnf1LSAFMJ",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -43.30127018922194,
+                    "y2": -24.99999999999999,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-em1IV8bw79",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -25.00000000000002,
+                    "y2": -43.30127018922192,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-Tcq55mQLqb",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": -9.184850993605149e-15,
+                    "y2": -50,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-CbSLt9afum",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 25.000000000000007,
+                    "y2": -43.30127018922193,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
+                    "type": "line",
+                    "id": "line-x3V3J9f5OS",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 43.30127018922192,
+                    "y2": -25.00000000000002,
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                }
+            ],
+            "layers-open": true,
+            "layers": [
+                {
+                    "type": "layer",
+                    "style": "visibility:visible",
+                    "id": "layer0.1",
+                    "name": "group sun",
+                    "description": "Layer 0.1",
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": "2",
+                    "stroke-opacity": "1.0",
+                    "elements": [
+                        {
+                            "type": "circle",
+                            "id": "circle-CiwqaSQuTI",
+                            "cx": 0,
+                            "cy": -200,
+                            "r": 25,
+                            "fill": "#00f900",
+                            "stroke": "#00f900",
+                            "stroke-width": 17,
+                            "stroke-dasharray": "7,7",
+                            "fill-opacity": "0.5",
+                            "stroke-opacity": 0.3
+                        },
+                        {
+                            "type": "circle",
+                            "id": "circle-PXNFX3W5HK",
+                            "cx": -200,
+                            "cy": -34,
+                            "r": "10",
+                            "fill": "#f5ec00",
+                            "stroke": "#f5ec00",
+                            "stroke-width": 22,
+                            "stroke-dasharray": "1,1"
+                        }
+                    ]
                 }
             ]
         },
         {
+            "type": "layer",
+            "style": "visibility:visible",
             "id": "layer1",
+            "name": "group text",
+            "description": "Text layer description long",
             "fill": "#ffffff",
-            "stroke": "#00ff00",
-            "stroke-width": "4",
-            "style": "visibility: visible",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
             "elements": [
                 {
-                    "id": "11",
-                    "type": "circle",
-                    "cx": 0,
-                    "cy": 50,
-                    "r": 30,
-                    "fill": "#0000ff"
-                },
-                {
-                    "id": "12",
-                    "type": "line",
-                    "x1": 0,
-                    "y1": 50,
-                    "x2": 100,
-                    "y2": 100,
-                    "stroke": "#00ff00",
-                    "stroke-width": 2
-                },
-                {
-                    "id": "13",
                     "type": "text",
-                    "x": 0,
-                    "y": 150,
-                    "font-size": 16,
-                    "fill": "#000000",
-                    "text": "Layer 2"
+                    "id": "text-Grtl3Tj5dL",
+                    "x": "-120",
+                    "y": -80,
+                    "text": "I like SVG CAD!",
+                    "font-family": "Chalkduster",
+                    "font-size": "30px",
+                    "fill": "#ffffff",
+                    "stroke": "#ebebeb",
+                    "stroke-width": "1",
+                    "textLength": "250",
+                    "fill-opacity": 0.3,
+                    "rotate": "5deg"
                 },
                 {
-                    "id": "14",
-                    "type": "path",
-                    "d": "M0 100 L100 50 L75 100 Z",
-                    "fill": "#0f0f0f"
+                    "type": "text",
+                    "id": "text-yuCX9NvHd5",
+                    "x": -90,
+                    "y": 241,
+                    "text": "I love SVG! ",
+                    "font-family": "Chalkduster",
+                    "font-size": "25px",
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "fill-opacity": 0.5,
+                    "stroke-opacity": 0.3,
+                    "rotate": "10",
+                    "textLength": 180
                 }
-            ]
+            ],
+            "layers-open": false,
+            "layers": []
+        },
+        {
+            "type": "layer",
+            "style": "visibility:visible",
+            "id": "layer2",
+            "name": "group img",
+            "description": "Image layer description long",
+            "fill": "#ffffff",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "image",
+                    "id": "image-Grtl3Tj5d5",
+                    "x": "-300",
+                    "y": "-50",
+                    "width": "100px",
+                    "height": "100px",
+                    "href": "https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png"
+                }
+            ],
+            "layers-open": false,
+            "layers": []
+        },
+        {
+            "type": "layer",
+            "style": "visibility:visible",
+            "id": "layer3",
+            "name": "group poly..",
+            "description": "Polyline layer description long",
+            "fill": "#00ff00",
+            "stroke": "#ffffff",
+            "stroke-width": "2",
+            "stroke-opacity": "1.0",
+            "elements": [
+                {
+                    "type": "polyline",
+                    "id": "polyline-Pltl3Tj575",
+                    "points": "200,-150 200,-50 300,-50 300,-150",
+                    "fill-opacity": 0,
+                    "stroke-dasharray": "5",
+                    "pathLength": 105
+                },
+                {
+                    "type": "polygon",
+                    "id": "polygon-Pgtl3Tj575",
+                    "points": "200,150 200,250 300,250 300,150 200,150",
+                    "fill": "#fffb00",
+                    "stroke": "#fff76b",
+                    "fill-opacity": 0.5,
+                    "stroke-dasharray": "5"
+                },
+                {
+                    "type": "path",
+                    "id": "path-Pathl3Tj575",
+                    "d": "M 225 0 h 50 v 50 h -50 v 50 h 50",
+                    "fill-opacity": 0,
+                    "stroke-dasharray": "5",
+                    "stroke-width": 5,
+                    "pathLength": 105
+                }
+            ],
+            "layers-open": false,
+            "layers": []
         }
-    ],
-    "activeLayer": "layer0"
+    ]
 }
