@@ -54,7 +54,7 @@ function onEnter() {
 
 function onTab() {
     let suggestion = getSuggestion(this.text)
-    // Move forward to first parameter
+    // Moves forward to first parameter
     this.text = suggestion.split("{")[0]
 }
 

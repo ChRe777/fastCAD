@@ -3,14 +3,14 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
 
 // Functions
 //
 function interpret(str) {
 
     console.log(`interpret -> ${str}`)
-    
+
     // Remove whitespaces
     //
     str = str.trim();

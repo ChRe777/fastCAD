@@ -1,0 +1,26 @@
+// ModifyMirror.js
+
+// Imports 
+//
+
+// Functions
+//
+function mirror(element, type, axis, value) {
+
+    let attrsMirrored = {}
+
+    // line 
+    //
+    if (type === 'line') {
+        if (axis === 'y') {
+            attrsMirrored['x1'] = ((parseFloat(element['x1']) - value) * -1.0) + value
+            attrsMirrored['x2'] = ((parseFloat(element['x2']) - value) * -1.0) + value
+        }
+        if (axis === 'x') {
+            attrsMirrored['y1'] = ((parseFloat(element['y1']) - value) * -1.0) + value
+            attrsMirrored['y2'] = ((parseFloat(element['y2']) - value) * -1.0) + value
+        }
+    }
+
+    api.modify(element, type, attrsMirrored)
+}

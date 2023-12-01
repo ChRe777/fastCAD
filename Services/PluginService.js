@@ -2,7 +2,9 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
+
+// TODO: the API should use the SERVICE not other around
 
 // cmdPluginType
 

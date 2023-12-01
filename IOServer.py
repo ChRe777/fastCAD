@@ -20,6 +20,7 @@ app = FastAPI()
 
 #  THIS ADDRESS ARE ALLOWED TO USE the IO-Server
 origins = [
+    "http://localhost:8000",  # APP-Server allowed
     "http://127.0.0.1:8000",  # APP-Server allowed
     "http://127.0.0.1:5500",  # Live Server / Browser
     "null",

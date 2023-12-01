@@ -13,6 +13,11 @@ const attrText = `
 <input type="text" class="form-control text-truncate" id="{{name}}" v-model="editingAttributes['{{name}}']" />
 `
 
+const attrLongText = `
+<span id="{{name}}-label" class="input-group-text" for="{{name}}" :style="{ width: labelWidth + 'px' }">{{title}}</span>
+<textarea id="{{name}}" class="form-control" v-model="editingAttributes['{{name}}']"></textarea>
+`
+
 // see https://vuejs.org/guide/essentials/forms.html#number
 
 const attrNumber = `
@@ -56,6 +61,7 @@ const editorTemplate = `
 
 const typeTemplates = {
     'text': attrText, // 'a text' 
+    'long-text': attrLongText, // 'a long text' 
     'number': attrNumber, // eg. 100, 123.4 - https://developer.mozilla.org/en-US/docs/Web/SVG/Content_type#number
     'font': attrFont, // e.g. Arial, San serif ...
     'url': attrText, // e.g. http://img.com/img.png - https://developer.mozilla.org/en-US/docs/Web/SVG/Content_type#url

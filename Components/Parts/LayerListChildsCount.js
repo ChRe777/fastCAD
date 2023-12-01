@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
 
 // Template
 //
@@ -23,8 +23,8 @@ function badgeClass() {
 }
 
 function childsCount() {
-    const layer = api.getLayerById(this.id)
-    return api.numLayerChilds(layer)
+    const layer = api.layer.getById(this.id)
+    return api.layer.numChilds(layer)
 }
 
 // Component

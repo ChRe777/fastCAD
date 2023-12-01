@@ -5,7 +5,7 @@
 import { useStore } from 'stores/store';
 import { useViewStore } from 'stores/view';
 
-import api from 'services/api'
+import api from 'api/api'
 
 
 // Template
@@ -138,7 +138,7 @@ function trySelect(self, element, crossMode) {
 
     let insideOrIntersect = fn(elementRect, selectionRect)
     if (insideOrIntersect) {
-        api.select(element)
+        api.selection.select(element)
     } else {
         //api.deselect(element)
     }

@@ -19,6 +19,8 @@ import AppBar from 'components/appbar'
 import Layer from 'components/layer'
 import Message from 'components/message'
 
+// Modals
+//
 import Settings from 'views/settings'
 import Batch from 'views/batch'
 import Export from 'views/export'

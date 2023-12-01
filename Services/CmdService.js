@@ -4,7 +4,7 @@
 // Imports
 //
 
-import api from 'services/api'
+import api from 'api/api'
 
 import { defaults } from 'services/defaults'
 import { argFns } from 'services/utils'
@@ -39,14 +39,14 @@ function doCmdClear() {
 //
 function doCmdSave(args) {
     let name = argFns.asString(args, 1)
-    api.saveScene(name)
+    api.scene.Scene(name)
 }
 
 // load
 //
 function doCmdLoad(args) {
     let name = argFns.asString(args, 1)
-    api.loadScene(name)
+    api.scene.load(name)
 }
 
 // move @10,0 or move 10,10
@@ -122,6 +122,34 @@ function doCmdText(args) {
     api.createText(p, relative, text)
 }
 
+
+function doCmdPath(args) {
+
+    // TODO: path "0,0 h 10 v 10"
+    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    //let text = argFns.asString(args, 2) || "text"
+
+    api.createPath()
+}
+
+function doCmdPolyline(args) {
+
+    // TODO: polyline "0,0 0,10 10,10 10,0"
+    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    //let text = argFns.asString(args, 2) || "text"
+
+    api.createPolyline()
+}
+
+function doCmdPolygon(args) {
+
+    // TODO: polygon "0,0 0,10 10,10 10,0 "
+    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    //let text = argFns.asString(args, 2) || "text"
+
+    api.createPolygon()
+}
+
 // layer
 //
 function doCmdLayer(args) {
@@ -142,7 +170,7 @@ function doCmdDelete(args) {
 // deselect
 //
 function doCmdDeselect(args) {
-    api.deselectAll()
+    api.selection.clear()
 }
 
 // batch
@@ -311,6 +339,33 @@ export function init() {
         shortCuts: [],
         hotKeys: undefined,
         action: doCmdText,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'path',
+        suggestion: 'path {string}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdPath,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'polyline',
+        suggestion: 'polyline {string}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdPolyline,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'polygon',
+        suggestion: 'polygon {string}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdPolygon,
     })
 
     cmdStore.registerCmd({

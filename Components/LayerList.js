@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
 //
 import { useStore } from 'stores/store'
 
@@ -18,11 +18,17 @@ const template = `
 <ul class="list-group rounded-1 bg-primary text-white">
 
     <li :id="layer.id" 
+        
         :class="layerClass(layer)" 
+        style="padding-left: 8px !important; padding-right: 8px !important;"
+        
         @click.prevent.stop="setCurrent(layer)"
+
         @mouseover="hover[layer.id] = true"
         @mouseleave="hover[layer.id] = false"
-        v-for="layer in layers">
+
+        v-for="layer in layers"
+    >
 
         <span class="text-truncate" style="max-width: 120px;">
             <layer-list-toggler :id="layer.id" :active="isCurrent(layer)" :level="level(layer)" />
@@ -94,13 +100,13 @@ export default {
             return this.levels[layer.id]
         },
         isCurrent(layer) {
-            return api.isCurrentLayer(layer)
+            return api.layer.isCurrent(layer)
         },
         isVisible(layer) {
             return (layer.style.indexOf('visible') >= 0)
         },
         setCurrent(layer) {
-            api.setCurrentLayer(layer)
+            api.layer.setCurrent(layer)
         }
     }
 }

@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
 
 // Template
 //
@@ -39,8 +39,8 @@ export default {
     },
     computed: {
         iconClass() {
-            const layer = api.getLayerById(this.id)
-            if (api.hasLayerChilds(layer, this.level)) {
+            const layer = api.layer.getById(this.id)
+            if (api.layer.hasChilds(layer, this.level)) {
                 return getCarret(layer)
             } else {
                 return getCarretNoChilds(this.level)

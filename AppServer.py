@@ -26,7 +26,7 @@ app.add_middleware(
 
 # Constants
 #
-index_html = "./App.html"
+index_html = "./index.html"
 
 # Mount for static files
 #
@@ -35,6 +35,8 @@ app.mount("/Services", StaticFiles(directory="Services"), name="Services")
 app.mount("/Assests", StaticFiles(directory="Assests"), name="Assests")
 app.mount("/Stores", StaticFiles(directory="Stores"), name="Stores")
 app.mount("/Scripts", StaticFiles(directory="Scripts"), name="Scripts")
+app.mount("/Views", StaticFiles(directory="Views"), name="Views")
+app.mount("/API", StaticFiles(directory="API"), name="API")
 
 
 # Define a route that handles POST requests

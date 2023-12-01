@@ -3,7 +3,7 @@
 // Import
 //
 import { useStore } from 'stores/store'
-import api from 'services/api'
+import api from 'api/api'
 
 // SVG Icons see https://www.svgrepo.com/
 

@@ -8,6 +8,17 @@ import { useStore } from 'stores/store'
 //
 
 const form = `
+
+<h5>Notes</h5>
+<ul>
+  <li>Backgound-Color/Checker</li>
+  <li>Grids</li>
+  <li>Guides</li>
+  <li>Defaults/Font..</li>
+  <li>AutoSave every 10 changes or 60 seconds</li>
+</ul>
+
+
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">@</span>
   <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">

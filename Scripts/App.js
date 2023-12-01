@@ -88,7 +88,7 @@ watch(
 
 
 // Load Scene 
-// TODO: Load last file
+// TODO: Load last file - cmd.InvokeByName
 //
 const cmdName = 'load'
 const args = [cmdName, 'scene.json']

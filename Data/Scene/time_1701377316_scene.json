@@ -9,7 +9,7 @@
             "description": "Default layer 0 description long",
             "fill": "#ffffff",
             "stroke": "#ffffff",
-            "stroke-width": 6,
+            "stroke-width": "2",
             "stroke-opacity": "1.0",
             "elements": [
                 {
@@ -223,8 +223,7 @@
                     "fill": "#fffb00",
                     "stroke": "#fff76b",
                     "fill-opacity": 0.5,
-                    "stroke-dasharray": "5",
-                    "stroke-width": 20
+                    "stroke-dasharray": "5"
                 },
                 {
                     "type": "path",

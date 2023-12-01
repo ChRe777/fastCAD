@@ -2,18 +2,18 @@
 
 // Imports
 //
-import api from 'services/api'
+import api from 'api/api'
 
 const style = {
-    "bg" : "bg-dark-75 rounded",
+    "bg": "bg-dark-75 rounded",
     "border": "border border-0",
-    "text" : "text-white",
-    "size" : "77px"
+    "text": "text-white",
+    "size": "77px"
 }
 
 // Template
 //
-const template =`
+const template = `
 <div class="${style.bg} ${style.padding} ${style.border} ${style.text}" 
     style="width: ${style.size}; height: ${style.size}; 
            background: rgb(51,51,51); 

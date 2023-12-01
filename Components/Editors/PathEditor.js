@@ -11,7 +11,7 @@ let attributeGroups = {
     title: 'Path Editor',
     groups: [
         [
-            { name: 'd', title: 'd', type: 'text' }
+            { name: 'd', title: 'd', type: 'long-text' }
         ],
         [
             { name: 'pathLength', title: 'plen', type: 'number' }

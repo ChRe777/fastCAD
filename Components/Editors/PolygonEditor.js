@@ -11,7 +11,7 @@ let attributeGroups = {
     title: 'Polygon Editor',
     groups: [
         [
-            { name: 'points', title: 'points', type: 'text' }
+            { name: 'points', title: 'pts', type: 'long-text' }
         ],
         [
             { name: 'pathLength', title: 'plen', type: 'number' }

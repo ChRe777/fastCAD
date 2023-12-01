@@ -5,10 +5,10 @@
 //
 import { useStore } from 'stores/store'
 import { useViewStore } from 'stores/view'
-import { useSelectionStore } from 'stores/selection'
+//import { useSelectionStore } from 'stores/selection'
 import { svgTypesVue, renderLayerAttributes } from 'components/types'
 
-import api from 'services/api'
+import api from 'api/api'
 import selectionFrame from 'components/selection';
 
 
@@ -41,7 +41,7 @@ const template = `
 function data() {
     return {
         store: useStore(),
-        selectionStore: useSelectionStore(),
+        //selectionStore: useSelectionStore(),
         viewStore: useViewStore(),
         //
         isShiftPressed: false
@@ -76,8 +76,10 @@ function createDragger(self) {
             return
         }
 
+        // TODO: USE VIEW API
         let zoomFactor = self.viewStore.zoomFactor
 
+        // TODO: USE VIEW API
         scrollX -= (e.deltaX / zoomFactor)
         self.viewStore.scrollX = scrollX
 
@@ -102,10 +104,10 @@ function createResizeObserver(self) {
 }
 
 function selectElement(element) {
-    if (api.isSelected(element)) {
-        api.deselect(element)
+    if (api.selection.isSelected(element)) {
+        api.selection.deselect(element)
     } else {
-        api.select(element)
+        api.selection.select(element)
     }
 }
 
@@ -117,6 +119,7 @@ function mounted() {
 }
 
 function viewBox() {
+    // TODO: USE VIEW API
     let [x, y, w, h] = this.viewStore.viewBox
     return `${x} ${y} ${w} ${h}`
 }
@@ -132,7 +135,7 @@ export default {
     methods: {
         selectElement,
         isSelected(element) {
-            return api.isSelected(element)
+            return api.selection.isSelected(element)
         }
     },
     components: {
