@@ -37,6 +37,7 @@ app.mount("/Stores", StaticFiles(directory="Stores"), name="Stores")
 app.mount("/Scripts", StaticFiles(directory="Scripts"), name="Scripts")
 app.mount("/Views", StaticFiles(directory="Views"), name="Views")
 app.mount("/API", StaticFiles(directory="API"), name="API")
+app.mount("/Tests", StaticFiles(directory="Tests"), name="Tests")
 
 
 # Define a route that handles POST requests

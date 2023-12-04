@@ -17,85 +17,62 @@
 
 // Stores are the models
 //
-import { useStore } from 'stores/store'
-
-
-// get Element by Id
-//
-
-
-// API
-//
-const api = {
-    //create,
-    //destroy,
-    //modify,
-    //
-    //mirror,
-    //
-    /*
-    select,
-    deselect,
-    deselectAll,
-    isSelected,
-    */
-    //
-    //getElementById,
-    //
-    /*  createLayer,
-        setCurrentLayer,
-        getCurrentLayer,
-        isCurrentLayer,
-        getLayerById,
-        getLayerByName,
-        hasLayerChilds,
-        numLayerChilds,
-        isLayerOpen,
-        toogleLayerOpen,
-    */
-    //
-    /*
-    newScene,
-    saveScene,
-    loadScene,
-    */
-    //
-    // TODO: Refactor
-    //
-    //destroySelected,
-    //copySelected,
-    //mirrorSelected,
-    //modifySelected,
-    //moveSelected,
-    //
-    //
-    /*
-    viewZoomIn,
-    viewZoomOut,
-    */
-    //
-    //createMessage,
-    //
-    //
-    //invokeCmdByName,
-    //
-    //getBlobJSON,
-    //getBlobSVG
-}
 
 // see Re-exporting / Aggregating
 // https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export
 
 import cmd from 'api/cmd'
+import create from 'api/create'
+import destroy from 'api/destroy'
 import layer from 'api/layer'
 import message from 'api/message'
+import modify from 'api/modify'
 import scene from 'api/scene'
 import selection from 'api/selection'
+import view from 'api/view'
 
 export default {
     cmd,
+    create,
+    destroy,
     layer,
     message,
+    modify,
     scene,
-    selection
+    selection,
+    view
 };
+
+// copy {id}
+// copy [selected]
+
+/*
+api
+    create
+        circle
+        text
+        path
+        ...
+        copy
+    destroy
+        element
+        selected
+    cmd
+        invokeByName(execute)
+    scene
+        load
+        save
+        (getElementById)
+    layer
+        getById
+        isOpen
+        isVisible
+    message
+        create
+    selection
+        select
+        deselect
+    view
+        zoomIn
+        zoomOut
+*/

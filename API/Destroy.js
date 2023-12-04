@@ -1,20 +1,20 @@
 // Destroy.js
 
 // Imports
-
+import { useStore } from 'stores/store'
+import selection from 'api/selection'
+import layers from 'api/layer'
 
 // Functions
 //
 
-// destroy('line-1')
-//
-function destroy(element, type, attrs) {
+function element(element, type, attrs) {
 
     const store = useStore()
 
     // Remove from all layers
     //
-    store.scene.layers.map((layer) => removeFromLayer_(layer, element))
+    layers.forEach(layer => layers.removeElement(layer, element))
 
     // if destroyed was last element
     //
@@ -25,15 +25,22 @@ function destroy(element, type, attrs) {
     }
 }
 
-function destroySelected() {
+function selected() {
 
     // Remove from layers
     //
-    selections.forEach(selectedElement => {
-        destroy(selectedElement)
+    selection.forEach(selectedElement => {
+        element(selectedElement)
     })
 
     // Remove from selection
     //
-    selections.clear()
+    selection.clear()
+}
+
+// Exports
+//
+export default {
+    element,
+    selected
 }

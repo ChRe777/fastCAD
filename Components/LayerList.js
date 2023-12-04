@@ -8,7 +8,7 @@ import { useStore } from 'stores/store'
 
 // Parts
 //
-import LayerListChilds from 'parts/childs'
+import LayerListCounter from 'parts/counter'
 import LayerListToggler from 'parts/toggler'
 import LayerListVisible from 'parts/visible'
 
@@ -36,7 +36,7 @@ const template = `
         </span>
 
         <span>
-            <layer-list-childs  :id="layer.id" :active="isCurrent(layer)" />
+            <layer-list-counter :id="layer.id" :active="isCurrent(layer)" />
             <layer-list-visible :id="layer.id" :active="isCurrent(layer)" :visible="isVisible(layer)" />
         </span>
 
@@ -55,14 +55,24 @@ function layerClass(layer) {
 
 // Fill layers_
 //
-function fillLayers_(layers, layers_, levels_, level) {
-    for (const layer of layers) {
+function fillLayers_(elements, layers_, levels_, level) {
 
-        layers_.push(layer)
-        levels_[layer.id] = level
+    console.log("fillLayers", elements)
+    if (elements === undefined) {
+        return
+    }
 
-        if (layer.layers && layer['layers-open']) {
-            fillLayers_(layer.layers, layers_, levels_, level + 1)
+    for (const element of elements) {
+
+        if (element.subtype === "layer") {
+            let layer = element
+
+            layers_.push(layer)
+            levels_[layer.id] = level
+
+            if (layer['isopen']) {
+                fillLayers_(layer.elements, layers_, levels_, level + 1)
+            }
         }
     }
 }
@@ -83,14 +93,17 @@ export default {
     data,
     template,
     components: {
-        LayerListChilds,
-        LayerListVisible,
+        LayerListCounter,
         LayerListToggler,
+        LayerListVisible,
     },
     computed: {
         layers() {
             let layers_ = []
-            fillLayers_(this.store.scene.layers, layers_, this.levels, 0)
+            // TODO: API?
+            console.log(this.store.scene.elements)
+            fillLayers_(this.store.scene.elements, layers_, this.levels, 0)
+            console.log("layers_", layers_)
             return layers_
         }
     },

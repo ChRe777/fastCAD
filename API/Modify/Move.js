@@ -1,4 +1,4 @@
-// ModifyMove.js
+// Move.js
 
 // Imports
 //
@@ -52,6 +52,8 @@ function movePointsXY(p, attr, relative, element) {
     element[attr] = zs.join(" ")
 }
 
+// Move
+//
 function move(element, p, relative) {
     if (element.type === 'circle') {
         moveGeneric2(p, ['cx'], ['cy'], relative, element)
@@ -79,4 +81,6 @@ function move(element, p, relative) {
 
 // Exports
 //
-
+export default {
+    move
+}

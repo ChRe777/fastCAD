@@ -1,0 +1,124 @@
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <meta http-equiv='pragma' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='cache-control' content='no-cache'>
+
+        <title>Recursice Template</title>
+
+        <!-- LIB STYLES -->
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+
+        <!-- LIB SCRIPTS -->
+        <script src="https://unpkg.com/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+        <!-- LIBRARIES ES6 -->
+        <script type="importmap">
+            {
+                "imports": {    
+                    "vue-dev"               : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.js",
+                    "vue"                   : "https://unpkg.com/vue@3.3.6/dist/vue.esm-browser.prod.js",
+                    "vue-demi"              : "https://unpkg.com/vue-demi@0.14.6/lib/v3/index.mjs",
+                    "@vue/devtools-api"     : "https://unpkg.com/@vue/devtools-api@6.5.1/lib/esm/index.js"
+                }
+            }
+        </script>
+
+        <style>
+            text {
+                font-size: 1cm;
+            }
+
+            svg {
+                border: 1px dashed green;
+            }
+        </style>
+
+    </head>
+
+    <body class="p-3">
+        <div id="app"></div>
+        <script type="module">
+
+            import { createApp } from 'vue'
+
+            const template = `
+                <rect        v-if="element.type == 'rect'" :x="element.x" :y="element.y" :width="element.width" :height="element.height"></rect>
+                <circle v-else-if="element.type == 'circle'" :cx="element.x" :cy="element.y" :r="element.r"></circle>
+                <line   v-else-if="element.type == 'line'"  :x1="element.x1" :y1="element.y1" :x2="element.x2" :y2="element.y2" stroke="black"></line>
+                <g      v-else-if="element.type == 'g'"     :id="element.name" fill="red" stroke-dasharray="5">
+                    <recursive-component v-for="element in element.elements" :element="element" />
+                </g>`
+
+            const RecursiveComponent = {
+                props: ['element'],
+                template
+            }
+
+            const SVGComponent = {
+                props: ['svg'],
+                template: `
+                <svg :width="svg.width" :height="svg.height">
+                    <recursive-component v-for="element in svg.elements" :element="element" />
+                </svg>
+                `
+            }
+
+            const svg = {
+                name: 'SVG',
+                type: 'svg',
+                width: '21cm',
+                height: '29.7cm',
+                elements: [
+                    {
+                        name: "Layer 1",
+                        type: 'g',
+                        x: "1cm",
+                        y: "2cm",
+                        elements: [
+                            { name: "Circle", type: "circle", x: "5cm", y: "3cm", r: "1cm" },
+                            { name: "Rect 1.2", type: "rect", x: "5cm", y: "4cm", width: "2cm", height: "2cm" }
+                        ]
+                    },
+                    {
+                        name: "Layer 2",
+                        type: "g",
+                        x: "1cm",
+                        y: "5cm",
+                        elements: [
+                            { name: "Rect 2.1", type: "rect", x: "5cm", y: "6cm", width: "2cm", height: "2cm" },
+                            { name: "Line 2.2", type: "line", x1: "5cm", y1: "7cm", x2: "10cm", y2: "9cm" }
+                        ]
+                    }
+                ]
+            }
+
+            const App = {
+                data() {
+                    return {
+                        text: "HELLO WORLD! SVG",
+                        svg
+                    }
+                },
+                components: {
+                    SVGComponent
+                },
+                template: `<h1>{{text}}</h1>
+                <svg-component :svg="svg"></svg-component>
+                `
+            }
+
+            const app = createApp(App)
+            app.component('svg-component', SVGComponent)
+            app.component('recursive-component', RecursiveComponent)
+            app.mount('#app')
+
+        </script>
+    </body>
+
+</html>

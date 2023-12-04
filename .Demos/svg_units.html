@@ -1,0 +1,108 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/normalize.css@7.0.0/normalize.css" />
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+
+        <style>
+            /* https://wiki.selfhtml.org/wiki/Print-CSS */
+            @media print {
+
+                btn,
+                h3 {
+                    display: none
+                }
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 0 15pt;
+            }
+        </style>
+    </head>
+
+    <body class="p-3">
+        <!-- 1cm = 35,43 Px -->
+        <h3>A6 105x148mm</h3>
+        <div class="d-flex mb-2">
+            <button onclick="setFormat('A4')" class="btn btn-primary me-2">A4 21.0 x 29.7cm</button>
+            <button onclick="setFormat('A5')" class="btn btn-primary me-2">A5 14.8 x 21.0cm</button>
+            <button onclick="setFormat('A6')" class="btn btn-primary">A6 10.5 x 14.8cm</button>
+        </div>
+        <svg id="svg" width="10.5cm" height="14.8cm" style="border: 1px dashed green;">
+            <g id="transfrom" fill="grey" transform="translate(0 0 )">
+                <circle cx="0cm" cy="-3cm" r="1.9cm" fill="green"></circle>
+                <circle cx="0cm" cy="+3cm" r="1.9cm" fill="green"></circle>
+                <rect x="-1.9cm" y="-3cm" width="3.8cm" height="6cm" fill-opacity="0.5" />
+                <circle cx="10.5cm" cy="14.8cm" r="0.5cm" fill="green"></circle>
+            </g>
+        </svg>
+
+        <script>
+
+            let svg = document.getElementById("svg")
+            let transform = document.getElementById("transfrom")
+
+            let papers = {
+                "A4": { width: "21.0cm", height: "29.7cm" },
+                "A5": { width: "14.8cm", height: "21.0cm" },
+                "A6": { width: "10.5cm", height: "14.8cm" }
+            }
+
+            function setTranslate(size) {
+
+                let w = cmToFloat(size.width)
+                let h = cmToFloat(size.height)
+
+                let width = cmToUnit(w)
+                let height = cmToUnit(h)
+
+                let x = width / 2
+                let y = height / 2
+
+                transform.setAttribute("transform", `translate(${x} ${y})`)
+            }
+
+            function setFormat(format) {
+                let size = papers[format]
+                svg.setAttribute("width", size.width)
+                svg.setAttribute("height", size.height)
+                setViewBox(size)
+                setTranslate(size)
+            }
+
+            //"1cm" equals "35.43307px"
+
+            function cmToUnit(cm) {
+                return cm * 35.43307
+            }
+
+            // "14.5cm" -> 14.5
+            function cmToFloat(cm) {
+                return parseFloat(cm.replace("cm", ""))
+            }
+
+            function setViewBox(size) {
+
+                let w = cmToFloat(size.width)
+                let h = cmToFloat(size.height)
+
+                let width = cmToUnit(w)
+                let height = cmToUnit(h)
+
+                let x = 0 //-width / 2
+                let y = 0 //-height / 2
+
+                svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
+            }
+
+            console.log(svg.getAttribute("viewBox"))
+
+            setFormat('A5')
+
+        </script>
+
+    </body>
+
+</html>

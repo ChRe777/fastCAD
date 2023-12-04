@@ -12,7 +12,6 @@
 
         <!-- see https://www.leereamsnyder.com/favicons-in-2021 -->
         <link rel="icon" type="image/x-icon" href="./Assests/Image/favicon.ico">
-        <!--link rel="mask-icon" href="./Assests/Image/favicon.ico" color="rgb(75, 154,231)"-->
 
         <!-- LIBRARIES ES6 -->
         <script type="importmap">
@@ -37,6 +36,7 @@
                 "components/message"    : "./Components/UserMessage.js",
                 "components/ruler"      : "./Components/SvgSceneRuler.js",
                 "components/scene"      : "./Components/SvgScene.js",
+                "components/element"    : "./Components/SvgElement.js",
                 "components/selection"  : "./Components/SelectionHandler.js",
                 "components/toolbar"    : "./Components/SvgToolbar.js",
                 "components/types"      : "./Components/SvgTypes.js",
@@ -46,7 +46,7 @@
                 "views/export"          : "./Views/ExportDialog.js",
 
                 "parts/toast"           : "./Components/Parts/UserMessageToast.js",
-                "parts/childs"          : "./Components/Parts/LayerListChildsCount.js",
+                "parts/counter"         : "./Components/Parts/LayerListCounter.js",
                 "parts/toggler"         : "./Components/Parts/LayerListToggler.js",
                 "parts/visible"         : "./Components/Parts/LayerListVisible.js",
                 "parts/button"          : "./Components/Parts/ToolbarButton.js",
@@ -82,20 +82,29 @@
 
                 "api/api"               : "./API/Api.js",
                 "api/cmd"               : "./API/Cmd.js",
+                "api/create"            : "./API/Create.js",
+                "api/destroy"           : "./API/Destroy.js",
                 "api/export"            : "./API/Export.js",
                 "api/editor"            : "./API/Editor.js",
                 "api/layer"             : "./API/Layer.js",
                 "api/message"           : "./API/Message.js",
                 "api/scene"             : "./API/Scene.js",
                 "api/selection"         : "./API/Selection.js",
-                "api/view"              : "./API/View.js"
+                "api/view"              : "./API/View.js",
+
+                "api/modify"            : "./API/Modify.js",
+                "api/modify/move"       : "./API/Modify/Move.js",
+                "api/modify/mirror"     : "./API/Modify/Mirror.js",
+                "api/modify/layer"      : "./API/Modify/Layer.js",
+
+                "test/all"              : "./Tests/All.js",
+                "test/api/layer"        : "./API/Layer_Test.js"
                 
             }
         }
         </script>
 
         <!-- LIB STYLES -->
-
         <link rel="stylesheet" href="https://unpkg.com/normalize.css@7.0.0/normalize.css" />
         <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />

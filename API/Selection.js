@@ -24,8 +24,6 @@ function clearWithLayers() {
     selectionStore.selectedLayersSet.clear()
 }
 
-
-
 function isSelected(element) {
     const store = useSelectionStore()
     return store.selectedElementsSet.has(element)

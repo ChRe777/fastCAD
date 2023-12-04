@@ -24,6 +24,12 @@ Most notably: clip-path, clip-rule, color, color-interpolation, color-rendering,
 const svgTypes = {
     types: [
         {
+            type: "g",
+            subtype: "layer",
+            attrs: ["name", "description", "style"]
+                .concat(fill).concat(stroke)
+        },
+        {
             type: "circle",
             attrs: ["cx", "cy", "r"]
                 .concat(fill).concat(stroke)
@@ -122,4 +128,4 @@ svgTypes.types = svgTypes.types.map((item, index) => {
 
 //console.log(svgTypes)
 
-export const svgTypesVue = renderTypes(svgTypes)
+export const svgElementTypes = renderTypes(svgTypes)

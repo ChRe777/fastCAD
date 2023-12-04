@@ -14,7 +14,7 @@ let attributeGroups = {
             { name: 'y', title: 'y', type: 'number' }
         ],
         [
-            { name: 'text', title: 'text', type: 'text' },
+            { name: 'text', title: 'text', type: 'long-text' },
         ],
         [
             { name: 'textLength', title: 'len', type: 'number' },

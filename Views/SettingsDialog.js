@@ -11,7 +11,9 @@ const form = `
 
 <h5>Notes</h5>
 <ul>
-  <li>Backgound-Color/Checker</li>
+  <li>Backgound-Color White/Black/DarkGrey/Checker</li>
+  <li>Units (px, mm, cm m)</li> <!--  https://www.selfsvg.info/?section=3.4 -->
+  <li>Paper A6, A5, A4, A3</li>
   <li>Grids</li>
   <li>Guides</li>
   <li>Defaults/Font..</li>

@@ -12,7 +12,7 @@ const template = `
 
 function getCarret(layer, level) {
     let i = `ps-${level * 2} `
-    if (api.isLayerOpen(layer)) {
+    if (api.layer.isOpen(layer)) {
         return i + 'bi bi-caret-down-fill'
     }
     return i + 'bi bi-caret-right-fill'
@@ -33,8 +33,8 @@ export default {
     template,
     methods: {
         toogleOpen() {
-            const layer = api.getLayerById(this.id)
-            api.toogleLayerOpen(layer)
+            const layer = api.layer.getById(this.id)
+            api.layer.toogleOpen(layer)
         },
     },
     computed: {

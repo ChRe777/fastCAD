@@ -3,7 +3,6 @@
 import { useStore } from 'stores/store'
 import { useEditorStore } from 'stores/editor'
 import { useSettingsStore } from 'stores/settings'
-
 import { renderGroups } from 'editors/types'
 
 // Template
@@ -15,7 +14,7 @@ let attributeGroups = {
             { name: 'name', title: 'name', type: 'text' }
         ],
         [
-            { name: 'description', title: 'desc', type: 'text' }
+            { name: 'description', title: 'desc', type: 'long-text' }
         ],
         [
             { name: 'fill', title: 'fill', type: 'color' },

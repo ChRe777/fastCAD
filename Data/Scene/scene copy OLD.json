@@ -1,16 +1,10 @@
 {
-    "currentLayerId": "layer-Lthtl3Tj575",
-    "type": "svg",
-    "width": "21cm",
-    "height": "29.7cm",
-    "viewBox": "0 0 500 500",
-    "elements": [
+    "currentLayerId": "layer0",
+    "layers": [
         {
-            "type": "g",
-            "subtype": "layer",
-            "isopen": true,
+            "type": "layer",
             "style": "visibility:visible",
-            "id": "layer-Lthtl3Tj575",
+            "id": "layer0",
             "name": "group default",
             "description": "Default layer 0 description long",
             "fill": "#ffffff",
@@ -18,44 +12,6 @@
             "stroke-width": 6,
             "stroke-opacity": "1.0",
             "elements": [
-                {
-                    "type": "g",
-                    "subtype": "layer",
-                    "style": "visibility:visible",
-                    "id": "layer0.1",
-                    "name": "group sun",
-                    "description": "Layer 0.1",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": "2",
-                    "stroke-opacity": "1.0",
-                    "elements": [
-                        {
-                            "type": "circle",
-                            "id": "circle-CiwqaSQuTI",
-                            "cx": 0,
-                            "cy": -200,
-                            "r": 25,
-                            "fill": "#00f900",
-                            "stroke": "#00f900",
-                            "stroke-width": 17,
-                            "stroke-dasharray": "7,7",
-                            "fill-opacity": "0.5",
-                            "stroke-opacity": 0.3
-                        },
-                        {
-                            "type": "circle",
-                            "id": "circle-PXNFX3W5HK",
-                            "cx": -200,
-                            "cy": -34,
-                            "r": "10",
-                            "fill": "#f5ec00",
-                            "stroke": "#f5ec00",
-                            "stroke-width": 22,
-                            "stroke-dasharray": "1,1"
-                        }
-                    ]
-                },
                 {
                     "type": "circle",
                     "id": "circle-NlwqaSQuTI",
@@ -129,13 +85,52 @@
                     "stroke-dasharray": "7,5",
                     "pathLength": 9
                 }
+            ],
+            "layers-open": true,
+            "layers": [
+                {
+                    "type": "layer",
+                    "style": "visibility:visible",
+                    "id": "layer0.1",
+                    "name": "group sun",
+                    "description": "Layer 0.1",
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": "2",
+                    "stroke-opacity": "1.0",
+                    "elements": [
+                        {
+                            "type": "circle",
+                            "id": "circle-CiwqaSQuTI",
+                            "cx": 0,
+                            "cy": -200,
+                            "r": 25,
+                            "fill": "#00f900",
+                            "stroke": "#00f900",
+                            "stroke-width": 17,
+                            "stroke-dasharray": "7,7",
+                            "fill-opacity": "0.5",
+                            "stroke-opacity": 0.3
+                        },
+                        {
+                            "type": "circle",
+                            "id": "circle-PXNFX3W5HK",
+                            "cx": -200,
+                            "cy": -34,
+                            "r": "10",
+                            "fill": "#f5ec00",
+                            "stroke": "#f5ec00",
+                            "stroke-width": 22,
+                            "stroke-dasharray": "1,1"
+                        }
+                    ]
+                }
             ]
         },
         {
-            "type": "g",
-            "subtype": "layer",
+            "type": "layer",
             "style": "visibility:visible",
-            "id": "layer-Alhtl3Tj575",
+            "id": "layer1",
             "name": "group text",
             "description": "Text layer description long",
             "fill": "#ffffff",
@@ -174,13 +169,14 @@
                     "rotate": "10",
                     "textLength": 180
                 }
-            ]
+            ],
+            "layers-open": false,
+            "layers": []
         },
         {
-            "type": "g",
-            "subtype": "layer",
+            "type": "layer",
             "style": "visibility:visible",
-            "id": "layer-aLhhtl3Tj585",
+            "id": "layer2",
             "name": "group img",
             "description": "Image layer description long",
             "fill": "#ffffff",
@@ -197,13 +193,14 @@
                     "height": "100px",
                     "href": "https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png"
                 }
-            ]
+            ],
+            "layers-open": false,
+            "layers": []
         },
         {
-            "type": "g",
-            "subtype": "layer",
+            "type": "layer",
             "style": "visibility:visible",
-            "id": "layer-Laltl3Tj123",
+            "id": "layer3",
             "name": "group poly..",
             "description": "Polyline layer description long",
             "fill": "#00ff00",
@@ -238,7 +235,9 @@
                     "stroke-width": 5,
                     "pathLength": 105
                 }
-            ]
+            ],
+            "layers-open": false,
+            "layers": []
         }
     ]
 }

@@ -8,7 +8,7 @@ import api from 'api/api'
 //
 const template = `
 <span :id="id" :class="badgeClass" @click.prevent.stop="">
-    {{childsCount}}
+    {{elementsCount}}
 </span>
 `
 
@@ -22,9 +22,10 @@ function badgeClass() {
     return classes
 }
 
-function childsCount() {
+function elementsCount() {
     const layer = api.layer.getById(this.id)
-    return api.layer.numChilds(layer)
+    const count = api.layer.numberOfElements(layer)
+    return count
 }
 
 // Component
@@ -34,6 +35,6 @@ export default {
     template,
     computed: {
         badgeClass,
-        childsCount
+        elementsCount
     }
 }

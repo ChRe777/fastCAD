@@ -9,7 +9,7 @@ import api from 'api/api'
 //
 function interpret(str) {
 
-    console.log(`interpret -> ${str}`)
+    console.log(`interpret '${str}'`)
 
     // Remove whitespaces
     //
@@ -26,7 +26,7 @@ function interpret(str) {
     const args = str.split(' ')
     const cmdName = args[0]
 
-    return api.invokeCmdByName(cmdName, args)
+    return api.cmd.invokeByName(cmdName, args)
 }
 
 // Exports

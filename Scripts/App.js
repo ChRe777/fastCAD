@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 // Components
 //
 import App from 'components/app'
+import SvgElement from 'components/element'
 
 // Init Store
 //
@@ -14,6 +15,7 @@ const pinia = createPinia()
 // Init Editor
 //
 const app = createApp(App)
+app.component('svg-element', SvgElement)
 app.use(pinia)
 app.mount('#app')
 
@@ -86,6 +88,10 @@ watch(
     { deep: true }
 )
 
+// TODO: Run Health Tests
+//
+// import testing from 'test/all'
+// testing.runAllTests()
 
 // Load Scene 
 // TODO: Load last file - cmd.InvokeByName

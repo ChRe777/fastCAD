@@ -26,9 +26,16 @@ function zoomOut() {
     }
 }
 
+function viewBox() {
+    const viewStore = useViewStore()
+    return viewStore.viewBox
+}
+
 // Exports
 //
 export default {
     zoomIn,
-    zoomOut
+    zoomOut,
+    //
+    viewBox
 }

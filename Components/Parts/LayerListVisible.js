@@ -2,7 +2,8 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/modify'
+import layerAPI from 'api/layer'
 
 // Template
 //
@@ -15,14 +16,15 @@ const template = `
 // toogle visibility of layer
 // 
 function toogleVisibility() {
-    const layer = api.getLayerById(this.id)
-
+    const layer = layerAPI.getById(this.id)
+    console.log("toogleVisibility", this.id)
+    console.log("layer.style", layer.style)
     if (layer.style.indexOf('visible') >= 0) {
         api.modify(layer, 'layer', { style: 'visibility:hidden' })
+        console.log("layer.style", layer.style)
     } else {
         api.modify(layer, 'layer', { style: 'visibility:visible' })
     }
-
 }
 
 // Icon

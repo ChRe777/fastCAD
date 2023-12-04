@@ -1,7 +1,8 @@
-// ModifyMirror.js
+// Mirror.js
 
 // Imports 
 //
+import modify from 'api/modify'
 
 // Functions
 //
@@ -22,5 +23,11 @@ function mirror(element, type, axis, value) {
         }
     }
 
-    api.modify(element, type, attrsMirrored)
+    modify(element, type, attrsMirrored)
+}
+
+// Exports
+//
+export default {
+    mirror
 }

@@ -8,9 +8,9 @@ import { useStore } from 'stores/store'
 import io from 'services/io'
 
 import api from 'api/api'
+import editor from 'api/editor'
 import layers from 'api/layer'
 import selections from 'api/selection'
-import editor from 'api/editor'
 
 // Functions
 //
@@ -46,14 +46,12 @@ function load(name) {
 
     let onLoaded = function (scene, name) {
         set_(scene)
-        layers.initCaches() // api.layer.initCaches()
         layers.selectFirst()
         api.message.create(`Loaded ${name}`) // api.message.create
     }
 
     io.load(name, onLoaded)
 }
-
 
 // TODO: CACHING AND REFACOTRING
 function getElementById_(layer, id) {
@@ -63,7 +61,7 @@ function getElementById_(layer, id) {
         return element
     }
 
-    for (let subLayer in layer.layers) {
+    for (let subLayer of layer.layers) {
         let element_ = getElementById_(subLayer, id)
         if (element_ != undefined) {
             return element_
@@ -75,7 +73,7 @@ function getElementById(id) {
 
     const store = useStore()
 
-    for (let layer in store.scene.layers) {
+    for (let layer of store.scene.layers) {
         let element = getElementById_(layer, id)
         if (element != undefined) {
             return element
@@ -85,6 +83,16 @@ function getElementById(id) {
     return undefined
 }
 
+function addLayer(layer) {
+    const store = useStore()
+    store.scene.elements.push(layer)
+}
+
+function elements() {
+    const store = useStore()
+    return store.scene.elements
+}
+
 // Exports
 //
 export default {
@@ -92,5 +100,7 @@ export default {
     save,
     create,
     clear,
-    getElementById
+    addLayer,
+    getElementById,
+    elements
 }

@@ -1,8 +1,9 @@
-# ReadMe
+# Read me
 
-## Start Server
+## Start Servers
 
-    > python3 main.py
+    > python3 AppServer.py
+    > python3 IOServer.py
 
 ## Start Client
 

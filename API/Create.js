@@ -3,6 +3,8 @@
 // Imports
 //
 import { defaults } from 'services/defaults'
+import { useStore } from 'stores/store'
+import layer from 'api/layer'
 
 // Constants
 //
@@ -18,21 +20,17 @@ const { randomUUID } = new ShortUniqueId({ length: 10 });
 //
 function create(type, attrs) {
 
-    if (type === 'layer') {
-        return createLayer_(type, attrs)
-    }
-
     // Create new object
     //
     let obj = {
-        "type": type,
-        "id": type + "-" + randomUUID(),
+        'type': type,
+        'id': type + '-' + randomUUID(),
         ...attrs
     }
 
     // Place into current active Layer
     //
-    let currentLayer = getCurrentLayer()
+    let currentLayer = layer.getCurrent()
     currentLayer.elements.push(obj)
 
     // Store last created element
@@ -43,7 +41,7 @@ function create(type, attrs) {
     return obj
 }
 
-function createLine(p1, relative1, p2, relative2) {
+function line(p1, relative1, p2, relative2) {
 
     const store = useStore()
 
@@ -66,8 +64,7 @@ function createLine(p1, relative1, p2, relative2) {
 
     store.lastPoint = p2
 }
-
-function createLineTo(p2, relative2) {
+function lineTo(p2, relative2) {
 
     const store = useStore()
 
@@ -90,8 +87,7 @@ function createLineTo(p2, relative2) {
 
     store.lastPoint = p2
 }
-
-function createCircle(p, relative, r) {
+function circle(p, relative, r) {
 
     const store = useStore()
 
@@ -103,15 +99,14 @@ function createCircle(p, relative, r) {
         cx: p.x,
         cy: p.y,
         r: r,
-        fill: defaults.style.fill,
-        stroke: defaults.style.stroke,
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
     })
 
     store.lastPoint = p
 }
-
-function createText(p, relative, text) {
+function text(p, relative, text) {
 
     const store = useStore()
 
@@ -123,69 +118,95 @@ function createText(p, relative, text) {
         x: p.x,
         y: p.y,
         text: text,
-        "font-family": defaults.font.family,
-        "font-size": defaults.font.size,
-        "fill": defaults.style.fill,
-        "stroke": defaults.style.stroke,
-        "stroke-width": 0 //defaults.style['stroke-width']
+        'font-family': defaults.font.family,
+        'font-size': defaults.font.size,
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': 0 //defaults.style['stroke-width']
     })
 
     store.lastPoint = p
 }
 
-function createPath() {
+function path(d) {
 
     const store = useStore()
 
     create('path', {
-        d: "M 0 0 h 100 v 100",
-        plen: "",
-        "fill": defaults.style.fill,
-        "stroke": defaults.style.stroke,
-        "stroke-width": defaults.style['stroke-width']
+        d: d,
+        plen: '',
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
     })
 
     store.lastPoint = { x: 0, y: 0 }
 }
 
-function createPolyline() {
+function polyline() {
 
     const store = useStore()
 
     create('polyline', {
-        points: "0,0 100,0",
+        points: '0,0 100,0',
         plen: 10,
-        "fill": defaults.style.fill,
-        "stroke": defaults.style.stroke,
-        "stroke-width": defaults.style['stroke-width']
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
     })
 
     store.lastPoint = { x: 0, y: 0 }
 }
 
-function createPolygon() {
+function polygon() {
 
     const store = useStore()
 
     create('polygon', {
-        points: "0,0 200,200",
+        points: '0,0 200,200',
         plen: 10,
-        "fill": defaults.style.fill,
-        "stroke": defaults.style.stroke,
-        "stroke-width": defaults.style['stroke-width']
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
     })
 
     store.lastPoint = { x: 0, y: 0 }
 }
 
+function image(p, size, href) {
+
+    create('image', {
+        x: p.x,
+        y: p.y,
+        width: size.x,
+        height: size.y,
+        href: href,
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+}
+
+// -------------------
+
+// Copy is creating a new element
+// and copy the attribute to new element
+//
+function copy(element) {
+    let { id, type, ...attrs } = element
+    create(type, attrs)
+}
 // Exports
 //
 export default {
-    createLine,
-    createLineTo,
-    createCircle,
-    createText,
-    createPath,
-    createPolyline,
-    createPolygon
+    line,
+    lineTo,
+    circle,
+    text,
+    path,
+    polyline,
+    polygon,
+    image,
+    //
+    copy
 }

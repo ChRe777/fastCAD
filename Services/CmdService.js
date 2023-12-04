@@ -3,10 +3,8 @@
 
 // Imports
 //
-
 import api from 'api/api'
 
-import { defaults } from 'services/defaults'
 import { argFns } from 'services/utils'
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
@@ -20,26 +18,21 @@ function doCmdClear() {
 
     // Reset scene
     //
-    api.newScene()
-
+    api.scene.create()
+    //
     // Create a default layer
     //
-    const layer = api.create("layer", {
-        'name': 'layer0',
-        'description': 'This default layer 0',
-        ...defaults.layer,
-    })
+    const name = 'layer0'
+    const description = 'Default layer 0'
 
-    // .. and select it
-    //
-    api.select(layer, 'layer')
+    api.layer.create(name, description)
 }
 
 // save
 //
 function doCmdSave(args) {
     let name = argFns.asString(args, 1)
-    api.scene.Scene(name)
+    api.scene.save(name)
 }
 
 // load
@@ -53,7 +46,11 @@ function doCmdLoad(args) {
 //
 function doCmdMove(args) {
     const [p, relative] = argFns.asPoint2(args, 1)
-    api.moveSelected(p, relative)
+
+    api.selection.forEach(selectedElement => {
+        api.modify.move.move(selectedElement, p, relative)
+    })
+
 }
 
 // zoom in 
@@ -72,11 +69,13 @@ function doCmdZoom(args) {
 // zoom in
 //
 function doCmdZoomIn() {
-    api.viewZoomIn()
+    api.view.zoomIn()
 }
 
+// zoom out
+//
 function doCmdZoomOut() {
-    api.viewZoomOut()
+    api.view.zoomOut()
 }
 
 // line 10,10 20,20
@@ -89,7 +88,7 @@ function doCmdLine(args) {
     let [p1, relative1] = argFns.asPoint2(args, 1) || [{ x: -50, y: -50 }, false]
     let [p2, relative2] = argFns.asPoint2(args, 2) || [{ x: 50, y: 50 }, false]
 
-    api.createLine(p1, relative1, p2, relative2)
+    api.create.line(p1, relative1, p2, relative2)
 }
 
 // lineTo 100,100
@@ -99,7 +98,7 @@ function doCmdLineTo(args) {
 
     let [p2, relative2] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
 
-    api.createLineTo(p2, relative2)
+    api.create.lineTo(p2, relative2)
 }
 
 // circle 10,10 50
@@ -109,7 +108,7 @@ function doCmdCircle(args) {
     let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let r = argFns.asFloat(args, 2) || 50
 
-    api.createCircle(p, relative, r)
+    api.create.circle(p, relative, r)
 }
 
 // text 10,10 "text"
@@ -119,17 +118,17 @@ function doCmdText(args) {
     let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let text = argFns.asString(args, 2) || "text"
 
-    api.createText(p, relative, text)
+    api.create.text(p, relative, text)
 }
 
 
+// Path
+//
 function doCmdPath(args) {
 
-    // TODO: path "0,0 h 10 v 10"
-    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    //let text = argFns.asString(args, 2) || "text"
-
-    api.createPath()
+    // path 0,0 h 10 v 10
+    const d = args.slice(1).join(" ")
+    api.create.path(d)
 }
 
 function doCmdPolyline(args) {
@@ -138,7 +137,7 @@ function doCmdPolyline(args) {
     //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     //let text = argFns.asString(args, 2) || "text"
 
-    api.createPolyline()
+    api.create.polyline()
 }
 
 function doCmdPolygon(args) {
@@ -147,24 +146,34 @@ function doCmdPolygon(args) {
     //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     //let text = argFns.asString(args, 2) || "text"
 
-    api.createPolygon()
+    api.create.polygon()
+}
+
+function doCmdImage(args) {
+
+    // image 0,0 100,100 http://images.com/img.png
+    //
+    let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
+    let href = argFns.asString(args, 3) || "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-1024.png"
+
+    api.create.image(p, size, href)
 }
 
 // layer
 //
 function doCmdLayer(args) {
 
-    let name = argFns.asString(args, 1)
-    let description = argFns.asString(args, 2)
+    let name = argFns.asString(args, 1) || "newLayer"
+    let description = argFns.asString(args, 2) || "newLayer"
 
-    api.createLayer(name, description)
-
+    api.layer.create(name, description)
 }
 
 // delete
 //
 function doCmdDelete(args) {
-    api.destroySelected()
+    api.destroy.selected()
 }
 
 // deselect
@@ -202,33 +211,73 @@ function doCmdSettings(args) {
 //
 function doCmdSet(args) {
 
-    let prop = argFns.asString(args, 1)
-    let value = argFns.asString(args, 2)
+    let attrName = argFns.asString(args, 1)
+    let attrValue = argFns.asString(args, 2)
 
-    api.modifySelected(prop, value)
+    // set layer layerXYZ
+    //
+    if (attrName === 'layer') {
+        let layerName = attrValue
+        api.selection.forEach(selectedElement => {
+            api.modify.layer.set(selectedElement, layerName)
+        })
+    }
+
+    // set cy 0
+    // set fill #ff00ff
+    //
+    api.selection.forEach(selectedElement => {
+        let attrs = {};
+        attrs[attrName] = attrValue
+        api.modify.modify(selectedElement, selectedElement.type, attrs)
+    })
 }
 
 // copy
 //
 function doCmdCopy(args) {
-    api.copySelected()
+
+    let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 10, y: 10 }, true]
+
+    // No args copy the selected
+    if (args.slice(1).length === 0) {
+        api.selection.forEach(selectedElement => {
+            const element = api.create.copy(selectedElement)
+            api.modify.move.move(element, p, relative)
+        })
+    }
+
 }
 
-// mirror y 300
+// mirror y 300 {copy}
 //
 function doCmdMirror(args) {
 
     let axis = argFns.asString(args, 1)
     let value = argFns.asFloat(args, 2)
+    let copy = argFns.asString(args, 3) || false
 
-    api.mirrorSelected(axis, value)
+    function mirrorSelected(axis, value, copy) {
+
+        api.selection.forEach(selectedElement => {
+            if (copy) {
+                newElement = api.create.copy(selectedElement)
+                api.modify.mirror.mirror(newElement, type, axis, value)
+            } else {
+                api.modify.mirror.mirror(selectedElement, type, axis, value)
+            }
+        })
+
+    }
+
+    mirrorSelected(axis, value, copy)
 }
 
 // message "Hello World" // TODO:
 //
 function doCmdMessage(args) {
     let text = argFns.asString(args, 1)
-    api.createMessage(text)
+    api.create.Message(text)
 }
 
 const cmds = {
@@ -366,6 +415,15 @@ export function init() {
         shortCuts: [],
         hotKeys: undefined,
         action: doCmdPolygon,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'image',
+        suggestion: 'image {p} {size} {href}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdImage,
     })
 
     cmdStore.registerCmd({

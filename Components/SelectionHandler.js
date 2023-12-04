@@ -2,7 +2,6 @@
 
 // Imports
 //
-import { useStore } from 'stores/store';
 import { useViewStore } from 'stores/view';
 
 import api from 'api/api'
@@ -85,11 +84,11 @@ function onMouseDown(self) {
         self.startX = current.mouseX
         self.startY = current.mouseY
 
-        restRectangle(self)
+        resetRectangle(self)
     }
 }
 
-function restRectangle(self) {
+function resetRectangle(self) {
     self.x = 0
     self.y = 0
     self.height = 0
@@ -100,7 +99,7 @@ function resetAll(self) {
     self.isDragging = false;
     self.startX = 0
     self.startY = 0
-    restRectangle(self)
+    resetRectangle(self)
 }
 
 function onMouseUp(self) {
@@ -157,8 +156,8 @@ function iterateLayers_(layer, fn) {
 }
 
 function iterateLayers(fn) {
-    const store = useStore()
-    store.scene.layers.forEach((layer) => {
+
+    api.layer.forEach((layer) => {
         iterateLayers_(layer, fn)
     })
 }

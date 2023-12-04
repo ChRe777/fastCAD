@@ -7,7 +7,7 @@ import { useCmdStore } from 'stores/cmd'
 // Functions
 //
 // TODO: REFACTORING
-function invokeCmdByName(cmdName, args) {
+function invokeByName(cmdName, args) {
     const cmdStore = useCmdStore()
     if (cmdName in cmdStore.registeredCmdsByName) {
 
@@ -20,7 +20,7 @@ function invokeCmdByName(cmdName, args) {
             try {
                 cmd.action(args)
             } catch (error) {
-                console.log(cmdName, "error", error.message)
+                console.log("error in invoke command", cmdName, " - ", error.message)
                 return false
             }
         }
@@ -28,5 +28,5 @@ function invokeCmdByName(cmdName, args) {
 }
 
 export default {
-    invokeCmdByName
+    invokeByName
 }

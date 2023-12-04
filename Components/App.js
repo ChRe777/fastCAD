@@ -70,7 +70,7 @@ const onSelectedLayers = {
         console.log("app - selectionStore.selectedLayersSet changed")
         updateLayerEditingAttributes()
     },
-    deep: true /* Watch changes of objects inside array */
+    deep: true
 }
 
 const onEditingAttributes = {
@@ -78,17 +78,19 @@ const onEditingAttributes = {
         console.log("app - editorStore.editingAttributes changed")
         updateSelectionAttributes()
     },
-    deep: true /* Watch changes of objects inside array */
+    deep: true
 }
 
+/*
 const onLayerEditingAttributes = {
     handler() {
         console.log("app - editorStore.layerEditingAttributes changed")
         // TODO:
-        //updateSelectionAttributes()
+        //updateLayerAttributes()
     },
-    deep: true /* Watch changes of objects inside array */
+    deep: true 
 }
+*/
 
 // Component
 //
@@ -112,7 +114,8 @@ export default {
         'selectionStore.selectedElementsSet': onSelectedElements,
         'selectionStore.selectedLayersSet': onSelectedLayers,
         'editorStore.editingAttributes': onEditingAttributes,
-        'editorStore.layerEditingAttributes': onLayerEditingAttributes
+        // This is done in LayerEditor
+        //'editorStore.layerEditingAttributes': onLayerEditingAttributes
     },
 }
 

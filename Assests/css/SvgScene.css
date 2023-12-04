@@ -15,7 +15,7 @@
 }
 
 .selected {
-    outline: 1px dashed #0095ff;
+    outline: 0.5px dashed #0095ff;
 }
 
 #svg {

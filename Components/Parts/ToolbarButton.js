@@ -34,7 +34,7 @@ const template = `
 //
 function onClick() {
     const args = [this.cmdName]
-    api.invokeCmdByName(this.cmdName, args)
+    api.cmd.invokeByName(this.cmdName, args)
 }
 
 // Data

@@ -42,7 +42,9 @@ function save(data, name, onSuccessFn) {
         })
         .then(data => {
             if (onSuccessFn) {
+                console.log("I am here 1")
                 onSuccessFn(data, name)
+                console.log("I am here 2")
             }
         })
         .catch(error => {

@@ -19,7 +19,7 @@ let attributeGroups = {
             { name: 'height', title: 'h', type: 'length' }
         ],
         [
-            { name: 'href', title: 'link', type: 'url' },
+            { name: 'href', title: 'href', type: 'url' },
         ]
     ]
 }

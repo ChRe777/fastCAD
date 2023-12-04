@@ -4,65 +4,68 @@
 //
 import { useStore } from 'stores/store'
 import { useSelectionStore } from 'stores/selection'
+import { defaults } from 'services/defaults'
+
+import modify from 'api/modify'
+import scene from 'api/scene'
 
 // Constants
 //
-const layersByIdTable = new Map() // TODO: STORE ??
-const layersByNameTable = new Map()
+// const layersByIdTable = new Map() // TODO: STORE ??
+// const layersByNameTable = new Map()
+
+const { randomUUID } = new ShortUniqueId({ length: 10 });
+
 
 // Functions
 //
-function initCaches() {
-    forEach(layer => layersByIdTable.set(layer.id, layer))
-    forEach(layer => layersByIdTable.set(layer.name, layer))
-}
 
-function forEach_(fn, layers) {
-    if (layers === undefined) {
+function forEach_(fn, elements) {
+    if (elements === undefined) {
         return
     }
+
+    let layers = elements.filter(element => element.subtype === 'layer')
+
     layers.forEach(layer => {
         fn(layer)
-        forEach_(fn, layer.layers)
+        forEach_(fn, layer.elements)
     })
-
 }
 
 function forEach(fn) {
     const store = useStore()
-    forEach_(fn, store.scene.layers)
+    forEach_(fn, store.scene.elements)
 }
 
 function create(name, description) {
 
-    const layer = create("layer", {
+    const layer = create_("g", {
+        'subtype': 'layer',
         'name': name,
         'description': description,
         ...defaults.layer
     })
 
-    layersByIdTable.set(layer.id, layer)
-    layersByNameTable.set(layer.name, layer)
+    setCurrent(layer)
 
-    setCurrentLayer(layer)
+    return layer
 }
 
 // Create Layer helper
 //
 function create_(type, attrs) {
 
-    const store = useStore()
-
     let newLayer = {
         "type": type,
         "id": type + "-" + randomUUID(),
         ...attrs,
         "elements": [],
-        "layer-open": false,
-        "layers": []
+        "isopen": false
     }
 
-    store.scene.layers.push(newLayer)
+    // TODO: Remove dependency
+    scene.addLayer(newLayer)
 
     return newLayer
 }
@@ -78,11 +81,9 @@ function removeElement_(layer, element) {
 }
 
 function trash(layer) {
+    console.log("trash not implemented!!")
     // TODO: REMOVE FROM SCENE
     // TODO: Check is layer is empty in GUI -> Dialog
-
-    layersByIdTable.delete(layer.id)
-    layersByNameTable.delete(layer.name)
 }
 
 // set current layer
@@ -106,89 +107,140 @@ function isCurrent(layer) {
 }
 
 function toogleOpen(layer) {
-    layer['layers-open'] = !layer['layers-open']
+    layer['isopen'] = !layer['isopen']
+    return layer['isopen']
+}
+
+function toogleVisibility(layer) {
+
+    console.log("layer.style", layer.style)
+    if (layer.style.indexOf('visible') >= 0) {
+        // TODO: Remove Dependency
+        modify.modify(layer, 'layer', { style: 'visibility:hidden' })
+        console.log("layer.style", layer.style)
+    } else {
+        modify.modify(layer, 'layer', { style: 'visibility:visible' })
+    }
 }
 
 function hasChilds(layer) {
-
-    return false
-
-    if (layer.layers !== undefined) {
-        return layer.layers.length > 0
+    console.log("hasChild", layer.name)
+    if (layer && layer.elements !== undefined) {
+        console.log("hasChild 11", layer.name, layer.elements)
+        for (const element of layer.elements) {
+            console.log("hasChild 11 - subtype", element.id, element.subtype)
+            if (element.subtype === "layer") {
+                return true
+            }
+        }
     }
+
     return false
 }
 
-function numChilds(layer) {
-
-    return 0
-
-    // TODO: CACHING
-
-    let childs = layer.elements.length
-
-    if (layer.layers === undefined) {
-        return childs
-    }
-
-    return childs + layer.layers
-        .map(numLayerChilds)
+function numberOfSubElements_(elements) {
+    let elementsWithoutLayers = elements.filter(element => element.subtype !== 'layer')
+    return elementsWithoutLayers
+        .map(numberOfElements)
         .reduce((accumulator, currentValue) => {
             return accumulator + currentValue
         }, 0);
 }
 
+function numberOfElements(layer) {
+
+    if (layer == undefined || layer.elements === undefined) {
+        return 0
+    }
+
+    let childs = layer.elements.filter(element => element.subtype !== 'layer')
+    let childsNum = childs.length // without layer
+
+    if (hasChilds(layer)) {
+        return childsNum + numberOfSubElements_(layer.elements)
+    }
+
+    return childsNum
+}
+
 function isOpen(layer) {
-    return layer['layers-open']
+    return layer['isopen']
+}
+
+function getById_(id, elements) {
+
+    for (const element of elements) {
+        if (element.subtype === "layer") {
+            let layer = element
+            if (layer.id === id) {
+                return layer
+            }
+            if (hasChilds(layer)) {
+                let found = getById_(id, layer.elements)
+                if (found !== undefined) {
+                    return found
+                }
+            }
+        }
+    }
+
+    return undefined
 }
 
 function getById(id) {
-    return layersByIdTable.get(id)
+    const store = useStore()
+    return getById_(id, store.scene.elements)
 }
 
-function getByName(name) {
-    return layersByNameTable.get(id)
+function layersOfElements(elements) {
+    if (elements === undefined) {
+        return []
+    }
+    return elements.filter(element => element.subtype === 'layer')
 }
 
 function selectFirst() {
     const store = useStore()
     const selectionStore = useSelectionStore()
 
-    if (store.scene.layers && store.scene.layers.length > 0) {
+    let layers = layersOfElements(store.scene.elements)
+
+    if (layers && layers.length > 0) {
         selectionStore.selectedLayersSet.clear()
-        selectionStore.selectedLayersSet.add(store.scene.layers[0])
+        selectionStore.selectedLayersSet.add(layers[0])
     }
 }
 
-function removeFrom(layer, element) {
+function removeElement(layer, element) {
     removeElement_(layer, element)
 }
 
-function addTo(layer, element) {
+function addLayer(layer, element) {
     layer.elements.push(element)
 }
 
 export default {
     create,
-    trash, // TODO: 
+    trash,
     //
-    addTo,
-    removeFrom,
+    addLayer,
+    removeElement,
     //
     setCurrent,
     getCurrent,
     isCurrent,
     //
     getById,
-    getByName,
     //
     hasChilds,
-    numChilds,
+    numberOfElements,
     //
     isOpen,
     toogleOpen,
+    toogleVisibility,
     //
     selectFirst,
     //
-    initCaches
+    forEach,
+    //initCaches
 }

@@ -5,17 +5,18 @@
 //
 import { useStore } from 'stores/store'
 import { useViewStore } from 'stores/view'
-//import { useSelectionStore } from 'stores/selection'
-import { svgTypesVue, renderLayerAttributes } from 'components/types'
+//import { svgTypesVue, renderLayerAttributes } from 'components/types'
 
 import api from 'api/api'
 import selectionFrame from 'components/selection';
 
-
 // Template
 //
-const layerAttrs = renderLayerAttributes()
+//const layerAttrs = renderLayerAttributes()
 
+// TODO: LAYERS ARE GROUPS SO PUT THEMM INTO ELEMENTS
+
+/*
 const template = `
 <svg id="svg" ref="svg" :viewBox="viewBox">
    <selectionFrame></selectionFrame>
@@ -36,12 +37,36 @@ const template = `
 </svg>
 `
 
+const templateNEW = `
+<svg id="svg" ref="svg" :viewBox="viewBox">
+   <selectionFrame></selectionFrame>
+   <template v-for="element in store.scene.elements">
+        ${svgTypesVue}
+        <template v-for="element in element.elements">
+            ${svgTypesVue}
+            <template v-for="element in element.elements">
+                 ${svgTypesVue}
+                </template>
+         </template>
+   </template>
+</svg>`
+*/
+
+const template = `
+<svg id="svg" ref="svg" :viewBox="viewBox" :width="width" :height="height">
+    <selectionFrame></selectionFrame>
+    <template v-for="element in elements">
+        <svg-element :element="element"></svg-element>
+    </template>
+</svg>
+`
+
+
 // Data
 //
 function data() {
     return {
         store: useStore(),
-        //selectionStore: useSelectionStore(),
         viewStore: useViewStore(),
         //
         isShiftPressed: false
@@ -103,25 +128,21 @@ function createResizeObserver(self) {
     new ResizeObserver(outputsize).observe(svg)
 }
 
-function selectElement(element) {
-    if (api.selection.isSelected(element)) {
-        api.selection.deselect(element)
-    } else {
-        api.selection.select(element)
-    }
-}
-
 // Mounted
 //
 function mounted() {
+    // TODO: Refactor
     createDragger(this)
     createResizeObserver(this)
 }
 
 function viewBox() {
-    // TODO: USE VIEW API
-    let [x, y, w, h] = this.viewStore.viewBox
+    let [x, y, w, h] = api.view.viewBox()
     return `${x} ${y} ${w} ${h}`
+}
+
+function elements() {
+    return api.scene.elements()
 }
 
 // Component
@@ -130,16 +151,12 @@ export default {
     data,
     template,
     computed: {
-        viewBox
-    },
-    methods: {
-        selectElement,
-        isSelected(element) {
-            return api.selection.isSelected(element)
-        }
+        viewBox,
+        elements
     },
     components: {
-        selectionFrame
+        selectionFrame,
+        //svgElement - register global in app to work recursively
     },
     mounted
 }
