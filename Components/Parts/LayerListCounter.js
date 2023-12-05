@@ -7,7 +7,7 @@ import api from 'api/api'
 // Template
 //
 const template = `
-<span :id="id" :class="badgeClass" @click.prevent.stop="">
+<span :class="badgeClass" @click.prevent.stop="">
     {{elementsCount}}
 </span>
 `
@@ -23,7 +23,7 @@ function badgeClass() {
 }
 
 function elementsCount() {
-    const layer = api.layer.getById(this.id)
+    const layer = this.layer
     const count = api.layer.numberOfElements(layer)
     return count
 }
@@ -31,7 +31,7 @@ function elementsCount() {
 // Component
 //
 export default {
-    props: ['id', 'active'],
+    props: ['layer', 'active'],
     template,
     computed: {
         badgeClass,

@@ -29,19 +29,17 @@ function getCarretNoChilds(level) {
 // Component
 //
 export default {
-    props: ['id', 'active', 'level'],
+    props: ['layer', 'active', 'level'],
     template,
     methods: {
         toogleOpen() {
-            const layer = api.layer.getById(this.id)
-            api.layer.toogleOpen(layer)
+            api.layer.toogleOpen(this.layer)
         },
     },
     computed: {
         iconClass() {
-            const layer = api.layer.getById(this.id)
-            if (api.layer.hasChilds(layer, this.level)) {
-                return getCarret(layer)
+            if (api.layer.hasChilds(this.layer, this.level)) {
+                return getCarret(this.layer)
             } else {
                 return getCarretNoChilds(this.level)
             }

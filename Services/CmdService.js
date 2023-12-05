@@ -25,7 +25,8 @@ function doCmdClear() {
     const name = 'layer0'
     const description = 'Default layer 0'
 
-    api.layer.create(name, description)
+    const newLayer = api.layer.create(name, description)
+    api.scene.addLayer(newLayer)
 }
 
 // save

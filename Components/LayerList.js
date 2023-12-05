@@ -31,13 +31,13 @@ const template = `
     >
 
         <span class="text-truncate" style="max-width: 120px;">
-            <layer-list-toggler :id="layer.id" :active="isCurrent(layer)" :level="level(layer)" />
+            <layer-list-toggler :layer="layer" :active="isCurrent(layer)" :level="level(layer)" />
             {{layer.name}}
         </span>
 
         <span>
-            <layer-list-counter :id="layer.id" :active="isCurrent(layer)" />
-            <layer-list-visible :id="layer.id" :active="isCurrent(layer)" :visible="isVisible(layer)" />
+            <layer-list-counter :layer="layer" :active="isCurrent(layer)" />
+            <layer-list-visible :layer="layer" :active="isCurrent(layer)" :visible="isVisible(layer)" />
         </span>
 
     </li>
@@ -64,7 +64,7 @@ function fillLayers_(elements, layers_, levels_, level) {
 
     for (const element of elements) {
 
-        if (element.subtype === "layer") {
+        if (element.type === "layer") {
             let layer = element
 
             layers_.push(layer)
@@ -75,6 +75,22 @@ function fillLayers_(elements, layers_, levels_, level) {
             }
         }
     }
+}
+
+function level(layer) {
+    return this.levels[layer.id]
+}
+
+function isCurrent(layer) {
+    return api.layer.isCurrent(layer)
+}
+
+function isVisible(layer) {
+    return api.layer.isVisible(layer)
+}
+
+function setCurrent(layer) {
+    api.layer.setCurrent(layer)
 }
 
 // Data
@@ -109,17 +125,9 @@ export default {
     },
     methods: {
         layerClass,
-        level(layer) {
-            return this.levels[layer.id]
-        },
-        isCurrent(layer) {
-            return api.layer.isCurrent(layer)
-        },
-        isVisible(layer) {
-            return (layer.style.indexOf('visible') >= 0)
-        },
-        setCurrent(layer) {
-            api.layer.setCurrent(layer)
-        }
+        level,
+        isCurrent,
+        isVisible,
+        setCurrent
     }
 }

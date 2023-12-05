@@ -2,13 +2,12 @@
 
 // Imports
 //
-import api from 'api/modify'
-import layerAPI from 'api/layer'
+import api from 'api/api'
 
 // Template
 //
 const template = `
-<span :id="id" :class="badgeClass" @click.prevent.stop="toogleVisibility()">
+<span :class="badgeClass" @click.prevent.stop="toogleVisibility()">
     <i class="user-select-none" :class="iconClass"></i>
 </span>
 `
@@ -16,15 +15,7 @@ const template = `
 // toogle visibility of layer
 // 
 function toogleVisibility() {
-    const layer = layerAPI.getById(this.id)
-    console.log("toogleVisibility", this.id)
-    console.log("layer.style", layer.style)
-    if (layer.style.indexOf('visible') >= 0) {
-        api.modify(layer, 'layer', { style: 'visibility:hidden' })
-        console.log("layer.style", layer.style)
-    } else {
-        api.modify(layer, 'layer', { style: 'visibility:visible' })
-    }
+    api.layer.toogleVisibility(this.layer)
 }
 
 // Icon
@@ -46,7 +37,7 @@ function badgeClass() {
 // Component
 //
 export default {
-    props: ['id', 'active', 'visible'],
+    props: ['layer', 'active', 'visible'],
     template,
     computed: {
         iconClass,

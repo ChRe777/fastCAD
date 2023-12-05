@@ -31,10 +31,11 @@ export const useViewStore = defineStore('viewBoxStore', {
         //
         zoomFactor: 1,
         //
-        width: defaults.viewBox.width, 
+        width: defaults.viewBox.width,
         height: defaults.viewBox.height,
     }),
     getters: {
+        // TODO: ReFactor or ReThink !!
         viewBox: (state) => {
             return calcViewBox(state)
         }

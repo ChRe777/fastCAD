@@ -3,7 +3,9 @@
 // Imports
 //
 import { defaults } from 'services/defaults'
+import { addPoints } from 'services/utils'
 import { useStore } from 'stores/store'
+
 import layer from 'api/layer'
 
 // Constants
@@ -68,9 +70,11 @@ function lineTo(p2, relative2) {
 
     const store = useStore()
 
-    if (store.lastPoint !== undefined) {
-        p1 = store.lastPoint
+    if (store.lastPoint === undefined) {
+        return
     }
+
+    let p1 = store.lastPoint
 
     if (relative2) {
         p2 = addPoints(p1, p2)

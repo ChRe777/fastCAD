@@ -5,19 +5,39 @@
 // Imports
 //
 import api from 'api/api'
-import { svgElementTypes } from 'components/types'
+import { svgElementTypes, svgLayerAttributes } from 'components/types'
 
+// TODO: ReThink ... ReHear :-)
+/*
+"elements": [
+    {
+        "svg-type": "g",
+        "type": "layer",
+        "visibility": "visible",
+
+*/
 // Template
 //
+
+const svgLayerChilds = `
+    <svg-element v-for="element in element.elements" :element="element"></svg-element>
+`
+
+const templateNEW = `
+    ${svgElementTypes}
+    <g v-if="element.type == 'layer' && element['svg-type'] == 'g'"
+       ${svgLayerAttributes}
+    >
+       ${svgLayerChilds}
+    </g>
+
+`
+
 const template = `
 ${svgElementTypes}
 <template v-if="element.type == 'g' && element.subtype == 'layer'">
-    <g  :id="element.id" 
-        :fill="element.fill" 
-        :stroke="element.stroke" 
-        :stroke-width="element['stroke-width']" 
-        :stroke-opacity="element['stroke-opacity']"
-        :style="element.style"
+    <g data-type="layer"
+       ${svgLayerAttributes}
     >
         <template v-for="element in element.elements">
             <svg-element :element="element"></svg-element>

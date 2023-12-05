@@ -14,6 +14,14 @@
         <link rel="icon" type="image/x-icon" href="./Assests/Image/favicon.ico">
 
         <!-- LIBRARIES ES6 -->
+        <!-- 
+            see https://lodash.com
+            read https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+            read https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/
+            see https://www.sitepoint.com/using-es-modules/ 
+            <link rel="modulepreload" href="html.js">
+            <link rel="modulepreload" href="lib.js">
+        -->
         <script type="importmap">
         {
             "imports": {
@@ -39,7 +47,7 @@
                 "components/element"    : "./Components/SvgElement.js",
                 "components/selection"  : "./Components/SelectionHandler.js",
                 "components/toolbar"    : "./Components/SvgToolbar.js",
-                "components/types"      : "./Components/SvgTypes.js",
+                "components/types"      : "./Components/SvgElementTypes.js",
 
                 "views/batch"           : "./Views/BatchScriptingDialog.js",
                 "views/settings"        : "./Views/SettingsDialog.js",

@@ -21,6 +21,9 @@ let attributeGroups = {
             { name: 'rotate', title: 'rot', type: 'angle' }
         ],
         [
+            { name: 'word-spacing', title: 'ws', type: 'number' },
+        ],
+        [
             { name: 'font-family', title: 'font', type: 'font' },
         ],
         [

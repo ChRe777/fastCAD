@@ -16,7 +16,8 @@ import selections from 'api/selection'
 //
 function clear() {
     const store = useStore()
-    store.scene.layers = []
+    // TODO: Really make full clear
+    store.scene.elements = []
 }
 
 function create() {
@@ -85,6 +86,7 @@ function getElementById(id) {
 
 function addLayer(layer) {
     const store = useStore()
+    // TODO: Add layer on Top ?
     store.scene.elements.push(layer)
 }
 

@@ -6,16 +6,10 @@ import { useStore } from 'stores/store'
 import { useSelectionStore } from 'stores/selection'
 import { defaults } from 'services/defaults'
 
-import modify from 'api/modify'
-import scene from 'api/scene'
-
 // Constants
 //
-// const layersByIdTable = new Map() // TODO: STORE ??
-// const layersByNameTable = new Map()
 
 const { randomUUID } = new ShortUniqueId({ length: 10 });
-
 
 // Functions
 //
@@ -25,7 +19,7 @@ function forEach_(fn, elements) {
         return
     }
 
-    let layers = elements.filter(element => element.subtype === 'layer')
+    let layers = elements.filter(element => element.type === 'layer')
 
     layers.forEach(layer => {
         fn(layer)
@@ -40,8 +34,8 @@ function forEach(fn) {
 
 function create(name, description) {
 
-    const layer = create_("g", {
-        'subtype': 'layer',
+    const layer = create_("layer", {
+        'svg-type': 'g',
         'name': name,
         'description': description,
         ...defaults.layer
@@ -64,19 +58,16 @@ function create_(type, attrs) {
         "isopen": false
     }
 
-    // TODO: Remove dependency
-    scene.addLayer(newLayer)
-
     return newLayer
 }
 
-// TODO: REFACTOR
 function removeElement_(layer, element) {
-    layer.elements = layer.elements.filter(obj => obj.id !== element.id)
-    if (layer.layers != undefined) { // layer should be []
-        for (let subLayer of layer.layers) {
-            removeElement_(subLayer, element)
-        }
+    layer.elements = layer.elements.filter(element_ => element_.id !== element.id)
+
+    const subLayers = layersOfElements(layer.elements)
+
+    for (let subLayer of subLayers) {
+        removeElement_(subLayer, element)
     }
 }
 
@@ -112,35 +103,25 @@ function toogleOpen(layer) {
 }
 
 function toogleVisibility(layer) {
-
-    console.log("layer.style", layer.style)
-    if (layer.style.indexOf('visible') >= 0) {
-        // TODO: Remove Dependency
-        modify.modify(layer, 'layer', { style: 'visibility:hidden' })
-        console.log("layer.style", layer.style)
+    if (layer.visibility === 'visible') {
+        layer.visibility = 'hidden'
     } else {
-        modify.modify(layer, 'layer', { style: 'visibility:visible' })
+        layer.visibility = 'visible'
     }
+}
+
+function isVisible(layer) {
+    return layer.visibility === 'visible'
 }
 
 function hasChilds(layer) {
-    console.log("hasChild", layer.name)
-    if (layer && layer.elements !== undefined) {
-        console.log("hasChild 11", layer.name, layer.elements)
-        for (const element of layer.elements) {
-            console.log("hasChild 11 - subtype", element.id, element.subtype)
-            if (element.subtype === "layer") {
-                return true
-            }
-        }
-    }
-
-    return false
+    const firstLayer = layer.elements.find(element => element.type === "layer")
+    return firstLayer !== undefined
 }
 
 function numberOfSubElements_(elements) {
-    let elementsWithoutLayers = elements.filter(element => element.subtype !== 'layer')
-    return elementsWithoutLayers
+    let subLayers = layersOfElements(elements)
+    return subLayers
         .map(numberOfElements)
         .reduce((accumulator, currentValue) => {
             return accumulator + currentValue
@@ -148,55 +129,20 @@ function numberOfSubElements_(elements) {
 }
 
 function numberOfElements(layer) {
-
-    if (layer == undefined || layer.elements === undefined) {
-        return 0
-    }
-
-    let childs = layer.elements.filter(element => element.subtype !== 'layer')
-    let childsNum = childs.length // without layer
-
-    if (hasChilds(layer)) {
-        return childsNum + numberOfSubElements_(layer.elements)
-    }
-
-    return childsNum
+    let childsNum = elementsOfElements(layer.elements).length
+    return childsNum + numberOfSubElements_(layer.elements)
 }
 
 function isOpen(layer) {
     return layer['isopen']
 }
 
-function getById_(id, elements) {
-
-    for (const element of elements) {
-        if (element.subtype === "layer") {
-            let layer = element
-            if (layer.id === id) {
-                return layer
-            }
-            if (hasChilds(layer)) {
-                let found = getById_(id, layer.elements)
-                if (found !== undefined) {
-                    return found
-                }
-            }
-        }
-    }
-
-    return undefined
-}
-
-function getById(id) {
-    const store = useStore()
-    return getById_(id, store.scene.elements)
-}
-
 function layersOfElements(elements) {
-    if (elements === undefined) {
-        return []
-    }
-    return elements.filter(element => element.subtype === 'layer')
+    return elements.filter(element => element.type === 'layer')
+}
+
+function elementsOfElements(elements) {
+    return elements.filter(element => element.type !== 'layer')
 }
 
 function selectFirst() {
@@ -230,17 +176,15 @@ export default {
     getCurrent,
     isCurrent,
     //
-    getById,
-    //
     hasChilds,
     numberOfElements,
     //
     isOpen,
     toogleOpen,
     toogleVisibility,
+    isVisible,
     //
     selectFirst,
     //
-    forEach,
-    //initCaches
+    forEach
 }
