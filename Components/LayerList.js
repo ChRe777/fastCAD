@@ -11,6 +11,7 @@ import { useStore } from 'stores/store'
 import LayerListCounter from 'parts/counter'
 import LayerListToggler from 'parts/toggler'
 import LayerListVisible from 'parts/visible'
+import LayerListFreeze from 'parts/freeze'
 
 // Template
 //
@@ -35,9 +36,10 @@ const template = `
             {{layer.name}}
         </span>
 
-        <span>
-            <layer-list-counter :layer="layer" :active="isCurrent(layer)" />
-            <layer-list-visible :layer="layer" :active="isCurrent(layer)" :visible="isVisible(layer)" />
+        <span class="badge-group">
+            <layer-list-counter class="me-1" :layer="layer" :active="isCurrent(layer)" />
+            <layer-list-visible class="me-1" :layer="layer" :active="isCurrent(layer)" :visible="isVisible(layer)" />
+            <layer-list-freeze  :layer="layer" :active="isCurrent(layer)" :frozen="isFrozen(layer)" />
         </span>
 
     </li>
@@ -89,6 +91,10 @@ function isVisible(layer) {
     return api.layer.isVisible(layer)
 }
 
+function isFrozen(layer) {
+    return api.layer.isFrozen(layer)
+}
+
 function setCurrent(layer) {
     api.layer.setCurrent(layer)
 }
@@ -112,6 +118,7 @@ export default {
         LayerListCounter,
         LayerListToggler,
         LayerListVisible,
+        LayerListFreeze,
     },
     computed: {
         layers() {
@@ -128,6 +135,7 @@ export default {
         level,
         isCurrent,
         isVisible,
+        isFrozen,
         setCurrent
     }
 }

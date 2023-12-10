@@ -17,7 +17,7 @@ const template = `
 
 
 function badgeClass() {
-    let classes = 'badge bg-primary rounded-pill me-1'
+    let classes = 'badge bg-primary rounded-pill'
     classes += ' ' + (this.active ? 'bg-white text-primary' : 'bg-primary text-white')
     return classes
 }

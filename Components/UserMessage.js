@@ -3,8 +3,7 @@
 // Import
 //
 
-// Store
-//
+// TODO: API
 import { useMessageStore } from 'stores/message'
 
 // Parts
@@ -24,12 +23,14 @@ const template = `
 export default {
     data() {
         return {
+            // TODO: API
             messagesStore: useMessageStore()
         }
     },
     template,
     computed: {
         messages() {
+            // TODO: API
             return this.messagesStore.messages
         }
     },

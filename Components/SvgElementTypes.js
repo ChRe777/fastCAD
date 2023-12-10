@@ -48,9 +48,8 @@ Most notably: clip-path, clip-rule, color, color-interpolation, color-rendering,
 // see https://developer.mozilla.org/en-US/docs/Web/SVG/Element/marker
 
 const svgLayerChild = `
-    <svg-element v-for="element in element.elements" :element="element"></svg-element>
+    <svg-element v-for="child in element.elements" :element="child" :parent="element"></svg-element>
 `
-
 const svgTypes = {
     types: [
         {
@@ -123,8 +122,6 @@ const svgLayerType = {
         .concat(general).concat(fill).concat(stroke)
 }
 
-
-
 function renderAttribute(attr) {
     return `:${attr}="element['${attr}']"` // :cx="element['cx']"
 }
@@ -154,11 +151,19 @@ function renderType(element, index) {
         type = element['svg-type']
     }
 
+    let selection = `
+    :class="{ selected: isSelected(element)}" 
+    @click="selectElement(element, parent)"
+    `
+
+    if (element.type === 'layer') {
+        selection = ""
+    }
+
     return `
     <${type}
         ${cond}="element.type === '${element.type}'"
-        :class="{ selected: isSelected(element)}" 
-        @click="selectElement(element)"
+        ${selection}
         data-type="${element.type}" 
         ${renderAttributes(element.attrs)}
     >
@@ -172,26 +177,4 @@ function renderTypes(types) {
 }
 
 export const svgElementTypes = renderTypes(svgTypes.types)
-console.log(svgElementTypes)
 export const svgLayerAttributes = renderAttributes(svgLayerType.attrs)
-console.log(svgLayerAttributes)
-/*
-<circle
-v-if="element.type === 'circle'"
-
-:class="{ selected: isSelected(element)}" 
-@click="selectElement(element)" 
-:id="element.id"
-:cx="element['cx']"
-:cy="element['cy']"
-:r="element['r']"
-:fill="element['fill']"
-:fill-opacity="element['fill-opacity']"
-:stroke="element['stroke']"
-:stroke-width="element['stroke-width']"
-:stroke-dasharray="element['stroke-dasharray']"
->
-
-</circle>
-
-*/

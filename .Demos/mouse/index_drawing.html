@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Draw Polyline with Mouse</title>
+        <style>
+            #drawingArea {
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <svg id="drawingArea" width="500" height="300">
+            <!-- Initial SVG content goes here (if any) -->
+        </svg>
+
+        <script>
+            // Variables to keep track of the drawing state
+            let isDrawing = false;
+            let points = [];
+            let polyline = null;
+
+            // SVG element
+            const svg = document.getElementById('drawingArea');
+
+            // Event listeners for mouse down, move, and up
+            svg.addEventListener('mousedown', startDrawing);
+            svg.addEventListener('mousemove', draw);
+            svg.addEventListener('mouseup', endDrawing);
+            svg.addEventListener('contextmenu', endPolyline); // Right-click to end polyline
+
+            // Function to start drawing
+            function startDrawing(event) {
+                if (event.button !== 0) return; // Check if left mouse button is clicked
+
+                isDrawing = true;
+                points = [];
+                points.push(getMousePosition(event));
+
+                // Create a new polyline element
+                polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+                polyline.setAttribute('stroke', 'black');
+                polyline.setAttribute('stroke-width', '2');
+                polyline.setAttribute('fill', 'none');
+                svg.appendChild(polyline);
+            }
+
+            // Function to draw a line segment
+            function draw(event) {
+                if (!isDrawing) return;
+
+                const endPoint = getMousePosition(event);
+
+                // Update polyline points
+                points.push(endPoint);
+                polyline.setAttribute('points', points.map(point => `${point.x},${point.y}`).join(' '));
+            }
+
+            // Function to end drawing
+            function endDrawing() {
+                if (isDrawing) {
+                    isDrawing = false;
+                }
+            }
+
+            // Function to end the polyline (right-click)
+            function endPolyline(event) {
+                event.preventDefault(); // Prevent the context menu from showing up
+
+                if (isDrawing) {
+                    isDrawing = false;
+                    polyline = null;
+                }
+            }
+
+            // Function to get mouse position relative to SVG
+            function getMousePosition(event) {
+                const CTM = svg.getScreenCTM();
+                return {
+                    x: (event.clientX - CTM.e) / CTM.a,
+                    y: (event.clientY - CTM.f) / CTM.d
+                };
+            }
+        </script>
+
+    </body>
+
+</html>

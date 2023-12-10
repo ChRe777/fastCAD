@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=500, initial-scale=1.0">
+    <title>SVG Click and Coordinate Example</title>
+    <style>
+      /* Add some styles to make it visually clear */
+      #mySvg {
+        border: 1px dashed #ccc
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- SVG element -->
+    <svg id="mySvg" tabindex="0" width="500" height="200">
+      <!-- Your SVG content goes here -->
+      <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+    </svg>
+    <input id="input" type="text"></input>
+
+
+    <script>
+      // Get the SVG and Input elements
+      const svgElement = document.getElementById('mySvg');
+      const inputElement = document.getElementById('input');
+
+      inputElement.focus()
+
+      let stop = false
+
+      // Append the input element to the body
+
+      document.addEventListener('keydown', function (event) {
+        // Set focus to the input element on any keydown event
+        inputElement.focus()
+      })
+
+      // Function to get point coordinates
+      async function getPoint(message) {
+
+        return new Promise(resolve => {
+          // Add a click event listener to the SVG element
+
+          inputElement.placeholder = message
+
+          svgElement.addEventListener('click', function (event) {
+            console.log("click")
+            // Prevent the default focus behavior
+            event.preventDefault();
+          })
+
+          svgElement.addEventListener('pointerdown', function (event) {
+            console.log("pointerdown")
+            const x = event.clientX;
+            const y = event.clientY;
+            resolve({ x, y });
+          });
+
+          // Add a keypress event listener to the input element
+          inputElement.addEventListener('keydown', function (event) {
+
+            inputElement.focus()
+
+            if (event.key === 'Esc') {
+              stop = true
+            }
+
+            if (event.key === 'Enter') {
+              const [x, y] = inputElement.value.split(',').map(coord => parseFloat(coord));
+              if (!isNaN(x) && !isNaN(y)) {
+                resolve({ x, y });
+              } else {
+                console.error('Invalid input. Please enter valid coordinates.');
+              }
+            }
+          });
+        });
+      }
+
+      //const coordinates = await getPoint('enter point')
+      //console.log('Coordinates:', coordinates)
+
+    </script>
+
+  </body>
+
+</html>

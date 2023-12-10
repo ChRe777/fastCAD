@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=500, initial-scale=1.0">
+        <title>SVG Click and Coordinate Example</title>
+        <style>
+            svg {
+                border: 1px dashed green;
+            }
+
+            #input:focus {
+                box-shadow: none !important;
+            }
+
+            #input,
+            #output {
+                border: 1px dashed #FF0000 !important;
+                box-shadow: none !important;
+                width: 500px;
+            }
+        </style>
+
+        <link src="https://unpkg.com/normalize.css@7.0.0/normalize.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    </head>
+
+    <body>
+
+        <div class="container m-auto w-50 border border-0">
+            <center>
+                <h2 class="mt-3 mb-3">Polyline Tool</h2>
+                <div class="mb-3">
+                    <input class="form-control" id="input" type="text"></input>
+                </div>
+                <svg disabled class="rounded" id="mySvg" width="500" height="300" viewBox="0 0 500 300">
+                    <polyline id="polyline" points="" stroke="black" stroke-width="1" stroke-dasharray="" fill="none">
+                </svg>
+                <div class="mt-3">
+                    <textarea class="form-control" id="output" type="text" rows="3"></textarea>
+                </div>
+                <h5 class="mt-3">TODOs</h5>
+                <div class="w-50" style="text-align: left;">
+
+                    <ul>
+                        <li>Raster o .... o .... o 5er and Snap to Grid</li>
+                        <li>Guide v - or h - show direction</li>
+                        <li>Snap to endpoint, middlepoint, center, ...</li>
+                        <li>Undo/Redo</li>
+                    </ul>
+                </div>
+            </center>
+
+        </div>
+
+
+        <script type="module">
+
+            function createCircle(r) {
+                let lastPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                lastPoint.setAttribute('stroke', 'black');
+                lastPoint.setAttribute('stroke-width', '1');
+                lastPoint.setAttribute('fill', 'none');
+                lastPoint.setAttribute('visibility', 'hidden');
+                lastPoint.setAttribute('cx', '0');
+                lastPoint.setAttribute('cy', '0');
+                lastPoint.setAttribute('r', r);
+                return lastPoint
+            }
+
+            function createText() {
+                let text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('stroke', 'black');
+                text.setAttribute('stroke-width', '1');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('visibility', 'hidden');
+                text.setAttribute('x', '0');
+                text.setAttribute('y', '0');
+                return text
+            }
+
+            function createLine() {
+                let obj = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                obj.setAttribute('stroke', 'blue');
+                obj.setAttribute('stroke-width', '1');
+                obj.setAttribute('stroke-dasharray', '2');
+                obj.setAttribute('fill', 'white');
+                obj.setAttribute('visibility', 'hidden');
+                obj.setAttribute('x1', '0');
+                obj.setAttribute('y1', '0');
+                obj.setAttribute('x2', '0');
+                obj.setAttribute('y2', '0');
+                return obj
+            }
+
+            function createLastLine() {
+                let obj = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                obj.setAttribute('stroke', 'lightgrey');
+                obj.setAttribute('stroke-width', '1');
+                obj.setAttribute('stroke-dasharray', '2');
+                obj.setAttribute('fill', 'white');
+                obj.setAttribute('visibility', 'hidden');
+                obj.setAttribute('x1', '0');
+                obj.setAttribute('y1', '0');
+                obj.setAttribute('x2', '0');
+                obj.setAttribute('y2', '0');
+                return obj
+            }
+
+            function modifyHorz(obj, p, d) {
+                let x1 = p.x - d
+                let x2 = p.x + d
+                let y1 = p.y
+                let y2 = p.y
+                obj.setAttribute('x1', x1);
+                obj.setAttribute('y1', y1);
+                obj.setAttribute('x2', x2);
+                obj.setAttribute('y2', y2);
+            }
+
+            function modifyVert(obj, p, d) {
+                let x1 = p.x
+                let x2 = p.x
+                let y1 = p.y - d
+                let y2 = p.y + d
+                obj.setAttribute('x1', x1);
+                obj.setAttribute('y1', y1);
+                obj.setAttribute('x2', x2);
+                obj.setAttribute('y2', y2);
+            }
+
+
+            console.log("Hello")
+
+            const svg = document.getElementById('mySvg')
+            const inputElement = document.getElementById('input')
+            const outputElement = document.getElementById('output')
+
+            // Create a new polyline element
+            let lastPoint = createCircle(4)
+            svg.appendChild(lastPoint)
+
+            let cmdText = createText()
+            svg.appendChild(cmdText)
+
+            let guideLine = createLine()
+            svg.appendChild(guideLine)
+
+            let lastLine = createLastLine()
+            svg.appendChild(lastLine)
+
+            //
+            inputElement.focus()
+
+            async function resolveAfter2Seconds() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve('resolved 500ms')
+                    }, 500)
+                })
+            }
+
+
+            const result = await resolveAfter2Seconds()
+            console.log(result)
+
+            // Mouse
+            //
+            function mouse(resolve) {
+
+                svg.addEventListener('contextmenu', function (event) {
+                    event.preventDefault()
+                    resolve([{ x: 0, y: 0 }, true])
+                })
+
+                function getCoords(event) {
+                    const CTM = svg.getScreenCTM()
+                    const point = {
+                        x: (event.clientX - CTM.e) / CTM.a,
+                        y: (event.clientY - CTM.f) / CTM.d
+                    }
+                    return point
+                }
+
+                svg.addEventListener('pointerup', function (event) {
+                    //inputElement.focus()
+                })
+
+                svg.addEventListener("pointermove", function (event) {
+                    const last = getLastPoint()
+                    if (last) {
+                        const current = getCoords(event)
+                        lastLine.setAttribute('visibility', 'visible')
+                        lastLine.setAttribute('x1', last.x)
+                        lastLine.setAttribute('y1', last.y)
+                        lastLine.setAttribute('x2', current.x)
+                        lastLine.setAttribute('y2', current.y)
+                    }
+                });
+
+                svg.addEventListener('pointerdown', function (event) {
+
+                    event.preventDefault()
+
+                    if (event.button > 0) {
+                        return
+                    }
+
+                    const point = getCoords(event)
+                    resolve([point, false])
+                })
+            }
+
+            // Keyboard
+            //
+            function keyboard(resolve) {
+
+                function h_or_v(value) {
+
+                    let [x, y] = [0, 0]
+
+                    let cs = value.split(' ')
+                    let dir = cs[0]
+                    let dist = cs[1]
+                    let lastPoint = getLastPoint()
+
+                    if (dir == 'h') {
+                        [x, y] = [lastPoint.x + parseFloat(dist), lastPoint.y]
+                    }
+                    if (dir == 'v') {
+                        [x, y] = [lastPoint.x, lastPoint.y + parseFloat(dist)]
+                    }
+                    if (!isNaN(dist)) {
+                        resolve([{ x, y }, false])
+                    } else {
+                        inputElement.value = ""
+                    }
+                }
+
+                const degrees_to_radians = deg => (deg * Math.PI) / 180.0;
+
+                function polar(value) {
+                    value = value.substring(1)
+                    let xs = value.split(' ')
+
+                    let angle = 360 - parseFloat(xs[0])
+                    let dist = parseFloat(xs[1])
+
+                    let lastPoint = getLastPoint()
+                    console.log("polar", angle, dist)
+
+                    let [x, y] = [
+                        Math.cos(degrees_to_radians(angle)) * dist + lastPoint.x,
+                        Math.sin(degrees_to_radians(angle)) * dist + lastPoint.y
+                    ]
+
+                    if (!isNaN(angle) && !isNaN(dist)) {
+                        resolve([{ x, y }, false])
+                    } else {
+                        inputElement.value = ""
+                    }
+                }
+
+                inputElement.addEventListener('keyup', function (event) {
+
+                    console.log("key:", event.key)
+
+                    if (event.key === 'Escape') {
+                        stop = true
+                        event.preventDefault()
+
+                        resolve([{ x: 0, y: 0 }, true])
+                    }
+
+                    // Show typed text
+                    //
+                    let p = getLastPoint()
+                    cmdText.textContent = inputElement.value
+                    cmdText.setAttribute('x', p.x)
+                    cmdText.setAttribute('y', p.y)
+                    cmdText.setAttribute('visibility', 'visible')
+
+                    // Guides
+                    //
+                    let value = inputElement.value
+                    if (value.startsWith('h')) {
+                        let p = getLastPoint()
+                        guideLine.setAttribute('visibility', 'visible')
+                        modifyHorz(guideLine, p, 50)
+                    }
+
+                    if (value.startsWith('v')) {
+                        let p = getLastPoint()
+                        guideLine.setAttribute('visibility', 'visible')
+                        modifyVert(guideLine, p, 50)
+                    }
+
+                    if (event.key === 'Enter') {
+                        guideLine.setAttribute('visibility', 'hidden')
+                        lastLine.setAttribute('visibility', 'hidden');
+
+                        cmdText.textContent = ""
+                        let value = inputElement.value.trim()
+
+                        // h 10 or v -50
+                        //
+                        if (value.startsWith("v") || value.startsWith("h")) {
+                            h_or_v(value)
+                            return
+                        }
+
+                        // <30 10 
+                        //
+                        if (value.startsWith("<")) {
+                            polar(value)
+                            return
+                        }
+
+                        // else
+                        // x,y or @x,y
+                        //
+                        let relative = false
+                        if (value.startsWith("@")) {
+                            relative = true
+                            value = value.substring(1)
+                        }
+
+                        let [x, y] = value.split(',').map(coord => parseFloat(coord.trim()))
+                        console.log("value:", value)
+
+                        if (relative) {
+                            let p = getLastPoint()
+                            x = p.x + x
+                            y = p.y + y
+                        }
+
+                        if (!isNaN(x) && !isNaN(y)) {
+                            resolve([{ x, y }, false])
+                        } else {
+                            inputElement.value = ""
+                            console.error('Invalid input. Please enter valid coordinates.', x, y)
+                        }
+                    }
+                })
+            }
+
+            // Add a keydown event listener to the document
+            //
+            document.addEventListener('keydown', function (event) {
+
+                console.log(event.key)
+
+                if (event.key === 'Escape') {
+                    stop = true
+                    event.preventDefault()
+                    console.log("stop", stop)
+                    return
+                }
+
+                // Set focus to the input element on any keydown event
+                inputElement.focus()
+            })
+
+            // Get Point - *mouse* or *keyboard* resolved
+            //
+            function getPoint(message) {
+                return new Promise(resolve => {
+                    mouse(resolve)
+                    keyboard(resolve)
+                })
+            }
+
+
+            // [{x:1,y:2}, {x:3,y:4}] -> 1,2 3,4
+            //
+            function toSvgPoints(points, braces = false) {
+                let pointsStr = points
+                    .map(p => { return { x: Math.ceil(p.x), y: Math.ceil(p.y) } })
+                    .map(p => `${p.x},${p.y}`)
+                    .map(s => braces ? "[" + s + "]" : s)
+                    .join(' ')
+                return pointsStr
+            }
+
+            let i = 0
+            let points = []
+
+            function getLastPoint() {
+                let lastPoint_ = points.slice(-1)[0]
+                return lastPoint_
+            }
+
+            // Start Tool in a Loop
+            // Until ESC or Right Mouse Button
+            //
+            while (true) {
+
+                inputElement.placeholder = "next {x, y} or h {dx} or v {dx} or >{angle} {d}"
+
+                let [coordinates, stop] = await getPoint('enter point')
+
+                points.push(coordinates)
+
+                let lastPoint_ = points.slice(-1)[0]
+                console.log(lastPoint_)
+
+                lastPoint.setAttribute("cx", lastPoint_.x)
+                lastPoint.setAttribute("cy", lastPoint_.y)
+                lastPoint.setAttribute("visibility", "visible")
+
+                console.log('Coordinates:', coordinates)
+                inputElement.value = ''
+
+                if (stop) {
+                    console.log("loop - stop", stop)
+                    inputElement.placeholder = "next cmd"
+                    lastPoint.setAttribute("visibility", "hidden")
+                    break
+                }
+
+                let pointsStr = toSvgPoints(points)
+                outputElement.value = toSvgPoints(points, true)
+
+                const polyline = svg.getElementById('polyline')
+                polyline.setAttribute('points', pointsStr)
+
+            }
+
+
+        </script>
+
+    </body>
+
+</html>

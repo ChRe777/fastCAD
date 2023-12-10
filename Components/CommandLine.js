@@ -3,6 +3,7 @@
 
 // Imports
 //
+// TODO: API
 import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
 import { interpret } from 'services/interpreter'
@@ -60,6 +61,7 @@ function onTab() {
 
 function getSuggestion(str) {
 
+    // TODO: API
     const cmdStore = useCmdStore()
     const cmdFound = cmdStore.registeredCmds.find((cmd) => cmd.suggestion.startsWith(str))
     if (cmdFound) {
@@ -69,6 +71,7 @@ function getSuggestion(str) {
 }
 
 function onBatch() {
+    // TODO: API
     const cmdStore = useCmdStore()
     const cmdName = "batch"
     const cmd = cmdStore.registeredCmdsByName[cmdName]
@@ -96,7 +99,7 @@ function mounted() {
 //
 function data() {
     return {
-        store: useStore(),
+        store: useStore(),// TODO: API
         text: "",
         error: false,
         suggestion: "enter a command"

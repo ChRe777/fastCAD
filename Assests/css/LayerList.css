@@ -16,3 +16,7 @@
     /* TODO: Only over text */
     cursor: pointer;
 }
+
+.badge-group {
+    white-space: nowrap;
+}

@@ -22,6 +22,10 @@
             <link rel="modulepreload" href="html.js">
             <link rel="modulepreload" href="lib.js">
         -->
+
+        <!-- TODO: Component should register themselves in IMPORTMAP 
+            see https://flaviocopes.com/javascript-dynamic-import/
+        -->
         <script type="importmap">
         {
             "imports": {
@@ -48,6 +52,7 @@
                 "components/selection"  : "./Components/SelectionHandler.js",
                 "components/toolbar"    : "./Components/SvgToolbar.js",
                 "components/types"      : "./Components/SvgElementTypes.js",
+                "components/fun"        : "./Components/Fun.js",
 
                 "views/batch"           : "./Views/BatchScriptingDialog.js",
                 "views/settings"        : "./Views/SettingsDialog.js",
@@ -57,6 +62,7 @@
                 "parts/counter"         : "./Components/Parts/LayerListCounter.js",
                 "parts/toggler"         : "./Components/Parts/LayerListToggler.js",
                 "parts/visible"         : "./Components/Parts/LayerListVisible.js",
+                "parts/freeze"          : "./Components/Parts/LayerListFreeze.js",
                 "parts/button"          : "./Components/Parts/ToolbarButton.js",
      
                 "editors/common"        : "./Components/Editors/CommonEditor.js",
@@ -79,6 +85,7 @@
                 "stores/selection"      : "./Stores/SelectionStore.js",
                 "stores/settings"       : "./Stores/SettingsStore.js",
                 "stores/plugin"         : "./Stores/PluginStore.js",
+                "stores/tool"           : "./Stores/ToolStore.js",
 
                 "services/io"           : "./Services/IOService.js",
                 "services/io-local"     : "./Services/IOLocalStorageService.js",
@@ -87,6 +94,7 @@
                 "services/interpreter"  : "./Services/CmdInterpreter.js",
                 "services/utils"        : "./Services/UtilsFunctions.js",
                 "services/defaults"     : "./Services/Defaults.js",
+                "services/tools"        : "./Services/ToolService.js",
 
                 "api/api"               : "./API/Api.js",
                 "api/cmd"               : "./API/Cmd.js",
@@ -99,11 +107,17 @@
                 "api/scene"             : "./API/Scene.js",
                 "api/selection"         : "./API/Selection.js",
                 "api/view"              : "./API/View.js",
+                "api/tool"              : "./API/Tool.js",
 
                 "api/modify"            : "./API/Modify.js",
                 "api/modify/move"       : "./API/Modify/Move.js",
                 "api/modify/mirror"     : "./API/Modify/Mirror.js",
                 "api/modify/layer"      : "./API/Modify/Layer.js",
+
+                "tools/polyline"        : "./Components/Tools/Polyline.js",
+                "tools/selection"       : "./Components/Tools/Selection.js",
+                "tools/pan"             : "./Components/Tools/Pan.js",
+                "tools/zoom"            : "./Components/Tools/Zoom.js",
 
                 "test/all"              : "./Tests/All.js",
                 "test/api/layer"        : "./API/Layer_Test.js"

@@ -7,40 +7,16 @@
 import api from 'api/api'
 import { svgElementTypes, svgLayerAttributes } from 'components/types'
 
-// TODO: ReThink ... ReHear :-)
-/*
-"elements": [
-    {
-        "svg-type": "g",
-        "type": "layer",
-        "visibility": "visible",
-
-*/
 // Template
 //
-
-const svgLayerChilds = `
-    <svg-element v-for="element in element.elements" :element="element"></svg-element>
-`
-
-const templateNEW = `
-    ${svgElementTypes}
-    <g v-if="element.type == 'layer' && element['svg-type'] == 'g'"
-       ${svgLayerAttributes}
-    >
-       ${svgLayerChilds}
-    </g>
-
-`
-
 const template = `
 ${svgElementTypes}
 <template v-if="element.type == 'g' && element.subtype == 'layer'">
     <g data-type="layer"
        ${svgLayerAttributes}
     >
-        <template v-for="element in element.elements">
-            <svg-element :element="element"></svg-element>
+        <template v-for="child in element.elements">
+            <svg-element :element="child" :parent="element"></svg-element>
         </template>
     </g>
 </template>
@@ -48,11 +24,12 @@ ${svgElementTypes}
 
 // Functions
 //
-function selectElement(element) {
+function selectElement(element, parent) {
+
     if (api.selection.isSelected(element)) {
-        api.selection.deselect(element)
+        api.selection.deselect(element, parent)
     } else {
-        api.selection.select(element)
+        api.selection.select(element, parent)
     }
 }
 
@@ -63,7 +40,7 @@ function isSelected(element) {
 // Export components
 //
 export default {
-    props: ['element'],
+    props: ['element', 'parent'],
     template,
     methods: {
         selectElement,

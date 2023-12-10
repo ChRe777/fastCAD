@@ -16,7 +16,7 @@
             "description": "Default layer 0 description long",
             "fill": "#ffffff",
             "stroke": "#ffffff",
-            "stroke-width": 9,
+            "stroke-width": 6,
             "stroke-opacity": "1.0",
             "elements": [
                 {
@@ -32,6 +32,19 @@
                     "stroke-width": "2",
                     "stroke-opacity": "1.0",
                     "elements": [
+                        {
+                            "type": "circle",
+                            "id": "circle-CiwqaSQuTI",
+                            "cx": 0,
+                            "cy": -200,
+                            "r": 25,
+                            "fill": "#00f900",
+                            "stroke": "#00f900",
+                            "stroke-width": 17,
+                            "stroke-dasharray": "7,7",
+                            "fill-opacity": "0.5",
+                            "stroke-opacity": 0.3
+                        },
                         {
                             "type": "circle",
                             "id": "circle-PXNFX3W5HK",
@@ -56,7 +69,32 @@
                     "stroke-width": 17,
                     "stroke-dasharray": "7,7",
                     "fill-opacity": "0.5",
-                    "stroke-opacity": 0.1
+                    "stroke-opacity": 0.3
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-GhcrzWUpIp",
+                    "cx": "-50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#831100",
+                    "stroke": "#ff6251",
+                    "stroke-width": 3,
+                    "fill-opacity": "0.5",
+                    "stroke-dasharray": "5,5"
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-zSL8FF4N6V",
+                    "cx": "50",
+                    "cy": 0,
+                    "r": 50,
+                    "fill": "#fffb00",
+                    "stroke": "#ffffff",
+                    "stroke-width": 10,
+                    "fill-opacity": 0.9,
+                    "stroke-dasharray": "5,5",
+                    "stroke-opacity": 0.7
                 },
                 {
                     "type": "line",
@@ -66,8 +104,8 @@
                     "x2": "0",
                     "y2": "200",
                     "stroke": "#7a4a00",
-                    "stroke-width": 14,
-                    "stroke-dasharray": "5,1"
+                    "stroke-width": "10",
+                    "stroke-dasharray": "5,2"
                 },
                 {
                     "type": "line",
@@ -76,10 +114,34 @@
                     "y1": "200",
                     "x2": 50,
                     "y2": "200",
-                    "stroke": "#a96800",
+                    "stroke": "#0061ff",
                     "stroke-width": "5",
                     "stroke-dasharray": "",
                     "stroke-opacity": 0.85
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-HCQmdGcdiN",
+                    "cx": -300,
+                    "cy": 200,
+                    "r": 46,
+                    "fill": "#ff6251",
+                    "stroke": "#ffa57d",
+                    "stroke-width": 47,
+                    "stroke-dasharray": "7,5",
+                    "pathLength": 9
+                },
+                {
+                    "type": "circle",
+                    "id": "circle-gwpZauB6bk",
+                    "cx": 0,
+                    "cy": -51,
+                    "r": 15,
+                    "fill": "#53d5fd",
+                    "stroke": "#00c7fc",
+                    "stroke-width": 17,
+                    "stroke-dasharray": "5,2",
+                    "fill-opacity": 0.6
                 },
                 {
                     "type": "path",
@@ -174,135 +236,6 @@
                     "y2": -197,
                     "stroke": "#ebebeb",
                     "stroke-width": 2
-                },
-                {
-                    "type": "text",
-                    "id": "text-qjmG6C744i",
-                    "x": 150,
-                    "y": -140,
-                    "text": "- Scrsaver\n",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.5
-                },
-                {
-                    "type": "image",
-                    "id": "image-CWOwMZzMZs",
-                    "x": -360,
-                    "y": 80,
-                    "width": "200",
-                    "height": "200",
-                    "href": "https://img.freepik.com/free-vector/vintage-christmas-tree-with-gifts_23-2148759404.jpg?size=626&ext=jpg&ga=GA1.1.1862979576.1702237083&semt=ais",
-                    "fill": "#ffffff",
-                    "stroke": "#777777",
-                    "stroke-width": 3,
-                    "stroke-opacity": 0
-                },
-                {
-                    "type": "path",
-                    "id": "path-bdR6jZS3bS",
-                    "d": "M -360 80 h 200 v 200 h -200 z",
-                    "plen": "",
-                    "fill": "#ffffff",
-                    "stroke": "#ffb43f",
-                    "stroke-width": 5,
-                    "fill-opacity": 0,
-                    "stroke-dasharray": "3",
-                    "stroke-opacity": 1
-                },
-                {
-                    "type": "text",
-                    "id": "text-Jtz8PaA0e4",
-                    "x": 320,
-                    "y": 130,
-                    "text": "- TextPath",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#fffb00",
-                    "stroke": "#777777",
-                    "stroke-width": 0
-                },
-                {
-                    "type": "text",
-                    "id": "text-pZy4bObFjC",
-                    "x": 150,
-                    "y": -110,
-                    "text": "- Raster\n",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.5
-                },
-                {
-                    "type": "text",
-                    "id": "text-8y0RYYI971",
-                    "x": 150,
-                    "y": -80,
-                    "text": "- Snap\n",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.5
-                },
-                {
-                    "type": "circle",
-                    "id": "circle-fyXBVj7eWM",
-                    "cx": 450,
-                    "cy": -178,
-                    "r": 10,
-                    "fill": "#7a7a7a",
-                    "stroke": "#ffffff",
-                    "stroke-width": 2,
-                    "fill-opacity": 0.6
-                },
-                {
-                    "type": "polyline",
-                    "id": "polyline-UOFBi2bWkJ",
-                    "points": "470,-145 490,-155 500,-145",
-                    "plen": 10,
-                    "fill": "#ffffff",
-                    "stroke": "#d6d6d6",
-                    "stroke-width": 2,
-                    "fill-opacity": 0
-                },
-                {
-                    "type": "polygon",
-                    "id": "polygon-7IvlZBgtFj",
-                    "points": "470,-115 490,-125 500,-115",
-                    "plen": 10,
-                    "fill": "#7a7a7a",
-                    "stroke": "#ffffff",
-                    "stroke-width": 2
-                },
-                {
-                    "type": "line",
-                    "id": "line-XBA8cGtQnr",
-                    "x1": 420,
-                    "y1": -85,
-                    "x2": 450,
-                    "y2": -85,
-                    "stroke": "#ffffff",
-                    "stroke-width": 2
-                },
-                {
-                    "type": "text",
-                    "id": "text-nbD2PeJOj0",
-                    "x": 416,
-                    "y": -53,
-                    "text": "Hello!",
-                    "font-family": "Chalkduster",
-                    "font-size": "15px",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.3
                 }
             ]
         },
@@ -322,8 +255,8 @@
                 {
                     "type": "text",
                     "id": "text-Grtl3Tj5dL",
-                    "x": 150,
-                    "y": -256,
+                    "x": -120,
+                    "y": -110,
                     "text": "I like SVG CAD!",
                     "font-family": "Chalkduster",
                     "font-size": "30px",
@@ -333,6 +266,22 @@
                     "textLength": "250",
                     "fill-opacity": 0.3,
                     "rotate": "5deg"
+                },
+                {
+                    "type": "text",
+                    "id": "text-yuCX9NvHd5",
+                    "x": -90,
+                    "y": 241,
+                    "text": "I love SVG! ",
+                    "font-family": "Chalkduster",
+                    "font-size": "25px",
+                    "fill": "#ffffff",
+                    "stroke": "#ffffff",
+                    "stroke-width": 1,
+                    "fill-opacity": 0,
+                    "stroke-opacity": 1,
+                    "rotate": "10",
+                    "textLength": 180
                 },
                 {
                     "type": "text",
@@ -467,10 +416,10 @@
                 {
                     "type": "image",
                     "id": "image-kZlOrT9ynD",
-                    "x": 435,
-                    "y": -51,
-                    "width": "50",
-                    "height": "50",
+                    "x": 200,
+                    "y": 100,
+                    "width": "150",
+                    "height": "150",
                     "href": "https://www.svgheart.com/wp-content/uploads/2021/11/swirly-christmas-tree-with-star-holiday-free-svg-file-SvgHeart.Com.png",
                     "fill": "#ffffff",
                     "stroke": "#777777",

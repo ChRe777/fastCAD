@@ -1,4 +1,4 @@
-// view.js
+// CommandStore.js
 //
 
 // Imports

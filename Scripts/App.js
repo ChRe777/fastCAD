@@ -12,18 +12,20 @@ import SvgElement from 'components/element'
 //
 const pinia = createPinia()
 
-// Init Editor
+// Init Application
 //
 const app = createApp(App)
-app.component('svg-element', SvgElement)
+app.component('svg-element', SvgElement) // Recursive Component
 app.use(pinia)
 app.mount('#app')
 
-// Init Commands
+// Init Services
 //
 import { init as initCmds } from 'services/cmds'
+import { init as initTools } from 'services/tools'
 
 initCmds()
+initTools()
 
 // Watch Stores
 //

@@ -55,7 +55,7 @@ function line(p1, relative1, p2, relative2) {
         p2 = addPoints(p1, p2)
     }
 
-    create('line', {
+    const obj = create('line', {
         x1: p1.x,
         y1: p1.y,
         x2: p2.x,
@@ -65,6 +65,7 @@ function line(p1, relative1, p2, relative2) {
     })
 
     store.lastPoint = p2
+    return obj
 }
 function lineTo(p2, relative2) {
 
@@ -80,7 +81,7 @@ function lineTo(p2, relative2) {
         p2 = addPoints(p1, p2)
     }
 
-    create('line', {
+    const obj = create('line', {
         x1: p1.x,
         y1: p1.y,
         x2: p2.x,
@@ -90,6 +91,7 @@ function lineTo(p2, relative2) {
     })
 
     store.lastPoint = p2
+    return obj
 }
 function circle(p, relative, r) {
 
@@ -99,7 +101,7 @@ function circle(p, relative, r) {
         p = addPoints(store.lastPoint, p)
     }
 
-    create('circle', {
+    const obj = create('circle', {
         cx: p.x,
         cy: p.y,
         r: r,
@@ -109,6 +111,7 @@ function circle(p, relative, r) {
     })
 
     store.lastPoint = p
+    return obj
 }
 function text(p, relative, text) {
 
@@ -118,7 +121,7 @@ function text(p, relative, text) {
         p = addPoints(store.lastPoint, p)
     }
 
-    create('text', {
+    const obj = create('text', {
         x: p.x,
         y: p.y,
         text: text,
@@ -130,13 +133,14 @@ function text(p, relative, text) {
     })
 
     store.lastPoint = p
+    return obj
 }
 
 function path(d) {
 
     const store = useStore()
 
-    create('path', {
+    const obj = create('path', {
         d: d,
         plen: '',
         'fill': defaults.style.fill,
@@ -145,13 +149,14 @@ function path(d) {
     })
 
     store.lastPoint = { x: 0, y: 0 }
+    return obj
 }
 
 function polyline() {
 
     const store = useStore()
 
-    create('polyline', {
+    let obj = create('polyline', {
         points: '0,0 100,0',
         plen: 10,
         'fill': defaults.style.fill,
@@ -160,13 +165,14 @@ function polyline() {
     })
 
     store.lastPoint = { x: 0, y: 0 }
+    return obj
 }
 
 function polygon() {
 
     const store = useStore()
 
-    create('polygon', {
+    const obj = create('polygon', {
         points: '0,0 200,200',
         plen: 10,
         'fill': defaults.style.fill,
@@ -175,11 +181,12 @@ function polygon() {
     })
 
     store.lastPoint = { x: 0, y: 0 }
+    return obj
 }
 
 function image(p, size, href) {
 
-    create('image', {
+    const obj = create('image', {
         x: p.x,
         y: p.y,
         width: size.x,
@@ -189,6 +196,10 @@ function image(p, size, href) {
         'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
     })
+
+    store.lastPoint = p
+
+    return obj
 }
 
 // -------------------
@@ -198,7 +209,7 @@ function image(p, size, href) {
 //
 function copy(element) {
     let { id, type, ...attrs } = element
-    create(type, attrs)
+    return create(type, attrs)
 }
 // Exports
 //

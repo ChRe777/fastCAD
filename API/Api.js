@@ -30,6 +30,7 @@ import modify from 'api/modify'
 import scene from 'api/scene'
 import selection from 'api/selection'
 import view from 'api/view'
+import tool from 'api/tool'
 
 export default {
     cmd,
@@ -40,7 +41,8 @@ export default {
     modify,
     scene,
     selection,
-    view
+    view,
+    tool
 };
 
 // copy {id}

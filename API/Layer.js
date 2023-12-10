@@ -114,6 +114,19 @@ function isVisible(layer) {
     return layer.visibility === 'visible'
 }
 
+function toogleFreezing(layer) {
+    layer['isfrozen'] = !layer['isfrozen']
+    return layer['isfrozen']
+}
+
+function isFrozen(layer) {
+    return layer['isfrozen']
+}
+function isNotFrozen(layer) {
+    return !isFrozen(layer)
+}
+
+
 function hasChilds(layer) {
     const firstLayer = layer.elements.find(element => element.type === "layer")
     return firstLayer !== undefined
@@ -181,8 +194,13 @@ export default {
     //
     isOpen,
     toogleOpen,
+    //
     toogleVisibility,
     isVisible,
+    //
+    toogleFreezing,
+    isFrozen,
+    isNotFrozen,
     //
     selectFirst,
     //

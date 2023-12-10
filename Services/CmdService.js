@@ -57,7 +57,18 @@ function doCmdMove(args) {
 // zoom in 
 // zoom out
 //
-function doCmdZoom(args) {
+async function doCmdZoom(args) {
+
+    if (args.length == 1) {
+
+        // Connect mouse and keyboard to the tool
+        //
+        let tool = api.tool.activate("zoom")
+        await tool.start()
+        api.tool.deactivate(tool)
+
+        return
+    }
 
     if (argFns.asString(args, 1) == 'out') {
         doCmdZoomOut()
@@ -69,14 +80,33 @@ function doCmdZoom(args) {
 
 // zoom in
 //
-function doCmdZoomIn() {
+function doCmdZoomIn(args) {
     api.view.zoomIn()
 }
 
 // zoom out
 //
-function doCmdZoomOut() {
+function doCmdZoomOut(args) {
     api.view.zoomOut()
+}
+
+// Panning
+//
+async function doCmdPan(args) {
+
+    if (args.length == 1) { // e.g. pan
+
+        // Connect mouse and keyboard to the tool
+        //
+        let tool = api.tool.activate("pan")
+        await tool.start()
+        api.tool.deactivate(tool)
+
+        return
+    }
+
+    const [p, _] = argFns.asPoint2(args, 1)
+    api.view.pan(p.x, p.y)
 }
 
 // line 10,10 20,20
@@ -128,11 +158,23 @@ function doCmdText(args) {
 function doCmdPath(args) {
 
     // path 0,0 h 10 v 10
-    const d = args.slice(1).join(" ")
+    let d = "M 0 0 h 100 v 100"
+    if (args.length > 2)
+        d = args.slice(1).join(" ")
     api.create.path(d)
 }
 
-function doCmdPolyline(args) {
+async function doCmdPolyline(args) {
+
+    if (args.length == 1) { // e.g. pl
+
+        // Connect mouse and keyboard to the tool
+        //
+        let tool = api.tool.activate("polyline")
+        await tool.start()
+        api.tool.deactivate(tool)
+        return
+    }
 
     // TODO: polyline "0,0 0,10 10,10 10,0"
     //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
@@ -175,6 +217,23 @@ function doCmdLayer(args) {
 //
 function doCmdDelete(args) {
     api.destroy.selected()
+}
+
+
+// select
+//
+async function doCmdSelect(args) {
+
+    if (args.length == 1) { // e.g. pl
+
+        // Connect mouse and keyboard to the tool
+        //
+        let tool = api.tool.activate("selection")
+        await tool.start()
+        api.tool.deactivate(tool)
+        return
+    }
+
 }
 
 // deselect
@@ -281,6 +340,22 @@ function doCmdMessage(args) {
     api.create.Message(text)
 }
 
+function doCmdSnow(args) {
+    let on_off = argFns.asString(args, 1)
+
+    const store = useStore()
+
+    if (on_off === 'on') {
+        store.showFun = true
+    }
+
+    if (on_off === 'off') {
+        store.showFun = false
+    }
+
+}
+
+
 const cmds = {
     doCmdClear,
     doCmdSave,
@@ -294,6 +369,7 @@ const cmds = {
     doCmdZoom,
     doCmdZoomIn,
     doCmdZoomOut,
+    doCmdPan,
     //
     doCmdCircle,
     doCmdLine,
@@ -304,6 +380,7 @@ const cmds = {
     doCmdLayer,
     //
     doCmdDelete,
+    doCmdSelect,
     doCmdDeselect,
     //
     doCmdBatch,
@@ -326,7 +403,7 @@ const { randomUUID } = new ShortUniqueId({ length: 10 });
 //
 export function init() {
 
-    let cmdStore = useCmdStore()
+    const cmdStore = useCmdStore()
 
     // Register Commands
     //
@@ -405,7 +482,7 @@ export function init() {
         name: 'polyline',
         suggestion: 'polyline {string}',
         shortCuts: [],
-        hotKeys: undefined,
+        hotKeys: 'pl',
         action: doCmdPolyline,
     })
 
@@ -456,6 +533,15 @@ export function init() {
 
     cmdStore.registerCmd({
         uuid: randomUUID(),
+        name: 'select',
+        suggestion: 'select',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdSelect,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
         name: 'deselect',
         suggestion: 'deselect',
         shortCuts: ['esc'],
@@ -470,6 +556,15 @@ export function init() {
         shortCuts: [],
         hotKeys: undefined,
         action: doCmdZoom,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'pan',
+        suggestion: 'pan {x,y}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdPan,
     })
 
     cmdStore.registerCmd({
@@ -534,6 +629,16 @@ export function init() {
         hotKeys: undefined,
         action: doCmdMessage
     })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'snow',
+        suggestion: 'snow {on|off}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdSnow
+    })
+
 
     // Register HotKeys
     //

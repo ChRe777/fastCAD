@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Draw Line with Mouse</title>
+        <style>
+            #drawingArea {
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <svg id="drawingArea" width="500" height="300">
+            <!-- Initial SVG content goes here (if any) -->
+        </svg>
+
+        <script>
+            // Variables to keep track of the drawing state
+            let isDrawing = false;
+            let startPoint = { x: 0, y: 0 };
+            let endPoint = { x: 0, y: 0 };
+
+            // SVG element
+            const svg = document.getElementById('drawingArea');
+
+            // Event listeners for mouse down, move, and up
+            svg.addEventListener('mousedown', startDrawing);
+            svg.addEventListener('mousemove', draw);
+            svg.addEventListener('mouseup', endDrawing);
+
+            // Function to start drawing
+            function startDrawing(event) {
+                isDrawing = true;
+                startPoint = getMousePosition(event);
+            }
+
+            // Function to draw a line
+            function draw(event) {
+                if (!isDrawing) return;
+
+                endPoint = getMousePosition(event);
+
+                // Create or update the line element
+                let line = document.getElementById('drawingLine');
+                if (!line) {
+                    line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('id', 'drawingLine');
+                    line.setAttribute('stroke', 'black');
+                    line.setAttribute('stroke-width', '2');
+                    svg.appendChild(line);
+                }
+
+                // Update line coordinates
+                line.setAttribute('x1', startPoint.x);
+                line.setAttribute('y1', startPoint.y);
+                line.setAttribute('x2', endPoint.x);
+                line.setAttribute('y2', endPoint.y);
+            }
+
+            // Function to end drawing
+            function endDrawing() {
+                isDrawing = false;
+            }
+
+            // Function to get mouse position relative to SVG
+            function getMousePosition(event) {
+                const CTM = svg.getScreenCTM();
+                return {
+                    x: (event.clientX - CTM.e) / CTM.a,
+                    y: (event.clientY - CTM.f) / CTM.d
+                };
+            }
+        </script>
+
+    </body>
+
+</html>

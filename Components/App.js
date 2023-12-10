@@ -3,6 +3,7 @@
 
 // Imports
 //
+import { useStore } from 'stores/store'
 import { useSelectionStore } from 'stores/selection'
 import { useEditorStore } from 'stores/editor'
 import { getSharedProperties, fillSharedValues, removeUndefined } from 'services/utils'
@@ -18,6 +19,7 @@ import Scene from 'components/scene'
 import AppBar from 'components/appbar'
 import Layer from 'components/layer'
 import Message from 'components/message'
+import Fun from 'components/fun'
 
 // Modals
 //
@@ -44,14 +46,15 @@ const template = `
 <div id="editor"><editor></editor></div>
 <div id="appbar"><app-bar></app-bar></div>
 <div id="layer"><layer></layer></div>
-<div id="customTooltip"></div>
 <div id="message"><message></message></div>
+<div id="fun" v-if="store.showFun"><fun></fun></div>
 `
 
 // Data
 //
 function data() {
     return {
+        store: useStore(),
         selectionStore: useSelectionStore(),
         editorStore: useEditorStore()
     }
@@ -81,17 +84,6 @@ const onEditingAttributes = {
     deep: true
 }
 
-/*
-const onLayerEditingAttributes = {
-    handler() {
-        console.log("app - editorStore.layerEditingAttributes changed")
-        // TODO:
-        //updateLayerAttributes()
-    },
-    deep: true 
-}
-*/
-
 // Component
 //
 export default {
@@ -108,16 +100,17 @@ export default {
         Export,
         Settings,
         Layer,
-        Message
+        Message,
+        Fun
     },
     watch: {
         'selectionStore.selectedElementsSet': onSelectedElements,
         'selectionStore.selectedLayersSet': onSelectedLayers,
         'editorStore.editingAttributes': onEditingAttributes,
-        // This is done in LayerEditor
-        //'editorStore.layerEditingAttributes': onLayerEditingAttributes
     },
 }
+
+// TODO: CleanUp
 
 function updateLayerEditingAttributes() {
 
@@ -133,6 +126,8 @@ function updateLayerEditingAttributes() {
         editorStore.layerEditingAttributes = {}
     }
 }
+
+// TODO: CleanUp
 
 // see https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
 //
@@ -170,6 +165,8 @@ function updateEditingAttributes() {
         console.log("updateEditingAttributes:", editorStore.editingAttributes)
     }
 }
+
+// TODO: CleanUp
 
 
 function updateSelectionAttributes() {

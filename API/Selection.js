@@ -3,6 +3,7 @@
 // Imports
 //
 import { useSelectionStore } from 'stores/selection'
+import layers from 'api/layer'
 
 // Functions
 //
@@ -31,21 +32,29 @@ function isSelected(element) {
 
 // select
 //
-function select(element, type, attrs) {
+
+function select(element, layer) {
 
     const store = useSelectionStore()
 
-    if (type == 'layer') {
-        setCurrentLayer(element)
-        return element
+    // TODO: Groups
+    //
+    // <g>
+    //      <line></line>
+    //      <line></line>
+    // </g>
+
+    // TODO: Refactor getParent(element) or getLayer(element)
+    //
+    if (layers.isNotFrozen(layer)) {
+        store.selectedElementsSet.add(element)
     }
-    store.selectedElementsSet.add(element)
     return element
 }
 
 // deselect
 //
-function deselect(element, type, attrs) {
+function deselect(element) {
     const store = useSelectionStore()
     store.selectedElementsSet.delete(element);
     return element

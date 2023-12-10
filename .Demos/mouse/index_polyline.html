@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Draw Line with Mouse</title>
+        <style>
+            #drawingArea {
+                border: 1px dashed #ccc
+            }
+
+            body {
+                padding: 1rem;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+            }
+
+            input {
+                font-size: 1rem;
+                width: 500px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Polyline</h2>
+        <ul>
+            <li>Enter coords in cmdline</li>
+
+        </ul>
+        <svg id="drawingArea" width="500" height="300">
+            <!-- Initial SVG content goes here (if any) -->
+        </svg>
+        <div>
+            <input id="cmdline" type="text" value="" placeholder="next-point"></input>
+        </div>
+        <div id="points"></div>
+
+
+        <script>
+
+            const snapTolerance = 10 // Tolerance distance for point snapping
+            const right_button = 2
+            const left_button = 0
+            const snapRectSize = 4
+
+            let cmdline = document.getElementById('cmdline')
+            cmdline.focus()
+
+            // Variables to keep track of the drawing state
+            let isDrawing = false
+            let points = []
+
+            // SVG element
+            const svg = document.getElementById('drawingArea')
+
+            // Event listeners for mouse down, move, and up
+            // see https://w3c.github.io/pointerevents/
+            //
+            svg.addEventListener('pointerdown', startDrawing)
+            svg.addEventListener('pointermove', draw)
+            svg.addEventListener('pointerup', endDrawing)
+
+            // Switch of Context Menu
+            // see https://stackoverflow.com/questions/7477184/preventdefault-blocks-right-click-menu-in-firefox-on-mac-but-not-windows
+            svg.addEventListener('contextmenu', function (event) {
+                event.preventDefault()
+            }, false)
+
+            // Add a click event listener to the SVG element
+            svg.addEventListener('click', function (event) {
+                console.log("click")
+                // Prevent the default focus behavior
+                event.preventDefault();
+            })
+
+            // Add a keydown event listener to the document
+            document.addEventListener('keydown', function (event) {
+                // Set focus to the input element on any keydown event
+                cmdline.focus()
+
+                if (event.key == 'Enter') {
+                    console.log(cmdline.value)
+
+                }
+            });
+
+
+            function getPoint() {
+                // enter point x,y
+                // or click a point
+                return x, y
+            }
+
+            function logPoints() {
+                let line = document.getElementById('drawingLine')
+                let pointsDiv = document.getElementById('points')
+                if (line) {
+                    pointsDiv.innerText = line.getAttribute('points')
+                }
+            }
+
+            // Function to start drawing
+            function startDrawing(event) {
+
+
+
+                // Right click
+                //console.log("event.button", event.button)
+
+                if (right_button === event.button) {
+                    event.preventDefault()
+                    isDrawing = false
+                    hideSnapRect()
+                    let line = document.getElementById('drawingLine')
+                    if (line) {
+                        line.setAttribute('points', toSvg(points))
+                    }
+                    points = []
+                    return
+                }
+
+                if (left_button === event.button) {
+                    if (!isDrawing) isDrawing = true
+                    let point = snapToPoint(getMousePosition(event))
+                    points.push(point)
+                    logPoints()
+                }
+
+            }
+
+            // Function to draw a line
+            function draw(event) {
+                if (!isDrawing) return
+
+                let last = snapToPoint(getMousePosition(event))
+
+                // Create or update the line element
+                let line = document.getElementById('drawingLine')
+                if (!line) {
+
+                    line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline')
+                    line.setAttribute('id', 'drawingLine')
+                    line.setAttribute('stroke', 'black')
+                    line.setAttribute('stroke-width', '7')
+                    line.setAttribute('fill', 'none')
+                    line.setAttribute('stroke-linecap', 'round')
+
+                    svg.appendChild(line)
+                }
+
+                // Update line coordinates
+                lastPoint = []
+                lastPoint.push(last)
+                line.setAttribute('points', toSvg(points.concat(lastPoint)))
+            }
+
+            function toSvg(points) {
+                return points.map(point => `${point.x},${point.y}`).join(' ')
+            }
+
+            // Function to end drawing
+            function endDrawing() {
+                //isDrawing = false
+            }
+
+            // Function to get mouse position relative to SVG
+            function getMousePosition(event) {
+                const CTM = svg.getScreenCTM()
+                return {
+                    x: (event.clientX - CTM.e) / CTM.a,
+                    y: (event.clientY - CTM.f) / CTM.d
+                }
+            }
+
+            function hideSnapRect(point) {
+                let snapRect = document.getElementById('snapRect')
+                if (snapRect) {
+                    snapRect.setAttribute('visibility', 'hidden')
+                }
+            }
+            function showSnapRect(point) {
+                let snapRect = document.getElementById('snapRect')
+                if (!snapRect) {
+                    snapRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                    //
+                    snapRect.setAttribute('id', 'snapRect')
+                    snapRect.setAttribute('stroke', 'blue')
+                    snapRect.setAttribute('stroke-width', '1')
+                    snapRect.setAttribute('fill', 'blue')
+                    snapRect.setAttribute('fill-opacity', '0.15')
+                    snapRect.setAttribute('width', 2 * snapRectSize)
+                    snapRect.setAttribute('height', 2 * snapRectSize)
+
+                    //
+                    svg.appendChild(snapRect)
+                }
+                snapRect.setAttribute('x', point.x - snapRectSize)
+                snapRect.setAttribute('y', point.y - snapRectSize)
+                snapRect.setAttribute('visibility', 'visible')
+            }
+
+            // Function to snap to an existing point
+            function snapToPoint(currentPoint) {
+                hideSnapRect()
+                for (const point of points) {
+                    const distance = Math.hypot(currentPoint.x - point.x, currentPoint.y - point.y)
+                    if (distance < snapTolerance) {
+                        showSnapRect(point)
+                        return point
+                    }
+                }
+                return currentPoint
+            }
+        </script>
+
+    </body>
+
+</html>

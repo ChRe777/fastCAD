@@ -218,16 +218,7 @@ function mounted() {
 
 }
 
-// Function to check if the bounding box of an element is inside the selection rectangle
-//
-function inside(elementRect, selectionRect) {
-    return (
-        elementRect.left >= selectionRect.left &&
-        elementRect.right <= selectionRect.right &&
-        elementRect.top >= selectionRect.top &&
-        elementRect.bottom <= selectionRect.bottom
-    );
-}
+
 
 // Function to check if two rectangles intersect
 //
