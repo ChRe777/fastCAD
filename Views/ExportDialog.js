@@ -3,7 +3,7 @@
 // Import
 //
 import { useStore } from 'stores/store'
-import api from 'api/api'
+import exportApi from 'api/export'
 
 // SVG Icons see https://www.svgrepo.com/
 
@@ -60,7 +60,7 @@ const template = `
 // prepareExportJSON
 //
 function prepareExportJSON() {
-    const blob = api.getBlobJSON()
+    const blob = exportApi.getBlobJSON()
     this.hrefJSON = window.URL.createObjectURL(blob)
     this.downloadJSON = "scene.json" // TODO: Name of Project
 }
@@ -68,7 +68,7 @@ function prepareExportJSON() {
 // prepareExportSVG
 //
 function prepareExportSVG() {
-    const blob = api.getBlobSVG()
+    const blob = exportApi.getBlobSVG()
     this.hrefSVG = window.URL.createObjectURL(blob)
     this.downloadSVG = "scene.svg" // TODO: Name of Project
 }

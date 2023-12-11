@@ -1,4 +1,5 @@
 <html>
+
     <head>
 
         <script src="//daybrush.com/ruler/release/latest/dist/ruler.min.js"></script>
@@ -10,7 +11,6 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
         <style>
-
             :root {
                 /* Define color variables */
                 --primary-color: #3498db;
@@ -25,9 +25,9 @@
                 width: 30px;
                 background-color: rgb(178, 178, 178);
             }
-            
+
             #rulerHorz {
-                position:absolute;
+                position: absolute;
                 top: 0;
                 left: 0;
                 left: 30px;
@@ -36,7 +36,7 @@
             }
 
             #rulerVert {
-                position:absolute;
+                position: absolute;
                 top: 30px;
                 left: 0;
                 width: 30px;
@@ -61,17 +61,20 @@
 
             .grid {
                 background: linear-gradient(0deg, transparent 1px, transparent 1px, var(--color-grey) 1px, var(--color-grey) var(--grid-width)),
-                            linear-gradient(90deg, transparent 1px, transparent 1px, var(--color-grey) 1px, var(--color-grey) var(--grid-width));
+                    linear-gradient(90deg, transparent 1px, transparent 1px, var(--color-grey) 1px, var(--color-grey) var(--grid-width));
                 background-size: var(--grid-width) var(--grid-width), var(--grid-width) var(--grid-width);
                 background-position: 0 0, 0 0;
             }
 
-            html, body {
+            html,
+            body {
                 padding: 0;
                 margin: 0;
                 height: 100%;
-                background-color: grey;/*#e74c3c;*/
-                overflow: hidden; /*no scrollbar*/
+                background-color: grey;
+                /*#e74c3c;*/
+                overflow: hidden;
+                /*no scrollbar*/
                 touch-action: manipulation;
             }
         </style>
@@ -87,8 +90,8 @@
         </svg>
         <div id="cmdLine">
             <div class="input-group">
-                <input id="cmd-line" type="text" class="form-control" placeholder="enter cmd" aria-label="enter a command"
-                    aria-describedby="button-addon2">
+                <input id="cmd-line" type="text" class="form-control" placeholder="enter cmd"
+                    aria-label="enter a command" aria-describedby="button-addon2">
                 <button class="btn btn-primary" onclick="cmdOnEnter()" type="button" id="cmd-line-button">Enter</button>
             </div>
         </div>
@@ -99,4 +102,5 @@
         <script src="./scripts/view.js"></script>
 
     </body>
+
 </html>

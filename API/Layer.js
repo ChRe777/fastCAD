@@ -55,7 +55,8 @@ function create_(type, attrs) {
         "id": type + "-" + randomUUID(),
         ...attrs,
         "elements": [],
-        "isopen": false
+        "isopen": false,
+        "visibility": "visible"
     }
 
     return newLayer

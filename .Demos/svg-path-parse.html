@@ -1,0 +1,44 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+
+    </head>
+
+    <body>
+        <div class="container w-50 mt-3">
+            <h2>Path Data</h2>
+            <ul id="group" class="list-group">
+            </ul>
+        </div>
+        <script type="module">
+            // see https://unpkg.com/browse/svg-pathdata@6.0.3/README.md
+            // see https://docs.aspose.com/svg/net/drawing-basics/svg-path-data/
+
+            import { SVGPathData } from 'https://unpkg.com/svg-pathdata@6.0.3/lib/SVGPathData.module.js'
+            const data = new SVGPathData('M 0 0 l 10 0 a 30 30 0 0 1 20 20')
+
+            const group = document.getElementById('group')
+            data.commands.forEach(element => {
+                let li = document.createElement('li')
+                li.setAttribute("class", "list-group-item")
+                li.innerHTML = JSON.stringify(element)
+                group.appendChild(li)
+            })
+
+            let test = new SVGPathData(`
+                m 10,10
+                h 60
+                v 60
+                l 10,60
+                z`)
+                .translate(20, 20)
+                .encode()
+            console.log(test)
+
+            //const transformingParser = new SVGPathDataParser().toAbs().scale(2, 2);
+            //console.log(transformingParser.parse("M 0 0 l 10 10"))
+        </script>
+    </body>
+
+</html>

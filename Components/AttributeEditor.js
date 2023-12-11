@@ -21,6 +21,7 @@ import PolygonEditor from 'editors/polygon'
 import PathEditor from 'editors/path'
 import RectEditor from 'editors/rect'
 import LayerEditor from 'editors/layer'
+import GroupEditor from 'editors/group'
 //
 import Debug from 'editors/debug'
 
@@ -46,6 +47,7 @@ const template = `
     <polygon-editor  v-else-if="typeSelected === 'polygon'" ></polygon-editor>
     <path-editor     v-else-if="typeSelected === 'path'"    ></path-editor>
     <rect-editor     v-else-if="typeSelected === 'rect'"    ></rect-editor>
+    <group-editor    v-else-if="typeSelected === 'g'"       ></group-editor>
     
     <common-editor        v-if="typeSelected !== undefined" ></common-editor>
 
@@ -74,6 +76,7 @@ const components = {
     RectEditor,
     //
     LayerEditor,
+    GroupEditor,
     //
     Toolbar,
     //

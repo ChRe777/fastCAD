@@ -16,3 +16,8 @@
 ## VSCode Tools Vue
 
     https://marketplace.visualstudio.com/items?itemName=changjoo-park.vscode-vue-devpack
+
+
+## Docs
+
+ - https://docs.aspose.com/svg/net/drawing-basics/svg-path-data/

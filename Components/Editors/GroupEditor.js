@@ -1,4 +1,4 @@
-// CircleEditor.js
+// GroupEditor.js
 
 // Imports
 //
@@ -8,16 +8,12 @@ import { renderGroups } from 'editors/types'
 // Attributes for Template
 //
 let attributeGroups = {
-    title: 'Circle Editor',
+    title: 'Group Editor',
     groups: [
         [
-            { name: 'cx', title: 'cx', type: 'number' },
-            { name: 'cy', title: 'cy', type: 'number' }
+            { name: 'x', title: 'x', type: 'number' },
+            { name: 'y', title: 'y', type: 'number' }
         ],
-        [
-            { name: 'r', title: 'r', type: 'number' },
-            { name: 'pathLength', title: 'plen', type: 'number' },
-        ]
     ]
 }
 

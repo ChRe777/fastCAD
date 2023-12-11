@@ -3,6 +3,7 @@
 // Imports
 //
 import { addPoints, subPoints } from 'services/utils'
+import { SVGPathData } from 'svg-pathdata'
 
 // Functions
 //
@@ -52,10 +53,41 @@ function movePointsXY(p, attr, relative, element) {
     element[attr] = zs.join(" ")
 }
 
+function movePathPoints(p, relative, element) {
+    // see https://github.com/nfroidure/svg-pathdata/
+    // console.log(pathData.commands);
+    // [  {type: SVGPathData.MOVE_TO,       relative: false,  x: 10,  y: 10},
+
+    function getStartPoint(pathData) {
+        let cmd = pathData.commands[0]
+        if (cmd && cmd.type === SVGPathData.MOVE_TO && cmd.relative === false) {
+            return {
+                x: cmd.x,
+                y: cmd.y
+            }
+        }
+        return undefined
+    }
+
+    let pathData = new SVGPathData(element.d)
+
+    function translate(p) {
+        element.d = pathData.translate(p.x, p.y).encode()
+    }
+
+    if (relative) {
+        translate(p)
+    } else {
+        let sp = getStartPoint(pathData)
+        p = subPoints(p, sp)
+        translate(p)
+    }
+}
+
 // Move
 //
 function move(element, p, relative) {
-    if (element.type === 'circle') {
+    if (element.type === 'circle' || element.type === 'ellipse') {
         moveGeneric2(p, ['cx'], ['cy'], relative, element)
     }
     else if (element.type === 'line') {
@@ -67,6 +99,9 @@ function move(element, p, relative) {
     else if (element.type === 'text') {
         moveGeneric2(p, ['x'], ['y'], relative, element)
     }
+    else if (element.type === 'rect') {
+        moveGeneric2(p, ['x'], ['y'], relative, element)
+    }
     else if (element.type === 'polyline') {
         movePointsXY(p, 'points', relative, element)
     }
@@ -74,7 +109,7 @@ function move(element, p, relative) {
         movePointsXY(p, 'points', relative, element)
     }
     else if (element.type === 'path') {
-        // TODO: M 0 0 m 30 30
+        movePathPoints(p, relative, element)
     }
 }
 

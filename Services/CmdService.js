@@ -54,6 +54,36 @@ function doCmdMove(args) {
 
 }
 
+// rotate 45° 10,0 
+//
+function doCmdRotate(args) {
+    const angle = argFns.asFloat(args, 1)
+    const [p, relative] = argFns.asPoint2(args, 2) || [{ x: 0, y: 0 }, true]
+
+    api.selection.forEach(selectedElement => {
+        api.modify.rotate.rotate(selectedElement, angle, p, relative)
+    })
+}
+
+// rotate 45° 10,0 // TODO: deg -> rad
+//
+function doCmdRotate(args) {
+    const angle = argFns.asFloat(args, 1)
+    const [p, relative] = argFns.asPoint2(args, 2) || [{ x: 0, y: 0 }, true]
+
+    api.selection.forEach(selectedElement => {
+        api.modify.rotate.rotate(selectedElement, angle, p, relative)
+    })
+}
+
+// group selected together
+//
+function doCmdGroup(args) {
+    api.create.group(Array.from(api.selection.elements()))
+}
+
+
+
 // zoom in 
 // zoom out
 //
@@ -157,6 +187,9 @@ function doCmdEllipse(args) {
 //
 function doCmdText(args) {
 
+    // Multiline
+    // see https://stackoverflow.com/questions/31469134/how-to-display-multiple-lines-of-text-in-svg
+
     let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let text = argFns.asString(args, 2) || "text"
 
@@ -181,9 +214,9 @@ async function doCmdPolyline(args) {
 
         // Connect mouse and keyboard to the tool
         //
-        let tool = api.tool.activate("polyline")
-        await tool.start()
-        api.tool.deactivate(tool)
+        let polyLineTool = api.tool.activate("polyline")
+        await polyLineTool.start()
+        api.tool.deactivate(polyLineTool)
         return
     }
 
@@ -559,7 +592,14 @@ export function init() {
         action: doCmdRect,
     })
 
-
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'group',
+        suggestion: 'group',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdGroup,
+    })
 
     cmdStore.registerCmd({
         uuid: randomUUID(),
@@ -579,7 +619,14 @@ export function init() {
         action: doCmdMove,
     })
 
-
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'rotate',
+        suggestion: 'rotate {angle} {{p}}',
+        shortCuts: [],
+        hotKeys: 'r',
+        action: doCmdRotate,
+    })
 
     cmdStore.registerCmd({
         uuid: randomUUID(),

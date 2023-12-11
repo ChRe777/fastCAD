@@ -60,6 +60,13 @@ function deselect(element) {
     return element
 }
 
+// elements
+//
+function elements() {
+    const store = useSelectionStore()
+    return store.selectedElementsSet
+}
+
 // Exports
 //
 
@@ -69,5 +76,7 @@ export default {
     clearWithLayers,
     isSelected,
     select,
-    deselect
+    deselect,
+    //
+    elements
 }

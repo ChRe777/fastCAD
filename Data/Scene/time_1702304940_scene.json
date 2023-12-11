@@ -84,7 +84,7 @@
                 {
                     "type": "path",
                     "id": "path-FRZBKtldUt",
-                    "d": "M140 0a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
+                    "d": "M 150 0 \na 25 25 0 0 1 50 0 \na 20 20 0 0 1 40 30",
                     "plen": "",
                     "fill": "#ffffff",
                     "stroke": "#ff9300",
@@ -112,14 +112,14 @@
                     "text": "- Group",
                     "font-family": "Chalkduster",
                     "font-size": "25px",
-                    "fill": "#00f900",
+                    "fill": "#fffb00",
                     "stroke": "#777777",
                     "stroke-width": 0
                 },
                 {
                     "type": "text",
                     "id": "text-E9o4atjVYP",
-                    "x": 140,
+                    "x": 150,
                     "y": -205,
                     "text": "Cmds",
                     "font-family": "Chalkduster",
@@ -133,7 +133,7 @@
                 {
                     "type": "text",
                     "id": "text-F7DwH9A7Iy",
-                    "x": 140,
+                    "x": 150,
                     "y": -170,
                     "text": "- Undo\n",
                     "font-family": "Chalkduster",
@@ -158,9 +158,9 @@
                 {
                     "type": "line",
                     "id": "line-aJriQkm4Hx",
-                    "x1": 140,
+                    "x1": 150,
                     "y1": -196,
-                    "x2": 223,
+                    "x2": 233,
                     "y2": -197,
                     "stroke": "#ebebeb",
                     "stroke-width": 2
@@ -178,7 +178,7 @@
                 {
                     "type": "text",
                     "id": "text-qjmG6C744i",
-                    "x": 140,
+                    "x": 150,
                     "y": -140,
                     "text": "- Scrsaver\n",
                     "font-family": "Chalkduster",
@@ -228,7 +228,7 @@
                 {
                     "type": "text",
                     "id": "text-pZy4bObFjC",
-                    "x": 140,
+                    "x": 150,
                     "y": -110,
                     "text": "- Raster\n",
                     "font-family": "Chalkduster",
@@ -241,7 +241,7 @@
                 {
                     "type": "text",
                     "id": "text-8y0RYYI971",
-                    "x": 140,
+                    "x": 150,
                     "y": -80,
                     "text": "- Snap\n",
                     "font-family": "Chalkduster",
@@ -361,28 +361,6 @@
                     "stroke": "#ffffff",
                     "stroke-width": 2,
                     "stroke-dasharray": "2"
-                },
-                {
-                    "type": "polyline",
-                    "id": "polyline-yLkE09P54m",
-                    "points": "-154,-234 -92,-148 -4,-248",
-                    "plen": 10,
-                    "fill": "none",
-                    "stroke": "#ffffff",
-                    "stroke-width": 2
-                },
-                {
-                    "type": "text",
-                    "id": "text-QGyydNYC7Y",
-                    "x": 140,
-                    "y": -50,
-                    "text": "- SelectList\n",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#ffffff",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.5
                 }
             ]
         },
@@ -573,7 +551,7 @@
                 {
                     "type": "polyline",
                     "id": "polyline-Pltl3Tj575",
-                    "points": "190,-150 190,-50 290,-50 290,-150",
+                    "points": "200,-150 200,-50 300,-50 300,-150",
                     "fill-opacity": 0,
                     "stroke-dasharray": "5",
                     "pathLength": 105
@@ -591,7 +569,7 @@
                 {
                     "type": "path",
                     "id": "path-Pathl3Tj575",
-                    "d": "M215 0h50v50h-50v50h50",
+                    "d": "M 225 0 h 50 v 50 h -50 v 50 h 50",
                     "fill-opacity": 0,
                     "stroke-dasharray": "5",
                     "stroke-width": 5,

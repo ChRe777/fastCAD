@@ -50,6 +50,10 @@ Most notably: clip-path, clip-rule, color, color-interpolation, color-rendering,
 const svgLayerChild = `
     <svg-element v-for="child in element.elements" :element="child" :parent="element"></svg-element>
 `
+
+const svgGroupChild = `
+    <svg-element v-for="child in element.elements" :element="child" :parent="element"></svg-element>
+`
 const svgTypes = {
     types: [
         {
@@ -62,7 +66,8 @@ const svgTypes = {
         {
             type: "g",
             attrs: []
-                .concat(fill).concat(stroke)
+                .concat(fill).concat(stroke),
+            childElements: [svgGroupChild]
         },
         {
             type: "circle",

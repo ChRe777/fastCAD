@@ -3,6 +3,7 @@
 // Imports
 //
 import move from 'api/modify/move'
+import rotate from 'api/modify/rotate'
 import mirror from 'api/modify/mirror'
 import layer from 'api/modify/layer'
 
@@ -29,6 +30,7 @@ function modify(element, type, attrs) {
 export default {
     modify, // Base Function
     move,
+    rotate,
     mirror,
     layer
 }

@@ -242,6 +242,27 @@ function rect(p, size) {
     return obj
 }
 
+function group(elements) {
+
+    const obj = create('g', {
+        /*
+        x: p.x,
+        y: p.y,
+        width: size.x,
+        height: size.y,
+        */
+        'elements': elements,
+        //
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    //store.lastPoint = p
+
+    return obj
+}
+
 // -------------------
 
 // Copy is creating a new element
@@ -264,6 +285,8 @@ export default {
     polygon,
     image,
     rect,
+    //
+    group,
     //
     copy
 }
