@@ -22,7 +22,7 @@ function data() {
     }
 }
 
-// Export component
+// Component
 //
 export default {
     data,

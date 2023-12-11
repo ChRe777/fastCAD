@@ -24,7 +24,6 @@ const RIGHT_BUTTON = 2
 
 // Handler functions
 //
-
 function onPointerDown(event) {
 
     console.log("svg.onPointerDown called", event)
@@ -36,6 +35,7 @@ function onPointerDown(event) {
         resolvePoint([p, stop])
     }
 }
+
 // Pointer UP
 //
 function onPointerUp(event) {
@@ -50,6 +50,8 @@ function onPointerUp(event) {
 
 }
 
+// Context MENU
+//
 function onContextMenu(event) {
     event.preventDefault()
     resolvePoint([{ x: 0, y: 0 }, true])
@@ -103,8 +105,10 @@ async function runUntilStop(resolveStop) {
         }
 
         if (polyline === undefined) {
+
             polyline = api.create.polyline()
             polyline.points = ""
+
             const layer = api.layer.getCurrent()
             api.selection.select(polyline, layer)
         }
@@ -117,9 +121,7 @@ async function runUntilStop(resolveStop) {
             editorStore.editingAttributes.points = points.map(p => `${p.x},${p.y}`).join(' ')
         }
 
-        console.log("points", polyline.points)
-
-
+        //console.log("points", polyline.points)
     }
 }
 
@@ -145,6 +147,8 @@ function initialize_() {
 function cleanUp_() {
     api.tool.hide(circle)
     svg.style.cursor = savedCursor
+    polyline = undefined
+    points = []
 }
 
 async function start() {

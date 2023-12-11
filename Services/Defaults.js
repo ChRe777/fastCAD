@@ -1,8 +1,8 @@
 // defaults
 
 const defaultStyle = {
-    fill: '#ffffff',
-    stroke: '#777777',
+    fill: '#777777',
+    stroke: '#ffffff',
     'stroke-width': 2
 }
 

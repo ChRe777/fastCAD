@@ -100,7 +100,7 @@
                     "text": "- Ellipse",
                     "font-family": "Chalkduster",
                     "font-size": "25px",
-                    "fill": "#ffffff",
+                    "fill": "#f5ec00",
                     "stroke": "#777777",
                     "stroke-width": 0
                 },
@@ -339,28 +339,6 @@
                     "stroke-width": 2,
                     "stroke-opacity": 0.6,
                     "stroke-dasharray": "5"
-                },
-                {
-                    "type": "ellipse",
-                    "id": "ellipse-AWGjCUNfaC",
-                    "cx": 463,
-                    "cy": 32,
-                    "rx": 15,
-                    "ry": 10,
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 2,
-                    "stroke-dasharray": "2"
-                },
-                {
-                    "type": "path",
-                    "id": "path-GKVuqWPylM",
-                    "d": "M 420 5\nl 10 0\na 10 10 0 0 1 20 0",
-                    "plen": "",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 2,
-                    "stroke-dasharray": "2"
                 }
             ]
         },
@@ -525,10 +503,10 @@
                 {
                     "type": "image",
                     "id": "image-kZlOrT9ynD",
-                    "x": 436,
-                    "y": -43,
-                    "width": "30",
-                    "height": "30",
+                    "x": 435,
+                    "y": -51,
+                    "width": "50",
+                    "height": "50",
                     "href": "https://www.svgheart.com/wp-content/uploads/2021/11/swirly-christmas-tree-with-star-holiday-free-svg-file-SvgHeart.Com.png",
                     "fill": "#ffffff",
                     "stroke": "#777777",

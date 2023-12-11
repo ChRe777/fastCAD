@@ -1,4 +1,4 @@
-// line.js
+// LineEditor.js
 
 
 // Imports

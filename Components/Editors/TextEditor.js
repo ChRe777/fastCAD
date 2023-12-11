@@ -1,5 +1,7 @@
-// text.js
+// TextEditor.js
 
+// Imports
+//
 import { useEditorStore } from 'stores/editor'
 import { useSettingsStore } from 'stores/settings'
 import { renderGroups } from 'editors/types'
@@ -32,6 +34,8 @@ let attributeGroups = {
     ]
 }
 
+// Constants
+//
 const template = renderGroups(attributeGroups)
 
 // Data

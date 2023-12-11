@@ -8,14 +8,17 @@ import { renderGroups } from 'editors/types'
 // Attributes for Template
 //
 let attributeGroups = {
-    title: 'Circle Editor',
+    title: 'Ellipse Editor',
     groups: [
         [
             { name: 'cx', title: 'cx', type: 'number' },
             { name: 'cy', title: 'cy', type: 'number' }
         ],
         [
-            { name: 'r', title: 'r', type: 'number' },
+            { name: 'rx', title: 'rx', type: 'number' },
+            { name: 'ry', title: 'ry', type: 'number' },
+        ],
+        [
             { name: 'pathLength', title: 'plen', type: 'number' },
         ]
     ]

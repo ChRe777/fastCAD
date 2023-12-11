@@ -26,6 +26,8 @@ function data() {
             { text: "Path", iconClass: "bi bi-bezier", cmdName: "path" },
             { text: "Polyline", iconClass: "bi bi-activity", cmdName: "polyline" },
             { text: "Polygon", iconClass: "bi bi-hexagon-fill", cmdName: "polygon" },
+            { text: "Rect", iconClass: "bi bi-file", cmdName: "rect" },
+            { text: "Ellipse", iconClass: "bi bi-chat", cmdName: "ellipse" },
         ]
     }
 }

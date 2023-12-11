@@ -1,4 +1,4 @@
-// polyline.js
+// PolylineEditor.js
 
 // Imports
 //

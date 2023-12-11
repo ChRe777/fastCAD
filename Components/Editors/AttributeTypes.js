@@ -37,6 +37,8 @@ const attrColor = `
 
 // see https://stackoverflow.com/questions/3368837/list-every-font-a-users-browser-can-display
 
+// TODO: REFACTOR WITHOUT MUSTACHE
+
 const attrFont = `
 <span id="{{name}}-label" class="input-group-text" for="{{name}}" :style="{ width: labelWidth + 'px' }">{{title}}</span>
 <select class="form-select form-select-sm" id="{{name}}" v-model="editingAttributes['{{name}}']" >

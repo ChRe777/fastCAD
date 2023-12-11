@@ -113,6 +113,29 @@ function circle(p, relative, r) {
     store.lastPoint = p
     return obj
 }
+
+function ellipse(p, relative, rx, ry) {
+
+    const store = useStore()
+
+    if (relative && store.lastPoint !== undefined) {
+        p = addPoints(store.lastPoint, p)
+    }
+
+    const obj = create('ellipse', {
+        cx: p.x,
+        cy: p.y,
+        rx: rx,
+        ry: ry,
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p
+    return obj
+}
+
 function text(p, relative, text) {
 
     const store = useStore()
@@ -129,7 +152,7 @@ function text(p, relative, text) {
         'font-size': defaults.font.size,
         'fill': defaults.style.fill,
         'stroke': defaults.style.stroke,
-        'stroke-width': 0 //defaults.style['stroke-width']
+        'stroke-width': 1 //defaults.style['stroke-width']
     })
 
     store.lastPoint = p
@@ -159,7 +182,7 @@ function polyline() {
     let obj = create('polyline', {
         points: '0,0 100,0',
         plen: 10,
-        'fill': defaults.style.fill,
+        'fill': 'none',
         'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
     })
@@ -202,6 +225,23 @@ function image(p, size, href) {
     return obj
 }
 
+function rect(p, size) {
+
+    const obj = create('rect', {
+        x: p.x,
+        y: p.y,
+        width: size.x,
+        height: size.y,
+        'fill': defaults.style.fill,
+        'stroke': defaults.style.stroke,
+        'stroke-width': defaults.style['stroke-width']
+    })
+
+    store.lastPoint = p
+
+    return obj
+}
+
 // -------------------
 
 // Copy is creating a new element
@@ -217,11 +257,13 @@ export default {
     line,
     lineTo,
     circle,
+    ellipse,
     text,
     path,
     polyline,
     polygon,
     image,
+    rect,
     //
     copy
 }

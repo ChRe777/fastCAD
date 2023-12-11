@@ -1,4 +1,4 @@
-// common.js
+// CommonEditor.js
 
 // 
 // see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/Presentation

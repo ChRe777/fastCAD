@@ -142,6 +142,17 @@ function doCmdCircle(args) {
     api.create.circle(p, relative, r)
 }
 
+// circle 10,10 50 50
+//
+function doCmdEllipse(args) {
+
+    let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let rx = argFns.asFloat(args, 2) || 50
+    let ry = argFns.asFloat(args, 2) || 30
+
+    api.create.ellipse(p, relative, rx, ry)
+}
+
 // text 10,10 "text"
 //
 function doCmdText(args) {
@@ -201,6 +212,16 @@ function doCmdImage(args) {
     let href = argFns.asString(args, 3) || "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-1024.png"
 
     api.create.image(p, size, href)
+}
+
+function doCmdRect(args) {
+
+    // rect 0,0 100,100
+    //
+    let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
+
+    api.create.rect(p, size)
 }
 
 // layer
@@ -301,10 +322,17 @@ function doCmdCopy(args) {
 
     // No args copy the selected
     if (args.slice(1).length === 0) {
+
+        const copiedElements = []
         api.selection.forEach(selectedElement => {
             const element = api.create.copy(selectedElement)
+            copiedElements.push(copiedElements)
             api.modify.move.move(element, p, relative)
         })
+
+        // TODO: Select all or last
+        //api.selection.clear()
+
     }
 
 }
@@ -355,7 +383,7 @@ function doCmdSnow(args) {
 
 }
 
-
+/*
 const cmds = {
     doCmdClear,
     doCmdSave,
@@ -390,7 +418,7 @@ const cmds = {
 // Export Cmds
 //
 export default cmds
-
+*/
 // Init Command Store
 //
 
@@ -414,6 +442,15 @@ export function init() {
         suggestion: 'load',
         shortCuts: ['option+l'],
         action: doCmdLoad,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'delete',
+        suggestion: 'delete',
+        shortCuts: ['backspace'],
+        hotKeys: undefined,
+        action: doCmdDelete,
     })
 
     cmdStore.registerCmd({
@@ -453,10 +490,28 @@ export function init() {
     cmdStore.registerCmd({
         uuid: randomUUID(),
         name: 'circle',
-        suggestion: 'circle {p1} {r}',
+        suggestion: 'circle {p} {r}',
         shortCuts: [],
         hotKeys: 'ci',
         action: doCmdCircle,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'ellipse',
+        suggestion: 'ellipse {p} {rx} {rx}',
+        shortCuts: [],
+        hotKeys: 'el',
+        action: doCmdEllipse,
+    })
+
+    cmdStore.registerCmd({
+        uuid: randomUUID(),
+        name: 'image',
+        suggestion: 'image {p} {size} {href}',
+        shortCuts: [],
+        hotKeys: undefined,
+        action: doCmdImage,
     })
 
     cmdStore.registerCmd({
@@ -497,12 +552,14 @@ export function init() {
 
     cmdStore.registerCmd({
         uuid: randomUUID(),
-        name: 'image',
-        suggestion: 'image {p} {size} {href}',
+        name: 'rect',
+        suggestion: 'rect {x,y} {w,h}',
         shortCuts: [],
         hotKeys: undefined,
-        action: doCmdImage,
+        action: doCmdRect,
     })
+
+
 
     cmdStore.registerCmd({
         uuid: randomUUID(),
@@ -522,14 +579,7 @@ export function init() {
         action: doCmdMove,
     })
 
-    cmdStore.registerCmd({
-        uuid: randomUUID(),
-        name: 'delete',
-        suggestion: 'delete',
-        shortCuts: ['backspace'],
-        hotKeys: undefined,
-        action: doCmdDelete,
-    })
+
 
     cmdStore.registerCmd({
         uuid: randomUUID(),

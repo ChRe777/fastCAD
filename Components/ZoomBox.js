@@ -3,7 +3,7 @@
 
 // Imports
 //
-import cmds from 'services/cmds'
+import { useCmdStore } from 'stores/cmd'
 
 // Template
 //
@@ -28,10 +28,17 @@ function onKeyUp(ev, self) {
 }
 
 function onClick() {
+
+    const cmdName = 'zoom'
+    const cmdStore = useCmdStore()
+    const zoomCmd = cmdStore.registeredCmdsByName[cmdName]
+
     if (this.zoomIn) {
-        cmds.doCmdZoomIn()
+        const args = [cmdName, 'in']
+        zoomCmd.action(args)
     } else {
-        cmds.doCmdZoomOut()
+        const args = [cmdName, 'out']
+        zoomCmd.action(args)
     }
 }
 

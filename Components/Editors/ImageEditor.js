@@ -1,4 +1,4 @@
-// Image.js
+// ImageEditor.js
 
 // Imports
 //
@@ -36,7 +36,7 @@ function data() {
     }
 }
 
-// Components
+// Component
 //
 export default {
     data,

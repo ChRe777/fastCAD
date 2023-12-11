@@ -13,11 +13,13 @@ import { useSelectionStore } from 'stores/selection'
 import CommonEditor from 'editors/common'
 import LineEditor from 'editors/line'
 import CircleEditor from 'editors/circle'
+import EllipseEditor from 'editors/ellipse'
 import TextEditor from 'editors/text'
 import ImageEditor from 'editors/image'
 import PolylineEditor from 'editors/polyline'
 import PolygonEditor from 'editors/polygon'
 import PathEditor from 'editors/path'
+import RectEditor from 'editors/rect'
 import LayerEditor from 'editors/layer'
 //
 import Debug from 'editors/debug'
@@ -36,12 +38,15 @@ const template = `
     </div>
 
     <circle-editor        v-if="typeSelected === 'circle'"  ></circle-editor>
+    <ellipse-editor  v-else-if="typeSelected === 'ellipse'" ></ellipse-editor>
     <line-editor     v-else-if="typeSelected === 'line'"    ></line-editor>
     <text-editor     v-else-if="typeSelected === 'text'"    ></text-editor>
     <image-editor    v-else-if="typeSelected === 'image'"   ></image-editor>
     <polyline-editor v-else-if="typeSelected === 'polyline'"></polyline-editor>
     <polygon-editor  v-else-if="typeSelected === 'polygon'" ></polygon-editor>
     <path-editor     v-else-if="typeSelected === 'path'"    ></path-editor>
+    <rect-editor     v-else-if="typeSelected === 'rect'"    ></rect-editor>
+    
     <common-editor        v-if="typeSelected !== undefined" ></common-editor>
 
     <div class="mt-2">
@@ -60,11 +65,13 @@ const components = {
     CommonEditor,
     LineEditor,
     CircleEditor,
+    EllipseEditor,
     TextEditor,
     ImageEditor,
     PolylineEditor,
     PolygonEditor,
     PathEditor,
+    RectEditor,
     //
     LayerEditor,
     //

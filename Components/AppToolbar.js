@@ -20,16 +20,16 @@ function data() {
 
     return {
         buttons: [
-            { text: "Load",     iconClass: "bi bi-folder-fill",          cmdName: "load" },
-            { text: "Save",     iconClass: "bi bi-floppy-fill",          cmdName: "save" },
-            { text: "Export",   iconClass: "bi bi-cloud-download-fill",  cmdName: "export"},
-            { text: "Settings", iconClass: "bi bi-gear-fill",            cmdName: "settings"},
-            { text: "Batch",    iconClass: "bi bi-chat-right-text-fill", cmdName: "batch"}
+            { text: "Load", iconClass: "bi bi-folder-fill", cmdName: "load" },
+            { text: "Save", iconClass: "bi bi-floppy-fill", cmdName: "save" },
+            { text: "Export", iconClass: "bi bi-cloud-download-fill", cmdName: "export" },
+            { text: "Settings", iconClass: "bi bi-gear-fill", cmdName: "settings" },
+            { text: "Batch", iconClass: "bi bi-chat-right-text-fill", cmdName: "batch" }
         ]
     }
 }
 
-// Export component
+// Component
 //
 export default {
     data,

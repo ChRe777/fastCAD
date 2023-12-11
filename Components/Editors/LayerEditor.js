@@ -1,5 +1,7 @@
-// layer.js
+// LayerEditor.js
 
+// Imports
+//
 import { useStore } from 'stores/store'
 import { useEditorStore } from 'stores/editor'
 import { useSettingsStore } from 'stores/settings'
