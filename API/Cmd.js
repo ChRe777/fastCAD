@@ -20,7 +20,7 @@ function invokeByName(cmdName, args) {
             try {
                 cmd.action(args)
             } catch (error) {
-                console.log("error in invoke command", cmdName, " - ", error.message)
+                console.log("error in invoke command", cmdName, " - ", error.message, error.stack)
                 return false
             }
         }

@@ -51,7 +51,6 @@ function doCmdMove(args) {
     api.selection.forEach(selectedElement => {
         api.modify.move.move(selectedElement, p, relative)
     })
-
 }
 
 // rotate 45° 10,0 
@@ -82,7 +81,11 @@ function doCmdGroup(args) {
     api.create.group(Array.from(api.selection.elements()))
 }
 
-
+async function useTool(toolName) {
+    let tool = api.tool.activate(toolName)
+    await tool.start()
+    api.tool.deactivate(tool)
+}
 
 // zoom in 
 // zoom out
@@ -90,13 +93,7 @@ function doCmdGroup(args) {
 async function doCmdZoom(args) {
 
     if (args.length == 1) {
-
-        // Connect mouse and keyboard to the tool
-        //
-        let tool = api.tool.activate("zoom")
-        await tool.start()
-        api.tool.deactivate(tool)
-
+        useTool("zoom")
         return
     }
 
@@ -120,18 +117,12 @@ function doCmdZoomOut(args) {
     api.view.zoomOut()
 }
 
-// Panning
+// panning
 //
 async function doCmdPan(args) {
 
-    if (args.length == 1) { // e.g. pan
-
-        // Connect mouse and keyboard to the tool
-        //
-        let tool = api.tool.activate("pan")
-        await tool.start()
-        api.tool.deactivate(tool)
-
+    if (args.length == 1) {
+        useTool("pan")
         return
     }
 
@@ -172,7 +163,7 @@ function doCmdCircle(args) {
     api.create.circle(p, relative, r)
 }
 
-// circle 10,10 50 50
+// ellipse 10,10 50 50
 //
 function doCmdEllipse(args) {
 
@@ -196,13 +187,12 @@ function doCmdText(args) {
     api.create.text(p, relative, text)
 }
 
-
 // Path
 //
 function doCmdPath(args) {
 
     // path 0,0 h 10 v 10
-    let d = "M 0 0 h 100 v 100"
+    let d = "M 0 0 h 100 v 100 h 50 v 50 h 25 v 25"
     if (args.length > 2)
         d = args.slice(1).join(" ")
     api.create.path(d)
@@ -211,18 +201,9 @@ function doCmdPath(args) {
 async function doCmdPolyline(args) {
 
     if (args.length == 1) { // e.g. pl
-
-        // Connect mouse and keyboard to the tool
-        //
-        let polyLineTool = api.tool.activate("polyline")
-        await polyLineTool.start()
-        api.tool.deactivate(polyLineTool)
+        useTool("polyline")
         return
     }
-
-    // TODO: polyline "0,0 0,10 10,10 10,0"
-    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    //let text = argFns.asString(args, 2) || "text"
 
     api.create.polyline()
 }
@@ -247,17 +228,17 @@ function doCmdImage(args) {
     api.create.image(p, size, href)
 }
 
+// rect 0,0 100,100
+//
 function doCmdRect(args) {
 
-    // rect 0,0 100,100
-    //
     let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
 
     api.create.rect(p, size)
 }
 
-// layer
+// layer name description
 //
 function doCmdLayer(args) {
 
@@ -267,27 +248,19 @@ function doCmdLayer(args) {
     api.layer.create(name, description)
 }
 
-// delete
+// delete (selected)
 //
 function doCmdDelete(args) {
     api.destroy.selected()
 }
 
-
 // select
 //
 async function doCmdSelect(args) {
-
-    if (args.length == 1) { // e.g. pl
-
-        // Connect mouse and keyboard to the tool
-        //
-        let tool = api.tool.activate("selection")
-        await tool.start()
-        api.tool.deactivate(tool)
-        return
-    }
-
+    //if (args.length == 1) {
+    useTool("selection")
+    //    return
+    //}
 }
 
 // deselect
@@ -322,6 +295,7 @@ function doCmdSettings(args) {
 
 // set cx 0 cy 0
 // set layer foo
+// set fill #ff00ff
 //
 function doCmdSet(args) {
 
@@ -347,7 +321,7 @@ function doCmdSet(args) {
     })
 }
 
-// copy
+// copy (selected)
 //
 function doCmdCopy(args) {
 
@@ -401,6 +375,8 @@ function doCmdMessage(args) {
     api.create.Message(text)
 }
 
+// snow on/off
+//
 function doCmdSnow(args) {
     let on_off = argFns.asString(args, 1)
 

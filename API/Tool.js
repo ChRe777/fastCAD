@@ -1,11 +1,17 @@
 // Tools.js
 
+//                              connected
+// [ SCENE ] <--- [ ACTIVE TOOL ] <--- [ USER (Pointer/Keyboard/...)
 
 // Imports
 //
 import { useToolStore } from 'stores/tool'
 
+// Constants
+//
 const { randomUUID } = new ShortUniqueId({ length: 10 })
+const TOOL_LAYER = 'toolLayer'
+const SELECTION_LAYER = 'selectionLayer'
 
 // Objects
 //
@@ -32,6 +38,8 @@ function activate(name) {
     //  * svg.addEventListener('pointerup', tool.onPointerUp)
     //  * inputField.addEventListener('keyup', tool.onPointerUp)
     //
+    console.log(`tool ${name} register handlers!`)
+
     tool.handlers.forEach(handler => {
         if (handler.element) {
             const element = handler.element
@@ -62,8 +70,8 @@ function deactivate(tool) {
         }
     })
 
+    console.log(`tool ${tool.name} stopping!`)
     tool.stop()
-
     console.log(`tool ${tool.name} successful deactivated!`)
 }
 
@@ -79,7 +87,7 @@ function getSvgCoords(event) {
     return point
 }
 
-
+// TODO:  Pointer position circle
 
 function createCircle(r) {
     if (circle === null) {
@@ -98,7 +106,7 @@ function createCircle(r) {
         let type = 'Point'
         obj.setAttribute('id', type + '-' + randomUUID())
 
-        let toolLayer = document.getElementById('toolLayer')
+        let toolLayer = document.getElementById(TOOL_LAYER)
         toolLayer.appendChild(obj)
 
         circle = obj
@@ -106,6 +114,7 @@ function createCircle(r) {
     return circle
 }
 
+// TODO: 
 function createRectangle(r) {
     if (circle === null) {
         let obj = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
@@ -122,10 +131,10 @@ function createRectangle(r) {
 
         obj.setAttribute('visibility', 'hidden')
 
-        let type = 'Rect'
+        let type = 'SelectionRect'
         obj.setAttribute('id', type + '-' + randomUUID())
 
-        let toolLayer = document.getElementById('toolLayer')
+        let toolLayer = document.getElementById(SELECTION_LAYER)
         toolLayer.appendChild(obj)
 
         rect = obj

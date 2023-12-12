@@ -7,7 +7,6 @@
 // id -> modify -> id
 // id -> select -> id/ id -> deselect -> id
 
-
 //
 // [UI/LOGIC] <--> [STORE] <--> [IO] <--> [SERVER] <--> [DB/FILE]
 //
@@ -29,8 +28,8 @@ import message from 'api/message'
 import modify from 'api/modify'
 import scene from 'api/scene'
 import selection from 'api/selection'
-import view from 'api/view'
 import tool from 'api/tool'
+import view from 'api/view'
 
 export default {
     cmd,
@@ -41,8 +40,8 @@ export default {
     modify,
     scene,
     selection,
-    view,
-    tool
+    tool,
+    view
 };
 
 // copy {id}

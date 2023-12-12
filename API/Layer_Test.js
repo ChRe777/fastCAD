@@ -26,31 +26,3 @@ function runTests() {
 export default {
     runTests
 }
-
-/*
-export default {
-    create,
-    trash,
-    //
-    addLayer,
-    removeElement,
-    //
-    setCurrent,
-    getCurrent,
-    isCurrent,
-    //
-    getById,
-    //
-    hasChilds,
-    numberOfElements,
-    //
-    isOpen,
-    toogleOpen,
-    toogleVisibility,
-    //
-    selectFirst,
-    //
-    forEach,
-    //initCaches
-}
-*/

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Load and Append SVG</title>
+    </head>
+
+    <body>
+        <svg id="existingSvg" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Your existing SVG content goes here -->
+            <g id="group" style="border: 1px solid red; background-color: green;">
+                <rect x="100" y="10" width="50" height="50" fill="blue" />
+                <rect x="10" y="10" width="50" height="50" fill="blue" />
+            </g>
+        </svg>
+
+        <script>
+            let group = document.getElementById("group")
+            let bb = group.getBBox()
+            let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+            for (let x in bb) {
+                rect.setAttribute(x, bb[x])
+            }
+            rect.setAttribute("fill", "none")
+            rect.setAttribute("stroke", "black")
+            rect.setAttribute("stroke-width", "2")
+            rect.setAttribute("stroke-dasharray", "4")
+            let svg = document.getElementById("existingSvg")
+            group.appendChild(rect)
+            console.log(rect)
+        </script>
+    </body>
+
+</html>

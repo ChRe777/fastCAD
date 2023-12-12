@@ -14,10 +14,11 @@
     background-position: 0 0, 0 0;
 }
 
+/*
 .selected {
     outline: 0.5px dashed #0095ff;
 }
-
+*/
 #svg {
     width: 100%;
     height: 100%;

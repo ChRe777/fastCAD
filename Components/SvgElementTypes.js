@@ -66,7 +66,7 @@ const svgTypes = {
         {
             type: "g",
             attrs: []
-                .concat(fill).concat(stroke),
+                .concat(general).concat(fill).concat(stroke),
             childElements: [svgGroupChild]
         },
         {

@@ -7,6 +7,7 @@ import { addPoints } from 'services/utils'
 import { useStore } from 'stores/store'
 
 import layer from 'api/layer'
+import api from 'api/api'
 
 // Constants
 //
@@ -220,6 +221,7 @@ function image(p, size, href) {
         'stroke-width': defaults.style['stroke-width']
     })
 
+    const store = useStore()
     store.lastPoint = p
 
     return obj
@@ -237,6 +239,7 @@ function rect(p, size) {
         'stroke-width': defaults.style['stroke-width']
     })
 
+    const store = useStore()
     store.lastPoint = p
 
     return obj
@@ -245,17 +248,15 @@ function rect(p, size) {
 function group(elements) {
 
     const obj = create('g', {
-        /*
-        x: p.x,
-        y: p.y,
-        width: size.x,
-        height: size.y,
-        */
         'elements': elements,
-        //
         'fill': defaults.style.fill,
         'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
+    })
+
+    let currentLayer = api.layer.getCurrent()
+    elements.forEach(element => {
+        api.layer.removeElement(currentLayer, element)
     })
 
     //store.lastPoint = p

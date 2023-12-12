@@ -98,41 +98,58 @@ function isCurrent(layer) {
     return selectionStore.selectedLayersSet.has(layer)
 }
 
+// toggle open close
+//
 function toogleOpen(layer) {
     layer['isopen'] = !layer['isopen']
     return layer['isopen']
 }
 
+// toogle visible hidden
+//
 function toogleVisibility(layer) {
     if (layer.visibility === 'visible') {
         layer.visibility = 'hidden'
     } else {
         layer.visibility = 'visible'
     }
+    return layer.visibility
 }
 
+// is layer visible
+//
 function isVisible(layer) {
     return layer.visibility === 'visible'
 }
 
+// toogle frozen thaw
+//
 function toogleFreezing(layer) {
     layer['isfrozen'] = !layer['isfrozen']
     return layer['isfrozen']
 }
 
+// is layer frozen
+//
 function isFrozen(layer) {
     return layer['isfrozen']
 }
+
+// is layer not frozen
+//
 function isNotFrozen(layer) {
     return !isFrozen(layer)
 }
 
-
+// has layer childs
+//
 function hasChilds(layer) {
     const firstLayer = layer.elements.find(element => element.type === "layer")
     return firstLayer !== undefined
 }
 
+// Helper to count sub elements
+//
 function numberOfSubElements_(elements) {
     let subLayers = layersOfElements(elements)
     return subLayers
@@ -142,23 +159,33 @@ function numberOfSubElements_(elements) {
         }, 0);
 }
 
+// Number of elements of layer and sublayers
+//
 function numberOfElements(layer) {
     let childsNum = elementsOfElements(layer.elements).length
     return childsNum + numberOfSubElements_(layer.elements)
 }
 
+// is layer open ?
+//
 function isOpen(layer) {
     return layer['isopen']
 }
 
+// get only layers of all elements
+//
 function layersOfElements(elements) {
     return elements.filter(element => element.type === 'layer')
 }
 
+// get only elements of all elements without layers
+//
 function elementsOfElements(elements) {
     return elements.filter(element => element.type !== 'layer')
 }
 
+// select first layer
+//
 function selectFirst() {
     const store = useStore()
     const selectionStore = useSelectionStore()
@@ -171,11 +198,15 @@ function selectFirst() {
     }
 }
 
+// remove element from layer
+//
 function removeElement(layer, element) {
     removeElement_(layer, element)
 }
 
-function addLayer(layer, element) {
+// add element to layer
+//
+function addElement(layer, element) {
     layer.elements.push(element)
 }
 
@@ -183,7 +214,7 @@ export default {
     create,
     trash,
     //
-    addLayer,
+    addElement,
     removeElement,
     //
     setCurrent,
