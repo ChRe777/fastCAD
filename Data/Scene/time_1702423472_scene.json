@@ -350,30 +350,6 @@
                     "stroke": "#ffffff",
                     "stroke-width": 1,
                     "fill-opacity": 0.5
-                },
-                {
-                    "type": "text",
-                    "id": "text-HaMOkcPL6B",
-                    "x": -50,
-                    "y": -100,
-                    "text": "TODO",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
-                },
-                {
-                    "type": "text",
-                    "id": "text-qLjUMMtfmI",
-                    "x": -50,
-                    "y": -65,
-                    "text": "Copy Fix",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
                 }
             ]
         },

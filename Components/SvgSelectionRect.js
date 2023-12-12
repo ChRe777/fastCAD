@@ -1,44 +1,71 @@
 // SvgSelectionRect.js
 
-// Imports
+// Show the bounding box rectangle of an svg element,
+// if the object is selected
+
+// Constants
 //
+const stroke_color = "#316bf3"
+const stroke_width = 2
+const stroke_dasharrray = "5"
 
 // Template
 //
 const template = `
-<rect id="selectionRect" ref="selectionRect" 
-    :x="bb.x" :y="bb.y" :width="bb.width" :height="bb.height" 
-    stroke="#316bf3" stroke-width="2"  stroke-dasharray="4" fill="None" />
+<rect :x="bb.x" :y="bb.y" 
+    :width="bb.width" :height="bb.height" 
+    stroke="${stroke_color}" 
+    stroke-width="${stroke_width}"  
+    stroke-dasharray="${stroke_dasharrray}" 
+    fill="None" />
 `
+
+// Add stroke width to bounding box because, 
+// getBBox({stroke:true}) does not work!!
+//
+function addStroke(element, bb) {
+    if (!isNaN(element["stroke-width"])) {
+        let sw = element["stroke-width"]
+        bb.x -= sw / 2
+        bb.y -= sw / 2
+        bb.height += sw
+        bb.width += sw
+    }
+    return bb
+}
 
 // Get bounding box of svg element
 //
 function getBB(element) {
-    let id = element.id
-    let el = document.getElementById(id)
-    return el.getBBox()
+    console.log("getBB - element.id", element.id)
+    let svg_element = document.getElementById(element.id)
+    // Does not work??
+    // let options = { stroke: true, fill: true, markers: true }
+    let bb = svg_element.getBBox()
+    return addStroke(element, bb)
+}
+
+function data() {
+    return {
+        bb: {
+            x: 0, y: 0,
+            width: 0, height: 0
+        }
+    }
 }
 
 // Component
 //
 export default {
-    data() {
-        return {
-            bb: {
-                x: 0, y: 0,
-                width: 0, height: 0
-            }
-        }
-    },
+    data,
     props: ['element'],
     template,
     watch: {
         'element': {
             handler() {
-                // update bb if element changes
                 this.bb = getBB(this.element)
             },
-            deep: true
+            deep: true // check if some properties (e.g. pos x or width) change in element
         }
     },
     mounted() {

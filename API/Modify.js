@@ -31,6 +31,5 @@ export default {
     modify, // Base Function
     move,
     rotate,
-    mirror,
-    layer
+    mirror
 }

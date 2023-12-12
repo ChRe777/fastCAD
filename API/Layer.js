@@ -1,19 +1,25 @@
 // Layer.js
 
+// Layer or Group are the same svg-group node
+// so they can have childNodes
+
 // Imports
 //
 import { useStore } from 'stores/store'
 import { useSelectionStore } from 'stores/selection'
 import { defaults } from 'services/defaults'
 
+import scene from 'api/scene'
+
 // Constants
 //
-
 const { randomUUID } = new ShortUniqueId({ length: 10 });
 
 // Functions
 //
 
+// helper for each elements call a function fn
+//
 function forEach_(fn, elements) {
     if (elements === undefined) {
         return
@@ -27,11 +33,15 @@ function forEach_(fn, elements) {
     })
 }
 
+// for each element in layer call a function fn
+//
 function forEach(fn) {
     const store = useStore()
     forEach_(fn, store.scene.elements)
 }
 
+// creates a new layer and set it to current // TODO: Rethink
+//
 function create(name, description) {
 
     const layer = create_("layer", {
@@ -40,8 +50,6 @@ function create(name, description) {
         'description': description,
         ...defaults.layer
     })
-
-    setCurrent(layer)
 
     return layer
 }
@@ -62,6 +70,8 @@ function create_(type, attrs) {
     return newLayer
 }
 
+// helper remove elements from layer
+//
 function removeElement_(layer, element) {
     layer.elements = layer.elements.filter(element_ => element_.id !== element.id)
 
@@ -70,12 +80,6 @@ function removeElement_(layer, element) {
     for (let subLayer of subLayers) {
         removeElement_(subLayer, element)
     }
-}
-
-function trash(layer) {
-    console.log("trash not implemented!!")
-    // TODO: REMOVE FROM SCENE
-    // TODO: Check is layer is empty in GUI -> Dialog
 }
 
 // set current layer
@@ -207,15 +211,24 @@ function removeElement(layer, element) {
 // add element to layer
 //
 function addElement(layer, element) {
+    console.log("add Element - layer:", layer)
     layer.elements.push(element)
+}
+
+// move element to new layer
+//
+function moveElement(element, newLayer) {
+    let parentLayer = scene.getParent(element)
+    removeElement(parentLayer, element)
+    addElement(newLayer, element)
 }
 
 export default {
     create,
-    trash,
     //
     addElement,
     removeElement,
+    moveElement,
     //
     setCurrent,
     getCurrent,

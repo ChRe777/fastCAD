@@ -70,6 +70,18 @@
                     "stroke-dasharray": "5,1"
                 },
                 {
+                    "type": "line",
+                    "id": "line-KQIhcgRvRi",
+                    "x1": -40,
+                    "y1": 200,
+                    "x2": 60,
+                    "y2": 200,
+                    "stroke": "#a96800",
+                    "stroke-width": "5",
+                    "stroke-dasharray": "",
+                    "stroke-opacity": 0.85
+                },
+                {
                     "type": "path",
                     "id": "path-FRZBKtldUt",
                     "d": "M150 0a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
@@ -317,6 +329,18 @@
                     "stroke-dasharray": "2"
                 },
                 {
+                    "type": "circle",
+                    "id": "circle-jMzWpIZB8F",
+                    "cx": 20,
+                    "cy": -114,
+                    "r": 50,
+                    "fill": "#777777",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2,
+                    "stroke-opacity": 0.6,
+                    "stroke-dasharray": "5"
+                },
+                {
                     "type": "ellipse",
                     "id": "ellipse-AWGjCUNfaC",
                     "cx": 473,
@@ -350,30 +374,6 @@
                     "stroke": "#ffffff",
                     "stroke-width": 1,
                     "fill-opacity": 0.5
-                },
-                {
-                    "type": "text",
-                    "id": "text-HaMOkcPL6B",
-                    "x": -50,
-                    "y": -100,
-                    "text": "TODO",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
-                },
-                {
-                    "type": "text",
-                    "id": "text-qLjUMMtfmI",
-                    "x": -50,
-                    "y": -65,
-                    "text": "Copy Fix",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
                 }
             ]
         },

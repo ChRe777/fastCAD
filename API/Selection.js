@@ -3,7 +3,7 @@
 // Imports
 //
 import { useSelectionStore } from 'stores/selection'
-import layers from 'api/layer'
+import api from 'api/api'
 
 // Functions
 //
@@ -32,8 +32,7 @@ function isSelected(element) {
 
 // select
 //
-
-function select(element, layer) {
+function select(element) {
 
     const store = useSelectionStore()
 
@@ -43,13 +42,18 @@ function select(element, layer) {
     //      <line></line>
     //      <line></line>
     // </g>
-
-    // TODO: Refactor getParent(element) or getLayer(element)
-    //
-    if (layers.isNotFrozen(layer)) {
+    let layer = api.scene.getParent(element)
+    console.log("select - layer:", layer)
+    if (layer && api.layer.isNotFrozen(layer)) {
         store.selectedElementsSet.add(element)
     }
     return element
+}
+
+// Select a list of elements
+//
+function selectMany(elements) {
+    elements.forEach(e => select(e))
 }
 
 // deselect
@@ -76,6 +80,7 @@ export default {
     clearWithLayers,
     isSelected,
     select,
+    selectMany,
     deselect,
     //
     elements

@@ -17,7 +17,7 @@
             "fill": "#ffffff",
             "stroke": "#ffffff",
             "stroke-width": 9,
-            "stroke-opacity": "",
+            "stroke-opacity": "1.0",
             "elements": [
                 {
                     "type": "layer",
@@ -35,7 +35,7 @@
                         {
                             "type": "circle",
                             "id": "circle-PXNFX3W5HK",
-                            "cx": -190,
+                            "cx": -200,
                             "cy": -34,
                             "r": "10",
                             "fill": "#f5ec00",
@@ -48,8 +48,8 @@
                 {
                     "type": "circle",
                     "id": "circle-NlwqaSQuTI",
-                    "cx": 10,
-                    "cy": 50,
+                    "cx": 0,
+                    "cy": "50",
                     "r": 50,
                     "fill": "#00f900",
                     "stroke": "#00f900",
@@ -61,18 +61,30 @@
                 {
                     "type": "line",
                     "id": "line-XHOwjee2Le",
-                    "x1": 10,
-                    "y1": 100,
-                    "x2": 10,
-                    "y2": 200,
+                    "x1": "0",
+                    "y1": "100",
+                    "x2": "0",
+                    "y2": "200",
                     "stroke": "#7a4a00",
                     "stroke-width": 14,
                     "stroke-dasharray": "5,1"
                 },
                 {
+                    "type": "line",
+                    "id": "line-KQIhcgRvRi",
+                    "x1": -50,
+                    "y1": "200",
+                    "x2": 50,
+                    "y2": "200",
+                    "stroke": "#a96800",
+                    "stroke-width": "5",
+                    "stroke-dasharray": "",
+                    "stroke-opacity": 0.85
+                },
+                {
                     "type": "path",
                     "id": "path-FRZBKtldUt",
-                    "d": "M150 0a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
+                    "d": "M140 0a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
                     "plen": "",
                     "fill": "#ffffff",
                     "stroke": "#ff9300",
@@ -83,7 +95,7 @@
                 {
                     "type": "text",
                     "id": "text-w7yrPtSU8M",
-                    "x": 330,
+                    "x": 320,
                     "y": 40,
                     "text": "- Ellipse",
                     "font-family": "Chalkduster",
@@ -95,7 +107,7 @@
                 {
                     "type": "text",
                     "id": "text-9ZHNBXK6Tz",
-                    "x": 330,
+                    "x": 320,
                     "y": 70,
                     "text": "- Group",
                     "font-family": "Chalkduster",
@@ -107,7 +119,7 @@
                 {
                     "type": "text",
                     "id": "text-E9o4atjVYP",
-                    "x": 150,
+                    "x": 140,
                     "y": -205,
                     "text": "Cmds",
                     "font-family": "Chalkduster",
@@ -121,7 +133,7 @@
                 {
                     "type": "text",
                     "id": "text-F7DwH9A7Iy",
-                    "x": 150,
+                    "x": 140,
                     "y": -170,
                     "text": "- Undo\n",
                     "font-family": "Chalkduster",
@@ -134,7 +146,7 @@
                 {
                     "type": "text",
                     "id": "text-6G9DfVLQaG",
-                    "x": 330,
+                    "x": 320,
                     "y": 100,
                     "text": "- MultiText",
                     "font-family": "Chalkduster",
@@ -146,9 +158,9 @@
                 {
                     "type": "line",
                     "id": "line-aJriQkm4Hx",
-                    "x1": 150,
+                    "x1": 140,
                     "y1": -196,
-                    "x2": 233,
+                    "x2": 223,
                     "y2": -197,
                     "stroke": "#ebebeb",
                     "stroke-width": 2
@@ -156,9 +168,9 @@
                 {
                     "type": "line",
                     "id": "line-IyhGgObsYP",
-                    "x1": 312,
+                    "x1": 302,
                     "y1": -196,
-                    "x2": 391,
+                    "x2": 381,
                     "y2": -197,
                     "stroke": "#ebebeb",
                     "stroke-width": 2
@@ -166,7 +178,7 @@
                 {
                     "type": "text",
                     "id": "text-qjmG6C744i",
-                    "x": 150,
+                    "x": 140,
                     "y": -140,
                     "text": "- Scrsaver\n",
                     "font-family": "Chalkduster",
@@ -179,7 +191,7 @@
                 {
                     "type": "image",
                     "id": "image-CWOwMZzMZs",
-                    "x": -350,
+                    "x": -360,
                     "y": 80,
                     "width": "200",
                     "height": "200",
@@ -192,7 +204,7 @@
                 {
                     "type": "path",
                     "id": "path-bdR6jZS3bS",
-                    "d": "M-350 80h200v200h-200z",
+                    "d": "M -360 80 h 200 v 200 h -200 z",
                     "plen": "",
                     "fill": "#ffffff",
                     "stroke": "#ffb43f",
@@ -204,7 +216,7 @@
                 {
                     "type": "text",
                     "id": "text-Jtz8PaA0e4",
-                    "x": 330,
+                    "x": 320,
                     "y": 130,
                     "text": "- TextPath",
                     "font-family": "Chalkduster",
@@ -216,7 +228,7 @@
                 {
                     "type": "text",
                     "id": "text-pZy4bObFjC",
-                    "x": 150,
+                    "x": 140,
                     "y": -110,
                     "text": "- Raster\n",
                     "font-family": "Chalkduster",
@@ -229,7 +241,7 @@
                 {
                     "type": "text",
                     "id": "text-8y0RYYI971",
-                    "x": 150,
+                    "x": 140,
                     "y": -80,
                     "text": "- Snap\n",
                     "font-family": "Chalkduster",
@@ -242,7 +254,7 @@
                 {
                     "type": "circle",
                     "id": "circle-fyXBVj7eWM",
-                    "cx": 460,
+                    "cx": 450,
                     "cy": -178,
                     "r": 10,
                     "fill": "#7a7a7a",
@@ -253,7 +265,7 @@
                 {
                     "type": "polyline",
                     "id": "polyline-UOFBi2bWkJ",
-                    "points": "480,-145 500,-155 510,-145",
+                    "points": "470,-145 490,-155 500,-145",
                     "plen": 10,
                     "fill": "#ffffff",
                     "stroke": "#d6d6d6",
@@ -263,7 +275,7 @@
                 {
                     "type": "polygon",
                     "id": "polygon-7IvlZBgtFj",
-                    "points": "480,-115 500,-125 510,-115",
+                    "points": "470,-115 490,-125 500,-115",
                     "plen": 10,
                     "fill": "#7a7a7a",
                     "stroke": "#ffffff",
@@ -272,9 +284,9 @@
                 {
                     "type": "line",
                     "id": "line-XBA8cGtQnr",
-                    "x1": 430,
+                    "x1": 420,
                     "y1": -85,
-                    "x2": 460,
+                    "x2": 450,
                     "y2": -85,
                     "stroke": "#ffffff",
                     "stroke-width": 2
@@ -282,7 +294,7 @@
                 {
                     "type": "text",
                     "id": "text-nbD2PeJOj0",
-                    "x": 426,
+                    "x": 416,
                     "y": -53,
                     "text": "Hello!",
                     "font-family": "Chalkduster",
@@ -295,7 +307,7 @@
                 {
                     "type": "text",
                     "id": "text-vp4BSYsOsF",
-                    "x": 330,
+                    "x": 320,
                     "y": 160,
                     "text": "- Rect",
                     "font-family": "Chalkduster",
@@ -307,7 +319,7 @@
                 {
                     "type": "rect",
                     "id": "rect-cGSnMuUc3h",
-                    "x": 427,
+                    "x": 417,
                     "y": 140,
                     "width": 20,
                     "height": 20,
@@ -317,9 +329,21 @@
                     "stroke-dasharray": "2"
                 },
                 {
+                    "type": "circle",
+                    "id": "circle-jMzWpIZB8F",
+                    "cx": 0,
+                    "cy": -124,
+                    "r": 50,
+                    "fill": "#777777",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2,
+                    "stroke-opacity": 0.6,
+                    "stroke-dasharray": "5"
+                },
+                {
                     "type": "ellipse",
                     "id": "ellipse-AWGjCUNfaC",
-                    "cx": 473,
+                    "cx": 463,
                     "cy": 32,
                     "rx": 15,
                     "ry": 10,
@@ -331,7 +355,7 @@
                 {
                     "type": "path",
                     "id": "path-GKVuqWPylM",
-                    "d": "M430 5l10 0a10 10 0 0 1 20 0",
+                    "d": "M 420 5\nl 10 0\na 10 10 0 0 1 20 0",
                     "plen": "",
                     "fill": "#777777",
                     "stroke": "#ffffff",
@@ -339,9 +363,18 @@
                     "stroke-dasharray": "2"
                 },
                 {
+                    "type": "polyline",
+                    "id": "polyline-yLkE09P54m",
+                    "points": "-154,-234 -92,-148 -4,-248",
+                    "plen": 10,
+                    "fill": "none",
+                    "stroke": "#ffffff",
+                    "stroke-width": 2
+                },
+                {
                     "type": "text",
                     "id": "text-QGyydNYC7Y",
-                    "x": 150,
+                    "x": 140,
                     "y": -50,
                     "text": "- SelectList\n",
                     "font-family": "Chalkduster",
@@ -350,30 +383,6 @@
                     "stroke": "#ffffff",
                     "stroke-width": 1,
                     "fill-opacity": 0.5
-                },
-                {
-                    "type": "text",
-                    "id": "text-HaMOkcPL6B",
-                    "x": -50,
-                    "y": -100,
-                    "text": "TODO",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
-                },
-                {
-                    "type": "text",
-                    "id": "text-qLjUMMtfmI",
-                    "x": -50,
-                    "y": -65,
-                    "text": "Copy Fix",
-                    "font-family": "Chalkduster",
-                    "font-size": "25px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
                 }
             ]
         },
@@ -393,7 +402,7 @@
                 {
                     "type": "text",
                     "id": "text-Grtl3Tj5dL",
-                    "x": 160,
+                    "x": 150,
                     "y": -256,
                     "text": "I like SVG CAD!",
                     "font-family": "Chalkduster",
@@ -408,7 +417,7 @@
                 {
                     "type": "text",
                     "id": "text-ekh613wPMP",
-                    "x": 310,
+                    "x": 300,
                     "y": -205,
                     "text": "Layer",
                     "font-family": "Chalkduster",
@@ -423,7 +432,7 @@
                 {
                     "type": "text",
                     "id": "text-Axu4dgPJM4",
-                    "x": 330,
+                    "x": 320,
                     "y": -170,
                     "text": "- Circle",
                     "font-family": "Chalkduster",
@@ -436,7 +445,7 @@
                 {
                     "type": "text",
                     "id": "text-BECTzgD0zY",
-                    "x": 330,
+                    "x": 320,
                     "y": -140,
                     "text": "- Polyline",
                     "font-family": "Chalkduster",
@@ -449,7 +458,7 @@
                 {
                     "type": "text",
                     "id": "text-pIIJzIHYu5",
-                    "x": 330,
+                    "x": 320,
                     "y": -110,
                     "text": "- Polygon",
                     "font-family": "Chalkduster",
@@ -462,7 +471,7 @@
                 {
                     "type": "text",
                     "id": "text-GnAyPRciTN",
-                    "x": 330,
+                    "x": 320,
                     "y": -80,
                     "text": "- Line",
                     "font-family": "Chalkduster",
@@ -475,7 +484,7 @@
                 {
                     "type": "text",
                     "id": "text-xxAnnX6SX6",
-                    "x": 330,
+                    "x": 320,
                     "y": -50,
                     "text": "- Text",
                     "font-family": "Chalkduster",
@@ -488,7 +497,7 @@
                 {
                     "type": "text",
                     "id": "text-k6IHhOPOmc",
-                    "x": 330,
+                    "x": 320,
                     "y": -20,
                     "text": "- Image",
                     "font-family": "Chalkduster",
@@ -501,7 +510,7 @@
                 {
                     "type": "text",
                     "id": "text-hDdMfmiUhF",
-                    "x": 330,
+                    "x": 320,
                     "y": 10,
                     "text": "- Path",
                     "font-family": "Chalkduster",
@@ -529,8 +538,8 @@
                 {
                     "type": "image",
                     "id": "image-Grtl3Tj5d5",
-                    "x": -290,
-                    "y": -50,
+                    "x": "-300",
+                    "y": "-50",
                     "width": "100px",
                     "height": "100px",
                     "href": "https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png"
@@ -538,7 +547,7 @@
                 {
                     "type": "image",
                     "id": "image-kZlOrT9ynD",
-                    "x": 446,
+                    "x": 436,
                     "y": -43,
                     "width": "30",
                     "height": "30",
@@ -552,7 +561,7 @@
         {
             "type": "layer",
             "svg-type": "g",
-            "visibility": "visible",
+            "visibility": "hidden",
             "id": "layer-Laltl3Tj123",
             "name": "group poly..",
             "description": "Polyline layer description long",
@@ -564,20 +573,29 @@
                 {
                     "type": "polyline",
                     "id": "polyline-Pltl3Tj575",
-                    "points": "200,160 200,260 300,260 300,160",
+                    "points": "190,-150 190,-50 290,-50 290,-150",
                     "fill-opacity": 0,
                     "stroke-dasharray": "5",
                     "pathLength": 105
                 },
                 {
+                    "type": "polygon",
+                    "id": "polygon-Pgtl3Tj575",
+                    "points": "200,150 200,250 300,250 300,150 200,150",
+                    "fill": "#fffb00",
+                    "stroke": "#fff76b",
+                    "fill-opacity": 0.5,
+                    "stroke-dasharray": "5",
+                    "stroke-width": 20
+                },
+                {
                     "type": "path",
                     "id": "path-Pathl3Tj575",
-                    "d": "M 225 150\n h 50 v50 h-50\nv 50 h50",
+                    "d": "M215 0h50v50h-50v50h50",
                     "fill-opacity": 0,
                     "stroke-dasharray": "5",
                     "stroke-width": 5,
-                    "pathLength": 105,
-                    "stroke": "#00f900"
+                    "pathLength": 105
                 }
             ]
         }

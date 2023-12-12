@@ -5,8 +5,7 @@
 import { defaults } from 'services/defaults'
 import { addPoints } from 'services/utils'
 import { useStore } from 'stores/store'
-
-import layer from 'api/layer'
+//
 import api from 'api/api'
 
 // Constants
@@ -23,7 +22,7 @@ const { randomUUID } = new ShortUniqueId({ length: 10 });
 //
 function create(type, attrs) {
 
-    // Create new object
+    // Create new object/element
     //
     let obj = {
         'type': type,
@@ -33,8 +32,12 @@ function create(type, attrs) {
 
     // Place into current active Layer
     //
-    let currentLayer = layer.getCurrent()
-    currentLayer.elements.push(obj)
+    let currentLayer = api.layer.getCurrent()
+    api.layer.addElement(currentLayer, obj)
+
+    // Set parent
+    //
+    api.scene.storeParent(currentLayer, obj)
 
     // Store last created element
     //

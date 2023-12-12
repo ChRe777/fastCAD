@@ -27,6 +27,7 @@ function doCmdClear() {
 
     const newLayer = api.layer.create(name, description)
     api.scene.addLayer(newLayer)
+    api.layer.setCurrent(newLayer)
 }
 
 // save
@@ -245,7 +246,11 @@ function doCmdLayer(args) {
     let name = argFns.asString(args, 1) || "newLayer"
     let description = argFns.asString(args, 2) || "newLayer"
 
-    api.layer.create(name, description)
+    let newLayer = api.layer.create(name, description)
+    api.scene.addLayer(newLayer)
+    api.layer.setCurrent(newLayer) // TODO: Move to scene api.scene.setCurrentLayer()
+
+    console.log("layer created")
 }
 
 // delete (selected)
@@ -305,9 +310,14 @@ function doCmdSet(args) {
     // set layer layerXYZ
     //
     if (attrName === 'layer') {
-        let layerName = attrValue
+        let layerName = attrValue // TODO: getLayerByName
+        let toLayer = api.scene.getLayerByName(layerName)
+        console.log("cmdSet toLayer", toLayer)
+
         api.selection.forEach(selectedElement => {
-            api.modify.layer.set(selectedElement, layerName)
+            console.log("cmdSet selectedElement", selectedElement)
+            api.layer.moveElement(selectedElement, toLayer)
+
         })
     }
 
@@ -332,14 +342,15 @@ function doCmdCopy(args) {
 
         const copiedElements = []
         api.selection.forEach(selectedElement => {
-            const element = api.create.copy(selectedElement)
-            copiedElements.push(copiedElements)
-            api.modify.move.move(element, p, relative)
+            const newElement = api.create.copy(selectedElement)
+            copiedElements.push(newElement)
+            api.modify.move.move(newElement, p, relative)
         })
 
         // TODO: Select all or last
-        //api.selection.clear()
-
+        api.selection.clear()
+        // TODO: FIX
+        // api.selection.selectMany(copiedElements)
     }
 
 }
