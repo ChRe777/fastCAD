@@ -54,8 +54,16 @@ import selections from 'api/selection'
 
 // Constants
 //
-const parentsByElementId = {}
 
+let parentsByElementId = {}
+let elementsByElementId = {}
+let layersByName = {}
+
+function clearCaches_() {
+    parentsByElementId = {}
+    elementsByElementId = {}
+    layersByName = {}
+}
 
 // Functions
 //
@@ -63,6 +71,7 @@ function clear() {
     const store = useStore()
     // TODO: Really make full clear
     store.scene.elements = []
+    clearCaches_()
 }
 
 // create a new scene
@@ -91,9 +100,11 @@ function save(name) {
 function set_(scene) {
     const store = useStore()
     store.scene = scene
-    // TODO: Fill parent
+
+    // Fill caches
+    //
     forEach(storeParent)
-    console.log("set_ - parentsByElementId:", parentsByElementId)
+
 }
 
 // Load scene by name
@@ -136,13 +147,21 @@ function getElementByX_(element, findFn) {
 //
 function getElementById(id) {
 
-    const store = useStore()
+    let foundCached = elementsByElementId[id]
+    if (foundCached) {
+        return foundCached
+    }
 
+    const store = useStore()
     let findFn = (obj) => obj.id === id
 
     for (let element of store.scene.elements) {
         let found = getElementByX_(element, findFn)
         if (found != undefined) {
+            // Add to cache
+            //
+            elementsByElementId[id] = found
+            //
             return found
         }
     }
@@ -152,10 +171,14 @@ function getElementById(id) {
 
 // add a new layer to scene
 //
-function addLayer(layer) {
+function addLayer(layer, parentLayer) {
     const store = useStore()
     // TODO: Add layer on Top ?
-    store.scene.elements.push(layer)
+    if (parentLayer == undefined) {
+        store.scene.elements.push(layer)
+    } else {
+        parentLayer.elements.push(layer)
+    }
 }
 
 // elements of scene
@@ -182,6 +205,11 @@ function getParent(element) {
 
 function getLayerByName(name) {
 
+    let foundCached = layersByName[name]
+    if (foundCached) {
+        return foundCached
+    }
+
     const store = useStore()
 
     let findFn = (obj) => obj.type === 'layer' && obj.name === name
@@ -189,6 +217,9 @@ function getLayerByName(name) {
     for (let element of store.scene.elements) {
         let found = getElementByX_(element, findFn)
         if (found !== undefined) {
+            // Add to cache
+            layersByName[name] = found
+            //
             return found
         }
     }
@@ -196,23 +227,52 @@ function getLayerByName(name) {
     return undefined
 }
 
+// helper for for each function
+//
 function forEach_(fn, parent, element) {
 
     fn(parent, element)
 
-    if (element.elements) {
-        for (let child of element.elements) {
-            forEach_(fn, element, child)
+    // Go down next level
+    let parent_ = element
+    if (parent_.elements) {
+        for (let element_ of parent_.elements) {
+            forEach_(fn, parent_, element_)
         }
     }
 }
 
+// for each element in the scene
+//
 function forEach(fn) {
     const store = useStore()
-    for (let element of store.scene.elements) {
-        forEach_(fn, store.scene, element)
+    if (store.scene.elements) {
+        let parent = store.scene
+        for (let element of store.scene.elements) {
+            forEach_(fn, parent, element)
+        }
     }
 }
+
+// create an element
+// e.g. createElement('line' {p1, isRelative1, p2, isRelative2})
+//
+function createElement(type, props) {
+
+}
+
+// same as createElement('layer', props)
+//
+function createLayer(props) {
+
+}
+
+// set set the current layer of scene
+//
+function setCurrentLayer(layer) {
+
+}
+
 
 // Exports
 //
@@ -223,16 +283,21 @@ export default {
     create, // TODO: What is the difference between create or clear
     clear,
     //
+    createLayer,
+    createElement,
+    //
     addLayer,  // like. scene.appendChild
     //
+    storeParent, // TODO: should not public API
+    getParent,
+    getLayerByName,
     getElementById, // like document.getElementById
     elements, // element.childNodes
     //
-    storeParent,
-    getParent,
+    forEach, // TODO: rename Tree Walker
     //
-    getLayerByName,
-    forEach
+    setCurrentLayer
+
 }
 
 

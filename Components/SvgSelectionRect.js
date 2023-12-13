@@ -38,10 +38,10 @@ function addStroke(element, bb) {
 //
 function getBB(element) {
     console.log("getBB - element.id", element.id)
-    let svg_element = document.getElementById(element.id)
+    let svgElement = document.getElementById(element.id)
     // Does not work??
     // let options = { stroke: true, fill: true, markers: true }
-    let bb = svg_element.getBBox()
+    let bb = svgElement.getBBox()
     return addStroke(element, bb)
 }
 

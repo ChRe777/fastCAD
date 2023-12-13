@@ -19,15 +19,16 @@ function doCmdClear() {
     // Reset scene
     //
     api.scene.create()
+
     //
     // Create a default layer
     //
     const name = 'layer0'
     const description = 'Default layer 0'
 
-    const newLayer = api.layer.create(name, description)
+    const newLayer = api.layer.create(name, description) // TODO: api.scene.createLayer()
     api.scene.addLayer(newLayer)
-    api.layer.setCurrent(newLayer)
+    api.layer.setCurrent(newLayer) // TODO: api.scene.setCurrentLayer()
 }
 
 // save
@@ -188,7 +189,7 @@ function doCmdText(args) {
     api.create.text(p, relative, text)
 }
 
-// Path
+// path 0,0 h 10 v 10
 //
 function doCmdPath(args) {
 
@@ -199,6 +200,8 @@ function doCmdPath(args) {
     api.create.path(d)
 }
 
+// polyline 10,10 @20,30 30,30
+//
 async function doCmdPolyline(args) {
 
     if (args.length == 1) { // e.g. pl
@@ -206,15 +209,27 @@ async function doCmdPolyline(args) {
         return
     }
 
-    api.create.polyline()
+    let points = []
+    args.forEach((_, index) => {
+        if (index != 0) { // First args is cmd name e.g polyline
+            let pRel = argFns.asPoint2(args, index) || [{ x: 0, y: 0 }, false]
+            points.push(pRel)
+        }
+    })
+
+    // TODO: [ [{10,10}, false],  [{20,30}, true], ...]
+    api.create.polyline(points)
 }
 
+// polyline 10,10 @20,30 30,30
+//
 function doCmdPolygon(args) {
 
     // TODO: polygon "0,0 0,10 10,10 10,0 "
     //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     //let text = argFns.asString(args, 2) || "text"
 
+    // TODO: args
     api.create.polygon()
 }
 
@@ -224,6 +239,7 @@ function doCmdImage(args) {
     //
     let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
+    // TODO: Local Assets Image
     let href = argFns.asString(args, 3) || "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-1024.png"
 
     api.create.image(p, size, href)
