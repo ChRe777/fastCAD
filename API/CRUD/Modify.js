@@ -1,11 +1,13 @@
 // Modify.js
 
+// Modifies elements, but not modifies the scene
+// Not modify the parent child relationsships
+
 // Imports
 //
 import move from 'api/modify/move'
 import rotate from 'api/modify/rotate'
 import mirror from 'api/modify/mirror'
-import layer from 'api/modify/layer'
 
 // modify
 //

@@ -30,24 +30,13 @@ function create(type, attrs) {
         ...attrs
     }
 
-    // Place into current active Layer
-    //
-    let currentLayer = api.layer.getCurrent()
-    api.layer.addElement(currentLayer, obj)
-
-    // Set parent
-    //
-    api.scene.storeParent(currentLayer, obj)
-
-    // Store last created element
-    //
-    const store = useStore()
-    store.lastCreatedElement = obj
-
     return obj
 }
 
-function line(p1, relative1, p2, relative2) {
+function line(attrs) {
+
+    let [p1, relative1] = attrs["p1"]
+    let [p2, relative2] = attrs["p2"]
 
     const store = useStore()
 
@@ -71,12 +60,14 @@ function line(p1, relative1, p2, relative2) {
     store.lastPoint = p2
     return obj
 }
-function lineTo(p2, relative2) {
+function lineTo(attrs) {
+
+    let [p2, relative2] = attrs['p2']
 
     const store = useStore()
 
     if (store.lastPoint === undefined) {
-        return
+        return undefined
     }
 
     let p1 = store.lastPoint
@@ -97,7 +88,10 @@ function lineTo(p2, relative2) {
     store.lastPoint = p2
     return obj
 }
-function circle(p, relative, r) {
+function circle(attrs) {
+
+    let [p, relative] = attrs["p"]
+    let r = attrs["r"]
 
     const store = useStore()
 
@@ -118,7 +112,11 @@ function circle(p, relative, r) {
     return obj
 }
 
-function ellipse(p, relative, rx, ry) {
+function ellipse(attrs) {
+
+    let [p, relative] = attrs['p']
+    let rx = attrs['rx']
+    let ry = attrs['ry']
 
     const store = useStore()
 
@@ -140,7 +138,10 @@ function ellipse(p, relative, rx, ry) {
     return obj
 }
 
-function text(p, relative, text) {
+function text(attrs) {
+
+    let [p, relative] = attrs['p']
+    let text = attrs['text']
 
     const store = useStore()
 
@@ -163,7 +164,9 @@ function text(p, relative, text) {
     return obj
 }
 
-function path(d) {
+function path(attrs) {
+
+    let d = attrs['d']
 
     const store = useStore()
 
@@ -179,39 +182,84 @@ function path(d) {
     return obj
 }
 
-function polyline() {
-
+function createPoints(pointsWithRel) {
     const store = useStore()
 
+    let lastPoint = store.lastPoint
+    let points = []
+
+    pointsWithRel.forEach((pointRel) => {
+        console.log("pointRel", pointRel)
+        let [p, relative] = pointRel
+        if (relative) {
+            p = addPoints(lastPoint, p)
+        }
+
+        lastPoint = p
+        points.push(p)
+    })
+    return [points, lastPoint]
+}
+
+function polyline(attrs) {
+
+    // [ [{10,10}, false],  [{20,30}, true], ...]
+
+    let [points, lastPoint] = createPoints(attrs['points'])
+    let pointsStr = points.map(p => `${p.x},${p.y}`).join(' ')
+
     let obj = create('polyline', {
-        points: '0,0 100,0',
-        plen: 10,
+        points: pointsStr,
+        plen: '',
         'fill': 'none',
         'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
     })
 
-    store.lastPoint = { x: 0, y: 0 }
+    const store = useStore()
+    store.lastPoint = lastPoint
     return obj
 }
 
-function polygon() {
+function polygon(attrs) {
 
-    const store = useStore()
+    let [points, lastPoint] = createPoints(attrs['points'])
+    let pointsStr = points.map(p => `${p.x},${p.y}`).join(' ')
 
     const obj = create('polygon', {
-        points: '0,0 200,200',
-        plen: 10,
+        'points': pointsStr,
+        'plen': '',
         'fill': defaults.style.fill,
         'stroke': defaults.style.stroke,
         'stroke-width': defaults.style['stroke-width']
     })
 
-    store.lastPoint = { x: 0, y: 0 }
+    const store = useStore()
+    store.lastPoint = lastPoint
     return obj
 }
 
-function image(p, size, href) {
+function relToAbs(pRel) {
+    const store = useStore()
+    let lastPoint = store.lastPoint
+    let [p, relative] = pRel
+    if (relative) {
+        p = addPoints(lastPoint, p)
+    }
+    store.lastPoint = p
+    return p
+}
+
+
+function image(attrs) {
+
+    let pRel = attrs['p']
+    let sizeRel = attrs['size']
+    let href = attrs['href']
+
+    console.log("pRel", pRel)
+    let p = relToAbs(pRel)
+    let size = relToAbs(sizeRel)
 
     const obj = create('image', {
         x: p.x,
@@ -230,7 +278,13 @@ function image(p, size, href) {
     return obj
 }
 
-function rect(p, size) {
+function rect(attrs) {
+
+    let pRel = attrs['p']
+    let sizeRel = attrs['size']
+
+    let p = relToAbs(pRel)
+    let size = relToAbs(sizeRel)
 
     const obj = create('rect', {
         x: p.x,

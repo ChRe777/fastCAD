@@ -115,7 +115,7 @@ function onPointerDown(event) {
 
     // Show selection rectangle
     //
-    if (self.selectionRectangle == undefined) {
+    if (self.selectionRectangle === undefined) {
         self.selectionRectangle = api.tool.createRectangle()
     }
 

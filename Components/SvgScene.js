@@ -54,7 +54,7 @@ function mounted() {
 // Computed
 //
 function viewBox() {
-    let [x, y, w, h] = api.view.viewBox()
+    let [x, y, w, h] = api.view.getViewBox()
     return `${x} ${y} ${w} ${h}`
 }
 
@@ -62,15 +62,9 @@ function elements() {
     return api.scene.elements()
 }
 
-//function selectedElements() {
-//    return api.selection.elements()
-//}
-
 const onSelectedElements = {
     handler() {
-        console.log("SVG Scene onSelectedElements")
-        //let count = this.selectionStore.selectedElementsSet.length
-        //this.selectedElements = new Array(count)
+        //console.log("SVG Scene onSelectedElements")
         let arr = [...this.selectionStore.selectedElementsSet]
         this.selectedElements = arr
     },
@@ -85,7 +79,6 @@ export default {
     computed: {
         viewBox,
         elements,
-        //selectedElements,
     },
     watch: {
         'selectionStore.selectedElementsSet': onSelectedElements

@@ -36,16 +36,6 @@ function zoom(scale) {
     }
 }
 
-function getZoomFactor() {
-    const viewStore = useViewStore()
-    return viewStore.zoomFactor
-}
-
-function viewBox() {
-    const viewStore = useViewStore()
-    return viewStore.viewBox
-}
-
 function pan(deltaX, deltaY) {
     const viewStore = useViewStore()
 
@@ -58,6 +48,16 @@ function pan(deltaX, deltaY) {
     viewStore.scrollY = scrollY
 }
 
+function getZoomFactor() {
+    const viewStore = useViewStore()
+    return viewStore.zoomFactor
+}
+
+function getViewBox() {
+    const viewStore = useViewStore()
+    return viewStore.viewBox
+}
+
 function setSize(width, height) {
     const viewStore = useViewStore()
     viewStore.width = width
@@ -67,12 +67,14 @@ function setSize(width, height) {
 // Exports
 //
 export default {
+    // Actions
     zoomIn,
     zoomOut,
     zoom,
-    getZoomFactor,
-    //
-    viewBox,
     pan,
+    // Getter
+    getZoomFactor,
+    getViewBox,
+    // Setter
     setSize
 }

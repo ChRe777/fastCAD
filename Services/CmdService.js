@@ -6,7 +6,7 @@
 import api from 'api/api'
 
 import { argFns } from 'services/utils'
-import { useStore } from 'stores/store'
+import { useStore } from 'stores/store' // TODO: Refactor
 import { useCmdStore } from 'stores/cmd'
 
 // Commands
@@ -35,14 +35,25 @@ function doCmdClear() {
 //
 function doCmdSave(args) {
     let name = argFns.asString(args, 1)
-    api.scene.save(name)
+    const successFn = function (data, name) {
+        //console.log("data", data)
+        api.message.create(`Saved ${name}`)
+    }
+    api.io.save(name, successFn)
 }
 
 // load
 //
 function doCmdLoad(args) {
+
+    let successFn = function (scene, name) {
+        api.scene.set(scene)
+        api.layer.selectFirst()
+        api.message.create(`Loaded ${name}`) // api.message.create
+    }
+
     let name = argFns.asString(args, 1)
-    api.scene.load(name)
+    api.io.load(name, successFn)
 }
 
 // move @10,0 or move 10,10
@@ -132,6 +143,21 @@ async function doCmdPan(args) {
     api.view.pan(p.x, p.y)
 }
 
+// circle 10,10 50
+//
+function doCmdCircle(args) {
+
+    let p = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let r = argFns.asFloat(args, 2) || 50
+
+    const attrs = {
+        'p': p,
+        'r': r
+    }
+
+    api.scene.createElement('circle', attrs)
+}
+
 // line 10,10 20,20
 // line @10,10 20,20
 // line @10,10 @20,20
@@ -139,10 +165,18 @@ async function doCmdPan(args) {
 //
 function doCmdLine(args) {
 
-    let [p1, relative1] = argFns.asPoint2(args, 1) || [{ x: -50, y: -50 }, false]
-    let [p2, relative2] = argFns.asPoint2(args, 2) || [{ x: 50, y: 50 }, false]
+    //let [p1, relative1] = argFns.asPoint2(args, 1) || [{ x: -50, y: -50 }, false]
+    //let [p2, relative2] = argFns.asPoint2(args, 2) || [{ x: 50, y: 50 }, false]
 
-    api.create.line(p1, relative1, p2, relative2)
+    let p1 = argFns.asPoint2(args, 1) || [{ x: -50, y: -50 }, false]
+    let p2 = argFns.asPoint2(args, 2) || [{ x: 50, y: 50 }, false]
+
+
+    let attrs = {
+        'p1': p1,
+        'p2': p2
+    }
+    api.scene.createElement('line', attrs)
 }
 
 // lineTo 100,100
@@ -150,30 +184,32 @@ function doCmdLine(args) {
 //
 function doCmdLineTo(args) {
 
-    let [p2, relative2] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let p2 = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
 
-    api.create.lineTo(p2, relative2)
+    const attrs = {
+        'p2': p2
+    }
+
+    api.scene.createElement('lineTo', attrs)
 }
 
-// circle 10,10 50
-//
-function doCmdCircle(args) {
 
-    let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    let r = argFns.asFloat(args, 2) || 50
-
-    api.create.circle(p, relative, r)
-}
 
 // ellipse 10,10 50 50
 //
 function doCmdEllipse(args) {
 
-    let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let p = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let rx = argFns.asFloat(args, 2) || 50
     let ry = argFns.asFloat(args, 2) || 30
 
-    api.create.ellipse(p, relative, rx, ry)
+    const attrs = {
+        'p': p,
+        'rx': rx,
+        'ry': ry
+    }
+
+    api.scene.createElement('ellipse', attrs)
 }
 
 // text 10,10 "text"
@@ -183,10 +219,15 @@ function doCmdText(args) {
     // Multiline
     // see https://stackoverflow.com/questions/31469134/how-to-display-multiple-lines-of-text-in-svg
 
-    let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let p = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
     let text = argFns.asString(args, 2) || "text"
 
-    api.create.text(p, relative, text)
+    let attrs = {
+        'p': p,
+        'text': text
+    }
+
+    api.scene.createElement('text', attrs)
 }
 
 // path 0,0 h 10 v 10
@@ -197,8 +238,28 @@ function doCmdPath(args) {
     let d = "M 0 0 h 100 v 100 h 50 v 50 h 25 v 25"
     if (args.length > 2)
         d = args.slice(1).join(" ")
-    api.create.path(d)
+
+    let attrs = {
+        'd': d
+    }
+
+    api.scene.createElement('path', attrs)
+
 }
+
+function getPoints(args) {
+    let points = []
+
+    args.forEach((_, index) => {
+        if (index != 0) { // First args is cmd name e.g. 'polyline'
+            let pRel = argFns.asPoint2(args, index) || [{ x: 0, y: 0 }, false]
+            points.push(pRel)
+        }
+    })
+
+    return points
+}
+
 
 // polyline 10,10 @20,30 30,30
 //
@@ -209,50 +270,63 @@ async function doCmdPolyline(args) {
         return
     }
 
-    let points = []
-    args.forEach((_, index) => {
-        if (index != 0) { // First args is cmd name e.g polyline
-            let pRel = argFns.asPoint2(args, index) || [{ x: 0, y: 0 }, false]
-            points.push(pRel)
-        }
-    })
+    let points = getPoints(args)
+    let attrs = {
+        'points': points
+    }
 
-    // TODO: [ [{10,10}, false],  [{20,30}, true], ...]
-    api.create.polyline(points)
+    api.scene.createElement('polyline', attrs)
 }
 
 // polyline 10,10 @20,30 30,30
 //
 function doCmdPolygon(args) {
 
-    // TODO: polygon "0,0 0,10 10,10 10,0 "
-    //let [p, relative] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    //let text = argFns.asString(args, 2) || "text"
+    //if (args.length == 1) { // e.g. pl
+    //    useTool("polygon")
+    //    return
+    //}
 
-    // TODO: args
-    api.create.polygon()
+    let points = getPoints(args)
+
+    let attrs = {
+        'points': points
+    }
+
+    api.scene.createElement('polygon', attrs)
 }
 
 function doCmdImage(args) {
 
     // image 0,0 100,100 http://images.com/img.png
     //
-    let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
-    // TODO: Local Assets Image
+    let p = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let size = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
     let href = argFns.asString(args, 3) || "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-1024.png"
 
-    api.create.image(p, size, href)
+    let attrs = {
+        'p': p,
+        'size': size,
+        'href': href
+    }
+
+    api.scene.createElement('image', attrs)
 }
 
 // rect 0,0 100,100
+// rect @0,0 @100,100
 //
 function doCmdRect(args) {
 
-    let [p, _] = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
-    let [size, __] = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, false]
+    let p = argFns.asPoint2(args, 1) || [{ x: 0, y: 0 }, false]
+    let size = argFns.asPoint2(args, 2) || [{ x: 100, y: 100 }, true]
 
-    api.create.rect(p, size)
+    let attrs = {
+        'p': p,
+        'size': size
+    }
+
+    api.scene.createElement('rect', attrs)
 }
 
 // layer name description
@@ -262,11 +336,13 @@ function doCmdLayer(args) {
     let name = argFns.asString(args, 1) || "newLayer"
     let description = argFns.asString(args, 2) || "newLayer"
 
-    let newLayer = api.layer.create(name, description)
-    api.scene.addLayer(newLayer)
-    api.layer.setCurrent(newLayer) // TODO: Move to scene api.scene.setCurrentLayer()
+    let attrs = {
+        'name': name,
+        'description': description
+    }
 
-    console.log("layer created")
+    let layer = api.scene.createLayer(attrs)
+    api.selection.setCurrentLayer(layer)
 }
 
 // delete (selected)
@@ -472,15 +548,15 @@ export function init() {
     // Register Commands
     //
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'load',
         suggestion: 'load',
-        shortCuts: ['option+l'],
+        shortCuts: [''],
         action: doCmdLoad,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'delete',
         suggestion: 'delete',
@@ -489,7 +565,7 @@ export function init() {
         action: doCmdDelete,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'save',
         suggestion: 'save',
@@ -497,7 +573,7 @@ export function init() {
         action: doCmdSave,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'clear',
         suggestion: 'clear',
@@ -505,7 +581,7 @@ export function init() {
         action: doCmdClear,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'line',
         suggestion: 'line {p1} {p2}',
@@ -514,7 +590,7 @@ export function init() {
         action: doCmdLine,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'lineTo',
         suggestion: 'lineTo {p1}',
@@ -523,7 +599,7 @@ export function init() {
         action: doCmdLineTo,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'circle',
         suggestion: 'circle {p} {r}',
@@ -532,7 +608,7 @@ export function init() {
         action: doCmdCircle,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'ellipse',
         suggestion: 'ellipse {p} {rx} {rx}',
@@ -541,7 +617,7 @@ export function init() {
         action: doCmdEllipse,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'image',
         suggestion: 'image {p} {size} {href}',
@@ -550,7 +626,7 @@ export function init() {
         action: doCmdImage,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'text',
         suggestion: 'text {p} {string}',
@@ -559,7 +635,7 @@ export function init() {
         action: doCmdText,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'path',
         suggestion: 'path {string}',
@@ -568,7 +644,7 @@ export function init() {
         action: doCmdPath,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'polyline',
         suggestion: 'polyline {string}',
@@ -577,7 +653,7 @@ export function init() {
         action: doCmdPolyline,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'polygon',
         suggestion: 'polygon {string}',
@@ -586,7 +662,7 @@ export function init() {
         action: doCmdPolygon,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'rect',
         suggestion: 'rect {x,y} {w,h}',
@@ -595,7 +671,7 @@ export function init() {
         action: doCmdRect,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'group',
         suggestion: 'group',
@@ -604,7 +680,7 @@ export function init() {
         action: doCmdGroup,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'layer',
         suggestion: 'layer {name} {description}',
@@ -613,7 +689,7 @@ export function init() {
         action: doCmdLayer,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'move',
         suggestion: 'move {p}',
@@ -622,7 +698,7 @@ export function init() {
         action: doCmdMove,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'rotate',
         suggestion: 'rotate {angle} {{p}}',
@@ -631,7 +707,7 @@ export function init() {
         action: doCmdRotate,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'select',
         suggestion: 'select',
@@ -640,7 +716,7 @@ export function init() {
         action: doCmdSelect,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'deselect',
         suggestion: 'deselect',
@@ -649,7 +725,7 @@ export function init() {
         action: doCmdDeselect,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'zoom',
         suggestion: 'zoom {in/out}',
@@ -658,7 +734,7 @@ export function init() {
         action: doCmdZoom,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'pan',
         suggestion: 'pan {x,y}',
@@ -667,7 +743,7 @@ export function init() {
         action: doCmdPan,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'batch',
         suggestion: 'batch',
@@ -676,7 +752,7 @@ export function init() {
         action: doCmdBatch,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'export',
         suggestion: 'export',
@@ -685,7 +761,7 @@ export function init() {
         action: doCmdExport,
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'settings',
         suggestion: 'settings',
@@ -694,7 +770,7 @@ export function init() {
         action: doCmdSettings
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'set',
         suggestion: 'set {prop} {value} ...',
@@ -703,7 +779,7 @@ export function init() {
         action: doCmdSet
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'copy',
         suggestion: 'copy',
@@ -712,7 +788,7 @@ export function init() {
         action: doCmdCopy
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'mirror',
         suggestion: 'mirror',
@@ -721,7 +797,7 @@ export function init() {
         action: doCmdMirror
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'message',
         suggestion: 'message',
@@ -730,7 +806,7 @@ export function init() {
         action: doCmdMessage
     })
 
-    cmdStore.registerCmd({
+    api.cmd.register({
         uuid: randomUUID(),
         name: 'snow',
         suggestion: 'snow {on|off}',

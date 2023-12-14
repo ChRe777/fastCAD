@@ -73,7 +73,7 @@ export const useStore = defineStore('appStore', {
         },
         //
         lastCreatedElement: undefined,
-        lastPoint: undefined,
+        lastPoint: { x: 0, y: 0 },
         //
         // TODO: Is not Part of Scene
         //

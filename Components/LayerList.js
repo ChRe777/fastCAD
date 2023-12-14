@@ -55,11 +55,12 @@ function layerClass(layer) {
     return classes
 }
 
+/*
 // Fill layers_
 //
 function fillLayers_(elements, layers_, levels_, level) {
 
-    console.log("fillLayers", elements)
+    //console.log("fillLayers", elements)
     if (elements === undefined) {
         return
     }
@@ -78,13 +79,14 @@ function fillLayers_(elements, layers_, levels_, level) {
         }
     }
 }
+*/
 
 function level(layer) {
     return this.levels[layer.id]
 }
 
 function isCurrent(layer) {
-    return api.layer.isCurrent(layer)
+    return api.selection.isCurrentLayer(layer)
 }
 
 function isVisible(layer) {
@@ -96,7 +98,7 @@ function isFrozen(layer) {
 }
 
 function setCurrent(layer) {
-    api.layer.setCurrent(layer)
+    api.selection.setCurrentLayer(layer)
 }
 
 // Data
@@ -123,10 +125,15 @@ export default {
     computed: {
         layers() {
             let layers_ = []
-            // TODO: API?
-            console.log(this.store.scene.elements)
-            fillLayers_(this.store.scene.elements, layers_, this.levels, 0)
-            console.log("layers_", layers_)
+
+            api.layer.forEach((layer, level) => {
+                layers_.push(layer)
+                this.levels[layer.id] = level
+                return layer['isopen']
+            })
+
+            //fillLayers_(this.store.scene.elements, layers_, this.levels, 0)
+
             return layers_
         }
     },

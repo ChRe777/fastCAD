@@ -162,7 +162,7 @@ function updateEditingAttributes() {
         editingAttributes = removeUndefined(editingAttributes)
 
         editorStore.editingAttributes = editingAttributes
-        console.log("updateEditingAttributes:", editorStore.editingAttributes)
+        //console.log("updateEditingAttributes:", editorStore.editingAttributes)
     }
 }
 

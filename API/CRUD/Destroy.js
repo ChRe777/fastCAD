@@ -1,5 +1,10 @@
 // Destroy.js
 
+// Element must bre remove from their parents
+// before they are get destroyed
+// When they are destroyed they have to be remove from caches
+// like elementByIdCache, elementsByTypeCache
+
 // Imports
 import { useStore } from 'stores/store'
 import selection from 'api/selection'

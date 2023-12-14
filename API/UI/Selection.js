@@ -43,7 +43,7 @@ function select(element) {
     //      <line></line>
     // </g>
     let layer = api.scene.getParent(element)
-    console.log("select - layer:", layer)
+    console.log("I am here 2", layer)
     if (layer && api.layer.isNotFrozen(layer)) {
         store.selectedElementsSet.add(element)
     }
@@ -71,6 +71,26 @@ function elements() {
     return store.selectedElementsSet
 }
 
+// set current layer
+//
+function setCurrentLayer(layer) {
+    const selectionStore = useSelectionStore()
+    selectionStore.selectedLayersSet.clear()
+    selectionStore.selectedLayersSet.add(layer)
+}
+
+function getCurrentLayer() {
+    const selectionStore = useSelectionStore()
+    return Array.from(selectionStore.selectedLayersSet)[0]
+}
+
+// is current layer
+//
+function isCurrentLayer(layer) {
+    const selectionStore = useSelectionStore()
+    return selectionStore.selectedLayersSet.has(layer)
+}
+
 // Exports
 //
 
@@ -83,5 +103,9 @@ export default {
     selectMany,
     deselect,
     //
-    elements
+    elements,
+    //
+    setCurrentLayer,
+    getCurrentLayer,
+    isCurrentLayer
 }

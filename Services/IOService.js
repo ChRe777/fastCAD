@@ -1,13 +1,11 @@
 // Imports
 //
-
 import ioLocal from "services/io-local"
 import ioRest from "services/io-rest"
 
 // Save
 //
 function save(data, name, onSuccessFn) {
-    // As BACKUP Lokal too ??
     ioLocal.save(data, name, onSuccessFn)
     ioRest.save(data, name, onSuccessFn)
 } // save

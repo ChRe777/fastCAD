@@ -72,7 +72,7 @@
                 {
                     "type": "path",
                     "id": "path-FRZBKtldUt",
-                    "d": "M150 50 a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
+                    "d": "M150 0a25 25 0 0 1 50 0a20 20 0 0 1 40 30",
                     "plen": "",
                     "fill": "#ffffff",
                     "stroke": "#ff9300",
@@ -107,7 +107,7 @@
                 {
                     "type": "text",
                     "id": "text-E9o4atjVYP",
-                    "x": 110,
+                    "x": 150,
                     "y": -205,
                     "text": "Cmds",
                     "font-family": "Chalkduster",
@@ -121,7 +121,7 @@
                 {
                     "type": "text",
                     "id": "text-F7DwH9A7Iy",
-                    "x": 110,
+                    "x": 150,
                     "y": -170,
                     "text": "- Undo\n",
                     "font-family": "Chalkduster",
@@ -146,9 +146,9 @@
                 {
                     "type": "line",
                     "id": "line-aJriQkm4Hx",
-                    "x1": 110,
+                    "x1": 150,
                     "y1": -196,
-                    "x2": 193,
+                    "x2": 233,
                     "y2": -197,
                     "stroke": "#ebebeb",
                     "stroke-width": 2
@@ -166,7 +166,7 @@
                 {
                     "type": "text",
                     "id": "text-qjmG6C744i",
-                    "x": 110,
+                    "x": 150,
                     "y": -140,
                     "text": "- Scrsaver\n",
                     "font-family": "Chalkduster",
@@ -216,7 +216,7 @@
                 {
                     "type": "text",
                     "id": "text-pZy4bObFjC",
-                    "x": 110,
+                    "x": 150,
                     "y": -110,
                     "text": "- Raster\n",
                     "font-family": "Chalkduster",
@@ -229,7 +229,7 @@
                 {
                     "type": "text",
                     "id": "text-8y0RYYI971",
-                    "x": 110,
+                    "x": 150,
                     "y": -80,
                     "text": "- Snap\n",
                     "font-family": "Chalkduster",
@@ -341,7 +341,7 @@
                 {
                     "type": "text",
                     "id": "text-QGyydNYC7Y",
-                    "x": 110,
+                    "x": 150,
                     "y": -50,
                     "text": "- SelectList\n",
                     "font-family": "Chalkduster",
@@ -353,16 +353,27 @@
                 },
                 {
                     "type": "text",
-                    "id": "text-ydEJQafIaj",
-                    "x": 110,
-                    "y": -20,
-                    "text": "- BatchCreate\n",
+                    "id": "text-HaMOkcPL6B",
+                    "x": -50,
+                    "y": -100,
+                    "text": "TODO",
                     "font-family": "Chalkduster",
                     "font-size": "25px",
-                    "fill": "#ffffff",
-                    "stroke": "#fffb00",
-                    "stroke-width": 1,
-                    "fill-opacity": 0.5
+                    "fill": "#777777",
+                    "stroke": "#ffffff",
+                    "stroke-width": 1
+                },
+                {
+                    "type": "text",
+                    "id": "text-qLjUMMtfmI",
+                    "x": -50,
+                    "y": -65,
+                    "text": "Copy Fix",
+                    "font-family": "Chalkduster",
+                    "font-size": "25px",
+                    "fill": "#777777",
+                    "stroke": "#ffffff",
+                    "stroke-width": 1
                 }
             ]
         },

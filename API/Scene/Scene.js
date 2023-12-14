@@ -1,6 +1,11 @@
 // Scene.js
 
+// The scene is a tree of element nodes with parents and childs
+// The scene api is there to manipulate the tree, but not create elements.
+// The scene is the rootNode of all elements.
+
 // TODO: Does I need a ShadowScene?? For faster .. , like a BackBuffer in OpenGL
+
 //
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
 
@@ -30,35 +35,60 @@
 // element.getElementsByType (e.g. 'layer')
 
 // scene.createElement('layer', { }) (like document.createElement("layer", {... }))
+
 // not attached to a parent ...
+
 // perhaps find parent in extra structure (hash-table)
-// getParent(id)
-//    {   
+// ParentStructure/Cache
+// {   
 //        "circle-234234": parentNode1,
 //        "rect-234234": parentNode2 
-//    }
+// }
 
 
 // Imports
 //
-import { useMessageStore } from 'stores/message'
+
 import { useStore } from 'stores/store'
 
-import io from 'services/io'
+import selection from 'api/selection'
+import layer from 'api/layer'
+import element from 'api/element'
 
-import api from 'api/api'
+// TODO: Move out because it is GUI
 import editor from 'api/editor'
-import layers from 'api/layer'
 import selections from 'api/selection'
 
 
 // Constants
 //
 
+// Caches
+//
+
+// {   
+//    "circle-234234": parentNode1,
+//    "rect-234234": parentNode2 
+// }
+//
 let parentsByElementId = {}
+
+// {   
+//    "circle-234234": element1,
+//    "rect-234234": element2 
+// }
+//
 let elementsByElementId = {}
+
+// {   
+//    "layer0": layer1,
+//    "layer1": layer2 
+// }
+//
 let layersByName = {}
 
+// Clear/Reset all caches
+//
 function clearCaches_() {
     parentsByElementId = {}
     elementsByElementId = {}
@@ -67,6 +97,28 @@ function clearCaches_() {
 
 // Functions
 //
+
+
+// Set the scene
+//
+function set(scene) {   // TODO: IO private
+    const store = useStore()
+    store.scene = scene
+
+    // Fill caches
+    //
+    forEach(storeParent_)
+}
+
+// Get the scene // TODO: IO private
+//
+function get() {
+    const store = useStore()
+    return store.scene
+}
+
+// Clears the scene
+//
 function clear() {
     const store = useStore()
     // TODO: Really make full clear
@@ -74,54 +126,16 @@ function clear() {
     clearCaches_()
 }
 
-// create a new scene
+// Create a new scene
 //
 function create() {
     clear()
-    selections.clear()
-    editor.clear()
-}
-
-// save the scene
-//
-function save(name) {
-    const store = useStore()
-    const messagesStore = useMessageStore()
-
-    const successFn = function (data, name) {
-        console.log("data", data)
-        messagesStore.messages.push(`Saved ${name}`)
-    }
-
-    io.save(store.scene, name, successFn)
-}
-
-// Help set scene after loading
-function set_(scene) {
-    const store = useStore()
-    store.scene = scene
-
-    // Fill caches
-    //
-    forEach(storeParent)
-
-}
-
-// Load scene by name
-//
-function load(name) {
-
-    let onLoaded = function (scene, name) {
-        set_(scene)
-        layers.selectFirst()
-        api.message.create(`Loaded ${name}`) // api.message.create
-    }
-
-    io.load(name, onLoaded)
+    selections.clear() // TODO: UI onNewScene- or onSceneChanged-Event
+    editor.clear()  // TODO: UI
 }
 
 // TODO:
-// TODO: CACHING AND REFACTORING
+// TODO: [v] CACHING AND  [ ] REFACTORING
 // TODO:
 function getElementByX_(element, findFn) {
 
@@ -143,7 +157,7 @@ function getElementByX_(element, findFn) {
     return undefined
 }
 
-// get the element by its id
+// Get the element by id
 //
 function getElementById(id) {
 
@@ -169,19 +183,29 @@ function getElementById(id) {
     return undefined
 }
 
-// add a new layer to scene
+function getElementsByType(type) {
+
+}
+
+// Append layer to scene or parent layer
 //
-function addLayer(layer, parentLayer) {
+function appendLayer(layer, parent) {
     const store = useStore()
-    // TODO: Add layer on Top ?
-    if (parentLayer == undefined) {
+    if (parent == undefined) {
         store.scene.elements.push(layer)
     } else {
-        parentLayer.elements.push(layer)
+        parent.elements.push(layer)
     }
 }
 
-// elements of scene
+function appendElement(parent, element) {
+    if (parent == undefined) {
+        console.error("appendElement parent not defined")
+    }
+    parent.elements.push(element)
+}
+
+// Elements of scene
 // 
 function elements() {
     const store = useStore()
@@ -189,13 +213,14 @@ function elements() {
 }
 
 // Stores the parent of an element
+// Used in set scene
 //
-function storeParent(parent, element) {
+function storeParent_(parent, element) {
     parentsByElementId[element.id] = parent
-    console.log("storeParent", parentsByElementId)
+    //console.log("storeParent", parentsByElementId)
 }
 
-// get the stored parent of an element
+// Get the stored parent of an element
 //
 function getParent(element) {
     console.log("getParent - element:", element)
@@ -203,6 +228,9 @@ function getParent(element) {
     return parentsByElementId[element.id]
 }
 
+// Get layer by name
+// TODO: [v] CACHING AND [ ] REFACTORING
+//
 function getLayerByName(name) {
 
     let foundCached = layersByName[name]
@@ -217,9 +245,7 @@ function getLayerByName(name) {
     for (let element of store.scene.elements) {
         let found = getElementByX_(element, findFn)
         if (found !== undefined) {
-            // Add to cache
             layersByName[name] = found
-            //
             return found
         }
     }
@@ -227,7 +253,13 @@ function getLayerByName(name) {
     return undefined
 }
 
-// helper for for each function
+function getLayerById(id) {
+
+}
+
+
+
+// For each element tree walker
 //
 function forEach_(fn, parent, element) {
 
@@ -242,7 +274,7 @@ function forEach_(fn, parent, element) {
     }
 }
 
-// for each element in the scene
+// For each element tree walker
 //
 function forEach(fn) {
     const store = useStore()
@@ -254,50 +286,79 @@ function forEach(fn) {
     }
 }
 
-// create an element
-// e.g. createElement('line' {p1, isRelative1, p2, isRelative2})
+// Create an element
+// e.g. createElement('line', {p1, isRelative1, p2, isRelative2})
 //
-function createElement(type, props) {
+function createElement(type, attrs) {
+
+    const newElement = element.create(type, attrs)
+
+    if (newElement === undefined) {
+        console.error(`New element could not be created - type: ${type}, attribute: ${attrs}`)
+        return undefined
+    }
+
+    // Place into current active Layer
+    //
+    let currentLayer = selection.getCurrentLayer()
+    console.log("currentLayer", currentLayer)
+    appendElement(currentLayer, newElement)
+
+    // Set parent
+    //
+    storeParent_(currentLayer, newElement)
+
+    // Store last created element
+    //
+    const store = useStore()
+    store.lastCreatedElement = newElement
+
+    return newElement
 
 }
 
-// same as createElement('layer', props)
+// Same as createElement('layer', props)
 //
-function createLayer(props) {
+function createLayer(attrs) {
+    let newLayer = layer.create(attrs)
+    appendLayer(newLayer)
 
+
+    // Store last created element
+    //
+    // const store = useStore()
+    // store.lastCreatedElement = newElement
+
+    return newLayer
 }
-
-// set set the current layer of scene
-//
-function setCurrentLayer(layer) {
-
-}
-
 
 // Exports
 //
 export default {
-    load, // TODO: perhaps move outside
-    save, // TODO: perhaps move outside
+    //
+    set,    // TODO: for IO-Store - make private function - call without export
+    get,    // TODO: for IO-Store - make private function - call without export
     //
     create, // TODO: What is the difference between create or clear
-    clear,
+    clear, // TODO: newScene ??
     //
-    createLayer,
+    createLayer,    // Layer is a special element
     createElement,
     //
-    addLayer,  // like. scene.appendChild
+    appendLayer,
+    appendElement,
     //
-    storeParent, // TODO: should not public API
     getParent,
-    getLayerByName,
-    getElementById, // like document.getElementById
-    elements, // element.childNodes
     //
+    getLayerByName,
+    getLayerById,
+    //
+    getElementById,
+    getElementsByType,
+    //
+    elements, // like scene.childNodes
     forEach, // TODO: rename Tree Walker
     //
-    setCurrentLayer
-
 }
 
 

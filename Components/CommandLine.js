@@ -44,12 +44,15 @@ function onClick() {
 }
 
 function onEnter() {
-    if (interpret(this.text)) {
+    let { error, message } = interpret(this.text)
+    if (!error) {
         this.error = false
         this.text = ""
+        this.suggestion = "enter next command"
     } else {
         this.error = true
         this.text = ""
+        this.suggestion = message
     }
 }
 
@@ -81,7 +84,7 @@ function onBatch() {
 
 function onText(newValue, _) {
     if (newValue <= 2) {
-        this.suggestion = ""
+        //this.suggestion = "ddd"
     } else {
         this.suggestion = getSuggestion(newValue)
     }
@@ -99,7 +102,7 @@ function mounted() {
 //
 function data() {
     return {
-        store: useStore(),// TODO: API
+        store: useStore(),
         text: "",
         error: false,
         suggestion: "enter a command"

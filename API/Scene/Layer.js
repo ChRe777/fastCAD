@@ -20,7 +20,7 @@ const { randomUUID } = new ShortUniqueId({ length: 10 });
 
 // helper for each elements call a function fn
 //
-function forEach_(fn, elements) {
+function forEach_(fn, elements, level) {
     if (elements === undefined) {
         return
     }
@@ -28,8 +28,9 @@ function forEach_(fn, elements) {
     let layers = elements.filter(element => element.type === 'layer')
 
     layers.forEach(layer => {
-        fn(layer)
-        forEach_(fn, layer.elements)
+        if (fn(layer, level)) {
+            forEach_(fn, layer.elements, level + 1)
+        }
     })
 }
 
@@ -37,17 +38,18 @@ function forEach_(fn, elements) {
 //
 function forEach(fn) {
     const store = useStore()
-    forEach_(fn, store.scene.elements)
+    let level = 0
+    forEach_(fn, store.scene.elements, level)
 }
 
-// creates a new layer and set it to current // TODO: Rethink
+// creates a new layer
 //
-function create(name, description) {
+function create(attrs) {
 
     const layer = create_("layer", {
         'svg-type': 'g',
-        'name': name,
-        'description': description,
+        'name': attrs['name'],
+        'description': attrs['description'],
         ...defaults.layer
     })
 
@@ -58,7 +60,7 @@ function create(name, description) {
 //
 function create_(type, attrs) {
 
-    let newLayer = {
+    const newLayer = {
         "type": type,
         "id": type + "-" + randomUUID(),
         ...attrs,
@@ -82,25 +84,7 @@ function removeElement_(layer, element) {
     }
 }
 
-// set current layer
-//
-function setCurrent(layer) {
-    const selectionStore = useSelectionStore()
-    selectionStore.selectedLayersSet.clear()
-    selectionStore.selectedLayersSet.add(layer)
-}
 
-function getCurrent() {
-    const selectionStore = useSelectionStore()
-    return Array.from(selectionStore.selectedLayersSet)[0]
-}
-
-// is current layer
-//
-function isCurrent(layer) {
-    const selectionStore = useSelectionStore()
-    return selectionStore.selectedLayersSet.has(layer)
-}
 
 // toggle open close
 //
@@ -224,18 +208,14 @@ function moveElement(element, newLayer) {
 }
 
 export default {
-    create,
+    create,     // TODO: CRUD:
     //
-    addElement,
-    removeElement,
-    moveElement,
-    //
-    setCurrent,
-    getCurrent,
-    isCurrent,
+    addElement, // TODO: Scene appendElement
+    removeElement, // TODO: Scene removeElement
+    moveElement, // TODO: Scene moveElement
     //
     hasChilds,
-    numberOfElements,
+    numberOfElements, // Because Layer can have subLayer, but we want only the elements
     //
     isOpen,
     toogleOpen,
@@ -249,5 +229,5 @@ export default {
     //
     selectFirst,
     //
-    forEach
+    forEach // TODO: Scene.forEachLayer
 }

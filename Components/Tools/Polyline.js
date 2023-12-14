@@ -7,15 +7,23 @@
 // Imports
 //
 import api from 'api/api'
+
+import { argFns } from 'services/utils'
+import { addPoints } from 'services/utils'
+
+import { useStore } from 'stores/store'
 import { useEditorStore } from 'stores/editor'
 
 // Local variables
 //
 let resolvePoint = null
 let circle = null
+let text = null
 let savedCursor = null
 let polyline = undefined
 let points = []
+let str = ""
+let allowedChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', ',', '.', '@']
 
 // Constants
 //
@@ -32,6 +40,9 @@ function onPointerDown(event) {
 
         let stop = false
         let p = api.tool.getSvgCoords(event)
+
+        let store = useStore()
+        store.lastPoint = p
         resolvePoint([p, stop])
     }
 }
@@ -63,26 +74,74 @@ function onPointerMove(event) {
 
     //console.log("svg.onPointerMove called", event, circle.id)
 
+    let p = api.tool.getSvgCoords(event)
+
     if (circle) {
-        let p = api.tool.getSvgCoords(event)
+
         circle.setAttribute("cx", p.x)
         circle.setAttribute("cy", p.y)
-        //console.log("svg.onPointerMove called", p)
+    }
+
+    if (text) {
+        text.setAttribute("x", p.x)
+        text.setAttribute("y", p.y)
     }
 
 }
 
-// Document KEYUP
+// Document KEYDOWN
 //
-function onDocumentKeyUp(event) {
+function onDocumentKeyDown(event) {
 
-    console.log("document.onKeyUp called", event, event.key)
+    //event.preventDefault()
+
+    if (event.key === 'Enter') {
+        let stop = false
+
+        let args = [str]
+        let [p, relative] = argFns.asPoint2(args, 0)
+
+        console.log("p:", p)
+
+        let store = useStore()
+
+        if (relative && store.lastPoint !== undefined) {
+            p = addPoints(store.lastPoint, p)
+        }
+
+        resolvePoint([p, stop])
+        str = ""
+        text.textContent = str
+        store.lastPoint = p
+
+        return
+    }
+
+    if (event.key == 'Backspace') {
+        str = str.slice(0, -1)
+        text.textContent = str
+    }
 
     if (event.key === 'Escape') {
         let stop = true
         resolvePoint([{ x: -1, y: -1 }, stop])
         return
     }
+
+    if (allowedChars.includes(event.key)) {
+        str += event.key
+    } else {
+        //console.log(event.key, "==", event.key === ',')
+    }
+
+    if (text) {
+        if (str.length > 0) {
+            api.tool.show(text)
+        }
+        text.textContent = str
+    }
+
+    //console.log("document.onKeyUp called", event, event.key)
 
 }
 
@@ -105,12 +164,11 @@ async function runUntilStop(resolveStop) {
         }
 
         if (polyline === undefined) {
-
-            polyline = api.create.polyline()
-            polyline.points = ""
-
-            const layer = api.layer.getCurrent()
-            api.selection.select(polyline, layer)
+            let attrs = {
+                'points': []
+            }
+            polyline = api.scene.createElement('polyline', attrs)
+            api.selection.select(polyline)
         }
 
         points.push(point)
@@ -135,7 +193,10 @@ function initialize_() {
     let radius = 4
     circle = api.tool.createCircle(radius)
     api.tool.show(circle)
-    console.log("initialize circle", circle)
+
+    // Text
+    text = api.tool.createText()
+    api.tool.show(text)
 
     // Cursor
 
@@ -147,6 +208,7 @@ function initialize_() {
 function cleanUp_() {
     api.tool.hide(circle)
     svg.style.cursor = savedCursor
+
     polyline = undefined
     points = []
 }
@@ -170,7 +232,7 @@ const tool = {
         { elementId: 'svg', name: 'pointerdown', func: onPointerDown },
         { elementId: 'svg', name: 'pointermove', func: onPointerMove },
         { elementId: 'svg', name: 'contextmenu', func: onContextMenu },
-        { element: document, name: 'keyup', func: onDocumentKeyUp }
+        { element: document, name: 'keydown', func: onDocumentKeyDown }
     ],
     start,
     stop

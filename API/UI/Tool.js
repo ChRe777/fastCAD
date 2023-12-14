@@ -17,6 +17,19 @@ const SELECTION_LAYER = 'selectionLayer'
 //
 let circle = null
 let rect = null
+let text = null
+
+
+// Register a tool
+//
+function register(tool) {
+    const toolStore = useToolStore()
+
+    toolStore.registeredToolsByName[tool.name] = tool
+    toolStore.registeredTools.push(tool)
+
+    console.log(`Tool '${tool.name}' successful registered`)
+}
 
 // Activate a tool
 //
@@ -114,6 +127,33 @@ function createCircle(r) {
     return circle
 }
 
+function createText(r) {
+    if (text === null) {
+        let obj = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+        obj.setAttribute('stroke', 'white')
+        obj.setAttribute('stroke-width', '1')
+        obj.setAttribute('fill', '#ffffff')
+        //
+        obj.setAttribute('font-family', 'Arial')
+        obj.setAttribute('font-size', '24px')
+        //
+        obj.setAttribute('x', '0')
+        obj.setAttribute('y', '0')
+        //
+        obj.setAttribute('visibility', 'hidden')
+
+        let type = 'text'
+        obj.setAttribute('id', type + '-' + randomUUID())
+
+        let toolLayer = document.getElementById(TOOL_LAYER)
+        toolLayer.appendChild(obj)
+
+        text = obj
+    }
+    return text
+}
+
 // TODO: 
 function createRectangle(r) {
     if (circle === null) {
@@ -153,11 +193,16 @@ function show(obj) {
 // Exports
 //
 export default {
+    register,
+    //
     activate,
     deactivate,
+    //
     getSvgCoords,
-    createCircle,
+    createCircle, // TODO: Pointer Position or Cursor
     createRectangle,
+    createText, // TODO: InputField 
+    //
     hide,
     show
 }
