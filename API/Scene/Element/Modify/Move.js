@@ -5,9 +5,15 @@
 import { addPoints, subPoints } from 'services/utils'
 import { SVGPathData } from 'svg-pathdata'
 
+// Exports
+//
+export default {
+    move
+}
+
+
 // Functions
 //
-
 function moveGeneric1(d, attrs /*axis*/, relative, element) {
     attrs.forEach(attr => { // e.g. cx, cy or x1, x2
         if (relative) {
@@ -114,8 +120,3 @@ function move(element, p, relative) {
 }
 
 
-// Exports
-//
-export default {
-    move
-}

@@ -5,6 +5,25 @@
 import { useSelectionStore } from 'stores/selection'
 import api from 'api/api'
 
+// Exports
+//
+
+export default {
+    forEach,
+    clear,
+    clearWithLayers,
+    isSelected,
+    select,
+    selectMany,
+    deselect,
+    //
+    elements,
+    //
+    setCurrentLayer,
+    getCurrentLayer,
+    isCurrentLayer
+}
+
 // Functions
 //
 function forEach(fn) {
@@ -91,21 +110,3 @@ function isCurrentLayer(layer) {
     return selectionStore.selectedLayersSet.has(layer)
 }
 
-// Exports
-//
-
-export default {
-    forEach,
-    clear,
-    clearWithLayers,
-    isSelected,
-    select,
-    selectMany,
-    deselect,
-    //
-    elements,
-    //
-    setCurrentLayer,
-    getCurrentLayer,
-    isCurrentLayer
-}

@@ -3,8 +3,6 @@
 // Imports
 //
 import api from 'api/api'
-//
-import { useStore } from 'stores/store'
 
 // Parts
 //
@@ -55,32 +53,8 @@ function layerClass(layer) {
     return classes
 }
 
-/*
-// Fill layers_
+// Methods
 //
-function fillLayers_(elements, layers_, levels_, level) {
-
-    //console.log("fillLayers", elements)
-    if (elements === undefined) {
-        return
-    }
-
-    for (const element of elements) {
-
-        if (element.type === "layer") {
-            let layer = element
-
-            layers_.push(layer)
-            levels_[layer.id] = level
-
-            if (layer['isopen']) {
-                fillLayers_(layer.elements, layers_, levels_, level + 1)
-            }
-        }
-    }
-}
-*/
-
 function level(layer) {
     return this.levels[layer.id]
 }
@@ -101,17 +75,33 @@ function setCurrent(layer) {
     api.selection.setCurrentLayer(layer)
 }
 
+// Computed
+// 
+function layers() {
+    let layers_ = []
+
+    api.layer.forEach((layer, parent, level) => {
+        layers_.push(layer)
+        this.levels[layer.id] = level
+        this.parents[layer.id] = parent
+        return layer['isopen']
+    })
+
+    return layers_
+}
+
 // Data
 //
 function data() {
     return {
-        store: useStore(),
         levels: {},
+        parents: {},
         hover: {}
     }
 }
 
-// Components
+
+// Exports 
 //
 export default {
     data,
@@ -123,19 +113,7 @@ export default {
         LayerListFreeze,
     },
     computed: {
-        layers() {
-            let layers_ = []
-
-            api.layer.forEach((layer, level) => {
-                layers_.push(layer)
-                this.levels[layer.id] = level
-                return layer['isopen']
-            })
-
-            //fillLayers_(this.store.scene.elements, layers_, this.levels, 0)
-
-            return layers_
-        }
+        layers
     },
     methods: {
         layerClass,

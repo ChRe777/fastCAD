@@ -1,26 +1,51 @@
 // Layer.js
 
-// Layer or Group are the same svg-group node
-// so they can have childNodes
+// Layer is a special element
+// Layer is build with 'g' svg element
+// Layer or group can have childs
 
 // Imports
 //
 import { useStore } from 'stores/store'
 import { useSelectionStore } from 'stores/selection'
-import { defaults } from 'services/defaults'
 
 import scene from 'api/scene'
 
-// Constants
+// Exports
 //
-const { randomUUID } = new ShortUniqueId({ length: 10 });
+export default {
+    //
+    appendElement,
+    removeElement,
+    moveElement,
+    //
+    hasChilds,
+    getChildsCount,
+    //
+    hasElements,
+    getElementsCount,
+    //
+    isOpen,
+    toogleOpen,
+    //
+    toogleVisibility,
+    isVisible,
+    //
+    toogleFreezing,
+    isFrozen,
+    isNotFrozen,
+    //
+    selectFirst,
+    //
+    forEach
+}
 
 // Functions
 //
 
 // helper for each elements call a function fn
 //
-function forEach_(fn, elements, level) {
+function forEach_(fn, elements, parent, level) {
     if (elements === undefined) {
         return
     }
@@ -28,48 +53,18 @@ function forEach_(fn, elements, level) {
     let layers = elements.filter(element => element.type === 'layer')
 
     layers.forEach(layer => {
-        if (fn(layer, level)) {
-            forEach_(fn, layer.elements, level + 1)
+        if (fn(layer, parent, level)) { // TODO: Parent
+            forEach_(fn, layer.elements, parent, level + 1)
         }
     })
 }
 
-// for each element in layer call a function fn
+// for each layer in scene call fn
 //
 function forEach(fn) {
     const store = useStore()
     let level = 0
-    forEach_(fn, store.scene.elements, level)
-}
-
-// creates a new layer
-//
-function create(attrs) {
-
-    const layer = create_("layer", {
-        'svg-type': 'g',
-        'name': attrs['name'],
-        'description': attrs['description'],
-        ...defaults.layer
-    })
-
-    return layer
-}
-
-// Create Layer helper
-//
-function create_(type, attrs) {
-
-    const newLayer = {
-        "type": type,
-        "id": type + "-" + randomUUID(),
-        ...attrs,
-        "elements": [],
-        "isopen": false,
-        "visibility": "visible"
-    }
-
-    return newLayer
+    forEach_(fn, store.scene.elements, store.scene, level)
 }
 
 // helper remove elements from layer
@@ -77,7 +72,7 @@ function create_(type, attrs) {
 function removeElement_(layer, element) {
     layer.elements = layer.elements.filter(element_ => element_.id !== element.id)
 
-    const subLayers = layersOfElements(layer.elements)
+    const subLayers = layersOnly_(layer.elements)
 
     for (let subLayer of subLayers) {
         removeElement_(subLayer, element)
@@ -136,22 +131,42 @@ function hasChilds(layer) {
     return firstLayer !== undefined
 }
 
+function getChildsCount(layer) {
+    if (hasChilds(layer)) {
+        return layersOnly_(layer.elements).length
+    }
+    return 0
+}
+
 // Helper to count sub elements
 //
-function numberOfSubElements_(elements) {
-    let subLayers = layersOfElements(elements)
-    return subLayers
-        .map(numberOfElements)
-        .reduce((accumulator, currentValue) => {
-            return accumulator + currentValue
-        }, 0);
+function getElementsCount(layer, withSubLayer = false) {
+
+    let count = getElementsCount_(layer)
+
+    let subCount = 0
+    if (withSubLayer) {
+        let subLayers = layersOnly_(layer.elements)
+        subCount = subLayers
+            .map(getElementsCount)
+            .reduce((accumulator, currentValue) => {
+                return accumulator + currentValue
+            }, 0);
+    }
+
+    return count + subCount
 }
 
 // Number of elements of layer and sublayers
 //
-function numberOfElements(layer) {
-    let childsNum = elementsOfElements(layer.elements).length
-    return childsNum + numberOfSubElements_(layer.elements)
+function getElementsCount_(layer) {
+    let childsNum = elementsOnly_(layer.elements).length
+    return childsNum //+ getChildsCount(layer)
+}
+
+function hasElements(layer) {
+    const firstElement = layer.elements.find(element => element.type !== "layer")
+    return firstElement !== undefined
 }
 
 // is layer open ?
@@ -162,13 +177,13 @@ function isOpen(layer) {
 
 // get only layers of all elements
 //
-function layersOfElements(elements) {
+function layersOnly_(elements) {
     return elements.filter(element => element.type === 'layer')
 }
 
 // get only elements of all elements without layers
 //
-function elementsOfElements(elements) {
+function elementsOnly_(elements) {
     return elements.filter(element => element.type !== 'layer')
 }
 
@@ -178,7 +193,7 @@ function selectFirst() {
     const store = useStore()
     const selectionStore = useSelectionStore()
 
-    let layers = layersOfElements(store.scene.elements)
+    let layers = layersOnly_(store.scene.elements)
 
     if (layers && layers.length > 0) {
         selectionStore.selectedLayersSet.clear()
@@ -192,42 +207,20 @@ function removeElement(layer, element) {
     removeElement_(layer, element)
 }
 
-// add element to layer
+// append element to layer
 //
-function addElement(layer, element) {
-    console.log("add Element - layer:", layer)
+function appendElement(layer, element) {
+    //console.log("add Element - layer:", layer)
     layer.elements.push(element)
 }
 
 // move element to new layer
 //
 function moveElement(element, newLayer) {
+
     let parentLayer = scene.getParent(element)
+
     removeElement(parentLayer, element)
-    addElement(newLayer, element)
+    appendElement(newLayer, element)
 }
 
-export default {
-    create,     // TODO: CRUD:
-    //
-    addElement, // TODO: Scene appendElement
-    removeElement, // TODO: Scene removeElement
-    moveElement, // TODO: Scene moveElement
-    //
-    hasChilds,
-    numberOfElements, // Because Layer can have subLayer, but we want only the elements
-    //
-    isOpen,
-    toogleOpen,
-    //
-    toogleVisibility,
-    isVisible,
-    //
-    toogleFreezing,
-    isFrozen,
-    isNotFrozen,
-    //
-    selectFirst,
-    //
-    forEach // TODO: Scene.forEachLayer
-}

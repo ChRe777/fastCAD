@@ -11,12 +11,12 @@ import mirror from 'api/modify/mirror'
 
 // modify
 //
-function modify(element, type, attrs) {
+function assign(element, type, attrs) {
     if (element === undefined) {
         return
     }
 
-    console.log("modify", element.type, type)
+    // console.log("modify", element.type, type)
     if (type === 'layer') {
         type = 'g'
     }
@@ -24,13 +24,14 @@ function modify(element, type, attrs) {
     if (element.type === type) {
         Object.assign(element, attrs)
     }
+
     return element
 }
 
 // Exports
 //
 export default {
-    modify, // Base Function
+    assign, // Base Function
     move,
     rotate,
     mirror

@@ -17,7 +17,6 @@
 // CONTROLLERS = API
 //
 
-
 // Imports
 //
 
@@ -27,43 +26,46 @@
 // see Re-exporting / Aggregating
 // https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export
 
+// UI
+//
 import cmd from 'api/cmd'
-import create from 'api/create'
-import destroy from 'api/destroy'
-import layer from 'api/layer'
-import message from 'api/message'
-import modify from 'api/modify'
-import scene from 'api/scene'
+import editor from 'api/editor'
 import selection from 'api/selection'
+import message from 'api/message'
 import tool from 'api/tool'
+//
+// SCENE
+//
+import layer from 'api/layer'
+import element from 'api/element'
+import scene from 'api/scene'
 import view from 'api/view'
+//
+// IO
+//
 import io from 'api/io'
 
 export default {
+    // UI
     cmd,
     tool,
-    // CRUD
-    create,
-    modify, // Mirror, Move, Rotate, Scale, ...
-    destroy,
-    //
-    io,
-    //
-    scene,
-    layer,
-    //
     message,
     selection,
-    view
-    //
-
+    editor,
+    view,
+    // IO
+    io,
+    // SCENE
+    scene,
+    element,
+    layer
 };
 
 /*
 
-                           [API]
-                    |                    [UI]
-     [IO] | [SCENE] | [CMD] | [SELECTION] | [MESSAGE] | [TOOL]
+                                     [API]
+      [IO] | [SCENE]                   |                    [UI]
+             [SCENE] [LAYER] [ElEMENT] | [CMD] | [SELECTION] | [MESSAGE] | [TOOL]
 
 api.scene
 api.cmd

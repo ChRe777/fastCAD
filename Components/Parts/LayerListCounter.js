@@ -23,9 +23,7 @@ function badgeClass() {
 }
 
 function elementsCount() {
-    const layer = this.layer
-    const count = api.layer.numberOfElements(layer)
-    return count
+    return api.layer.getElementsCount(this.layer)
 }
 
 // Component

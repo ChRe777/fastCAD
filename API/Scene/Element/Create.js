@@ -321,15 +321,36 @@ function group(elements) {
     return obj
 }
 
+// creates a new layer
+//
+function layer(attrs) {
+
+    let name = attrs['name']
+    let description = attrs['description']
+
+    const obj = create("layer", {
+        'svg-type': 'g',
+        'name': name,
+        'description': description,
+        "elements": [],
+        "isopen": false,
+        "visibility": "visible",
+        ...defaults.layer
+    })
+
+    return obj
+}
+
 // -------------------
 
 // Copy is creating a new element
 // and copy the attribute to new element
 //
-function copy(element) {
+function duplicate(element) {
     let { id, type, ...attrs } = element
-    return create(type, attrs)
+    return create(type, attrs) // get a new id here
 }
+
 // Exports
 //
 export default {
@@ -344,7 +365,8 @@ export default {
     image,
     rect,
     //
+    layer,
     group,
     //
-    copy
+    duplicate
 }

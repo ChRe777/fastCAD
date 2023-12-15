@@ -19,6 +19,10 @@
             read https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
             read https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/
             see https://www.sitepoint.com/using-es-modules/ 
+            see https://banno.com/articles/improving-caching-with-import-maps/
+        -->
+
+        <!-- FASTER LOADING !!!
             <link rel="modulepreload" href="html.js">
             <link rel="modulepreload" href="lib.js">
         -->
@@ -102,20 +106,21 @@
 
                 "api/api"               : "./API/Api.js",
 
-                "api/create"            : "./API/CRUD/Create.js",
-                "api/destroy"           : "./API/CRUD/Destroy.js",
-                "api/modify"            : "./API/CRUD/Modify.js",
-                "api/modify/move"       : "./API/CRUD/Modify/Move.js",
-                "api/modify/rotate"     : "./API/CRUD/Modify/Rotate.js",
-                "api/modify/mirror"     : "./API/CRUD/Modify/Mirror.js",
-                "api/modify/layer"      : "./API/CRUD/Modify/Layer.js",
+                "api/layer"             : "./API/Scene/Layer.js",
+                "api/element"           : "./API/Scene/Element.js",
+                "api/scene"             : "./API/Scene/Scene.js",
+                "api/view"              : "./API/Scene/View.js",
+
+                "api/create"            : "./API/Scene/Element/Create.js",
+                "api/destroy"           : "./API/Scene/Element/Destroy.js",
+                "api/modify"            : "./API/Scene/Element/Modify.js",
+                "api/modify/move"       : "./API/Scene/Element/Modify/Move.js",
+                "api/modify/rotate"     : "./API/Scene/Element/Modify/Rotate.js",
+                "api/modify/mirror"     : "./API/Scene/Element/Modify/Mirror.js",
+                "api/modify/layer"      : "./API/Scene/Element/Modify/Layer.js",
 
                 "api/export"            : "./API/IO/Export.js",
                 "api/io"                : "./API/IO/IO.js",
-                "api/layer"             : "./API/Scene/Layer.js",
-                "api/element"             : "./API/Scene/Element.js",
-                "api/scene"             : "./API/Scene/Scene.js",
-                "api/view"              : "./API/Scene/View.js",
 
                 "api/cmd"               : "./API/UI/Cmd.js",
                 "api/editor"            : "./API/UI/Editor.js",
@@ -124,15 +129,12 @@
                 "api/selection"         : "./API/UI/Selection.js",
                 "api/tool"              : "./API/UI/Tool.js",
 
-    
-
                 "tools/polyline"        : "./Components/Tools/Polyline.js",
                 "tools/selection"       : "./Components/Tools/Selection.js",
                 "tools/pan"             : "./Components/Tools/Pan.js",
                 "tools/zoom"            : "./Components/Tools/Zoom.js",
 
-                "test/all"              : "./Tests/All.js",
-                "test/api/layer"        : "./API/Layer_Test.js"
+                "test/all"              : "./Tests/All.js"
                 
             }
         }

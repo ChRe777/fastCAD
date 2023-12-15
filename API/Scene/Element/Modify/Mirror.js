@@ -6,9 +6,10 @@ import modify from 'api/modify'
 
 // Functions
 //
-function mirror(element, type, axis, value) {
+function mirror(element, axis, value) {
 
     let attrsMirrored = {}
+    const type = element['type']
 
     // line 
     //

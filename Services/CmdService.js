@@ -6,7 +6,7 @@
 import api from 'api/api'
 
 import { argFns } from 'services/utils'
-import { useStore } from 'stores/store' // TODO: Refactor
+import { useStore } from 'stores/store'
 import { useCmdStore } from 'stores/cmd'
 
 // Commands
@@ -19,16 +19,20 @@ function doCmdClear() {
     // Reset scene
     //
     api.scene.create()
+    api.selection.clear()
+    api.editor.clear()
 
     //
     // Create a default layer
     //
-    const name = 'layer0'
-    const description = 'Default layer 0'
+    let attrs = {
+        'name': 'layer0',
+        'description': 'Default layer 0'
+    }
 
-    const newLayer = api.layer.create(name, description) // TODO: api.scene.createLayer()
-    api.scene.addLayer(newLayer)
-    api.layer.setCurrent(newLayer) // TODO: api.scene.setCurrentLayer()
+    const newLayer = api.scene.createElement('layer', attrs)
+    api.scene.appendLayer(newLayer)
+    api.selection.setCurrentLayer(newLayer)
 }
 
 // save
@@ -36,7 +40,7 @@ function doCmdClear() {
 function doCmdSave(args) {
     let name = argFns.asString(args, 1)
     const successFn = function (data, name) {
-        //console.log("data", data)
+        console.info("Loaded data:", data)
         api.message.create(`Saved ${name}`)
     }
     api.io.save(name, successFn)
@@ -59,34 +63,35 @@ function doCmdLoad(args) {
 // move @10,0 or move 10,10
 //
 function doCmdMove(args) {
-    const [p, relative] = argFns.asPoint2(args, 1)
+    const p = argFns.asPoint2(args, 1)
+
+    let attrs = {
+        'p': p
+    }
 
     api.selection.forEach(selectedElement => {
-        api.modify.move.move(selectedElement, p, relative)
+        api.element.move(selectedElement, attrs)
     })
 }
 
 // rotate 45° 10,0 
 //
 function doCmdRotate(args) {
+
     const angle = argFns.asFloat(args, 1)
-    const [p, relative] = argFns.asPoint2(args, 2) || [{ x: 0, y: 0 }, true]
+    const p = argFns.asPoint2(args, 2) || [{ x: 0, y: 0 }, true]
+
+    let attrs = {
+        'p': p,
+        'angle': angle
+    }
+    console.log(attrs)
 
     api.selection.forEach(selectedElement => {
-        api.modify.rotate.rotate(selectedElement, angle, p, relative)
+        api.element.rotate(selectedElement, attrs)
     })
 }
 
-// rotate 45° 10,0 // TODO: deg -> rad
-//
-function doCmdRotate(args) {
-    const angle = argFns.asFloat(args, 1)
-    const [p, relative] = argFns.asPoint2(args, 2) || [{ x: 0, y: 0 }, true]
-
-    api.selection.forEach(selectedElement => {
-        api.modify.rotate.rotate(selectedElement, angle, p, relative)
-    })
-}
 
 // group selected together
 //
@@ -345,19 +350,24 @@ function doCmdLayer(args) {
     api.selection.setCurrentLayer(layer)
 }
 
-// delete (selected)
+// delete {all} // TODO: What args are useful?
 //
 function doCmdDelete(args) {
-    api.destroy.selected()
+
+    api.selection.forEach(selectedElement => {
+        api.scene.removeElement(selectedElement)
+    })
+
+    api.selection.clear()
 }
 
-// select
+// select // TODO: Other args e.g. > select {id}
 //
 async function doCmdSelect(args) {
-    //if (args.length == 1) {
-    useTool("selection")
-    //    return
-    //}
+    if (args.length == 1) {
+        useTool("selection")
+        return
+    }
 }
 
 // deselect
@@ -399,12 +409,12 @@ function doCmdSet(args) {
     let attrName = argFns.asString(args, 1)
     let attrValue = argFns.asString(args, 2)
 
-    // set layer layerXYZ
-    //
-    if (attrName === 'layer') {
-        let layerName = attrValue // TODO: getLayerByName
+    function setLayer_() {
+        let layerName = attrValue
         let toLayer = api.scene.getLayerByName(layerName)
-        console.log("cmdSet toLayer", toLayer)
+        if (toLayer === undefined) {
+            return
+        }
 
         api.selection.forEach(selectedElement => {
             console.log("cmdSet selectedElement", selectedElement)
@@ -413,13 +423,20 @@ function doCmdSet(args) {
         })
     }
 
+    // set layer {layerName} // TODO: Name can change
+    //
+    if (attrName === 'layer') {
+        setLayer_()
+        return
+    }
+
     // set cy 0
     // set fill #ff00ff
     //
     api.selection.forEach(selectedElement => {
-        let attrs = {};
+        let attrs = {}
         attrs[attrName] = attrValue
-        api.modify.modify(selectedElement, selectedElement.type, attrs)
+        api.element.setAttribute(selectedElement, attrs)
     })
 }
 
@@ -436,7 +453,7 @@ function doCmdCopy(args) {
         api.selection.forEach(selectedElement => {
             const newElement = api.create.copy(selectedElement)
             copiedElements.push(newElement)
-            api.modify.move.move(newElement, p, relative)
+            api.element.move(newElement, p, relative)
         })
 
         // TODO: Select all or last
@@ -455,20 +472,16 @@ function doCmdMirror(args) {
     let value = argFns.asFloat(args, 2)
     let copy = argFns.asString(args, 3) || false
 
-    function mirrorSelected(axis, value, copy) {
-
-        api.selection.forEach(selectedElement => {
-            if (copy) {
-                newElement = api.create.copy(selectedElement)
-                api.modify.mirror.mirror(newElement, type, axis, value)
-            } else {
-                api.modify.mirror.mirror(selectedElement, type, axis, value)
-            }
-        })
-
+    let attrs = {
+        'axis': axis,
+        'value': value,
+        'copy': copy
     }
 
-    mirrorSelected(axis, value, copy)
+    api.selection.forEach(selectedElement => {
+        api.element.mirror(selectedElement, attrs)
+    })
+
 }
 
 // message "Hello World" // TODO:
@@ -494,45 +507,6 @@ function doCmdSnow(args) {
     }
 
 }
-
-/*
-const cmds = {
-    doCmdClear,
-    doCmdSave,
-    doCmdLoad,
-    //
-    doCmdMove,
-    doCmdSet,
-    doCmdCopy,
-    doCmdMirror,
-    //
-    doCmdZoom,
-    doCmdZoomIn,
-    doCmdZoomOut,
-    doCmdPan,
-    //
-    doCmdCircle,
-    doCmdLine,
-    doCmdLineTo,
-    doCmdText,
-    doCmdMessage,
-    //
-    doCmdLayer,
-    //
-    doCmdDelete,
-    doCmdSelect,
-    doCmdDeselect,
-    //
-    doCmdBatch,
-    doCmdSettings,
-}
-
-// Export Cmds
-//
-export default cmds
-*/
-// Init Command Store
-//
 
 // Imports
 //
@@ -791,7 +765,7 @@ export function init() {
     api.cmd.register({
         uuid: randomUUID(),
         name: 'mirror',
-        suggestion: 'mirror',
+        suggestion: 'mirror {x|y} {value} {copy}',
         shortCuts: [],
         hotKeys: undefined,
         action: doCmdMirror
@@ -799,7 +773,7 @@ export function init() {
 
     api.cmd.register({
         uuid: randomUUID(),
-        name: 'message',
+        name: 'message {text}',
         suggestion: 'message',
         shortCuts: [],
         hotKeys: undefined,

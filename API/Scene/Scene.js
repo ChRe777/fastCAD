@@ -52,13 +52,39 @@
 import { useStore } from 'stores/store'
 
 import selection from 'api/selection'
-import layer from 'api/layer'
+import layers from 'api/layer'
 import element from 'api/element'
 
-// TODO: Move out because it is GUI
-import editor from 'api/editor'
-import selections from 'api/selection'
 
+// Exports
+//
+export default {
+    //
+    set,    // TODO: for IO-Store - make private function - call without export
+    get,    // TODO: for IO-Store - make private function - call without export
+    //
+    create, // TODO: What is the difference between create or clear
+    clear, // TODO: newScene ??
+    //
+    createLayer,    // Layer, Group are a special elements
+    createElement,
+    removeElement,
+    //
+    appendLayer,
+    appendElement,
+    //
+    getParent,
+    //
+    getLayerByName,
+    getLayerById,
+    //
+    getElementById,
+    getElementsByType,
+    //
+    elements, // like scene.childNodes
+    forEach, // TODO: rename Tree Walker
+    //
+}
 
 // Constants
 //
@@ -130,8 +156,6 @@ function clear() {
 //
 function create() {
     clear()
-    selections.clear() // TODO: UI onNewScene- or onSceneChanged-Event
-    editor.clear()  // TODO: UI
 }
 
 // TODO:
@@ -184,7 +208,7 @@ function getElementById(id) {
 }
 
 function getElementsByType(type) {
-
+    // TODO: 
 }
 
 // Append layer to scene or parent layer
@@ -301,7 +325,6 @@ function createElement(type, attrs) {
     // Place into current active Layer
     //
     let currentLayer = selection.getCurrentLayer()
-    console.log("currentLayer", currentLayer)
     appendElement(currentLayer, newElement)
 
     // Set parent
@@ -317,10 +340,25 @@ function createElement(type, attrs) {
 
 }
 
+// Remove element
+//
+function removeElement(element) {
+
+    // Remove from caches
+    //
+    delete parentsByElementId[element.id];
+    delete elementsByElementId[element.id];
+
+    // Remove from all layers
+    //
+    layers.forEach(layer => layers.removeElement(layer, element))
+
+}
+
 // Same as createElement('layer', props)
 //
 function createLayer(attrs) {
-    let newLayer = layer.create(attrs)
+    let newLayer = layers.create(attrs)
     appendLayer(newLayer)
 
 
@@ -332,34 +370,7 @@ function createLayer(attrs) {
     return newLayer
 }
 
-// Exports
-//
-export default {
-    //
-    set,    // TODO: for IO-Store - make private function - call without export
-    get,    // TODO: for IO-Store - make private function - call without export
-    //
-    create, // TODO: What is the difference between create or clear
-    clear, // TODO: newScene ??
-    //
-    createLayer,    // Layer is a special element
-    createElement,
-    //
-    appendLayer,
-    appendElement,
-    //
-    getParent,
-    //
-    getLayerByName,
-    getLayerById,
-    //
-    getElementById,
-    getElementsByType,
-    //
-    elements, // like scene.childNodes
-    forEach, // TODO: rename Tree Walker
-    //
-}
+
 
 
 
