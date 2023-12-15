@@ -4,6 +4,12 @@
 //
 import modify from 'api/modify'
 
+// Exports
+//
+export default {
+    mirror
+}
+
 // Functions
 //
 function mirror(element, axis, value) {
@@ -27,8 +33,4 @@ function mirror(element, axis, value) {
     modify(element, type, attrsMirrored)
 }
 
-// Exports
-//
-export default {
-    mirror
-}
+

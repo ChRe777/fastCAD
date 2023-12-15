@@ -5,9 +5,9 @@
 
 // Imports
 //
-import move from 'api/modify/move'
-import rotate from 'api/modify/rotate'
-import mirror from 'api/modify/mirror'
+import mover from 'api/modify/move'
+import rotater from 'api/modify/rotate'
+import mirrorer from 'api/modify/mirror'
 
 // modify
 //
@@ -28,10 +28,34 @@ function assign(element, type, attrs) {
     return element
 }
 
+function move(element, attrs) {
+
+    let pRel = attrs['p']
+    let [p, relative] = pRel
+
+    mover.move(element, p, relative)
+}
+
+function rotate(element, attrs) {
+
+    let angle = attrs['angle']
+    let [p, relative] = attrs['p']
+
+    rotater.rotate(element, angle, p, relative)
+}
+
+function mirror(element,) {
+
+    let axis = attrs['axis']
+    let value = attrs['value']
+
+    mirrorer.mirror(element, axis, value)
+}
+
 // Exports
 //
 export default {
-    assign, // Base Function
+    assign,
     move,
     rotate,
     mirror

@@ -1,5 +1,8 @@
 // Layer.js
 
+// TODO: REMOVE ??
+
+/*
 // Imports
 //
 import layers from 'api/layer'
@@ -15,3 +18,5 @@ function set(element, layerName) {
 export default {
     set
 }
+
+*/

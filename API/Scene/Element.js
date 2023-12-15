@@ -10,6 +10,7 @@
 //
 import create_ from 'api/create'
 import modify from 'api/modify'
+import element_ from 'api/element'
 
 // Exports
 //
@@ -96,34 +97,25 @@ function duplicate(element) {
 // Move
 //
 function move(element, attrs) {
-    let pRel = attrs['p']
-    let [p, relative] = pRel
-
-    modify.move.move(element, p, relative)
+    modify.move(element, attrs)
 }
 
 // Rotate
 //
 function rotate(element, attrs) {
-
-    let angle = attrs['angle']
-    let [p, relative] = attrs['p']
-
-    modify.rotate.rotate(element, angle, p, relative)
+    modify.rotate(element, attrs)
 }
 
 // Mirror
 //
 function mirror(element, attrs) {
 
-    let axis = attrs['axis']
-    let value = attrs['value']
     let copy = attrs['copy']
 
     if (copy) {
-        element = api.element.copy(element)
+        element = element_.copy(element)
     }
-    modify.mirror.mirror(element, axis, value)
+    modify.mirror(element, attrs)
 }
 
 // Get type
