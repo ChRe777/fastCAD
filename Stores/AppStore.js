@@ -8,57 +8,71 @@ import { defineStore } from 'pinia'
 // Example Scene Layer 0
 //
 const layer0 = {
-    "type": "g",
-    "subtype": "layer",
-    "style": "visibility:visible",
+    "type": "layer",
+    "svg-type": "g",
+    "visibility": "visible",
     "id": "layer-Laltl3Tj123",
-    "name": "layer0",
-    "description": "layer0 desc",
+    "name": "poly...",
+    "description": "Polyline layer description long",
     "fill": "#00ff00",
     "stroke": "#ffffff",
     "stroke-width": "2",
     "stroke-opacity": "1.0",
     "elements": [
         {
-            "type": "circle",
-            "id": "circle-NlwqaSQuTI",
-            "cx": 0,
-            "cy": 50,
-            "r": 50,
-            "fill": "#00f900",
-            "stroke": "#00f900",
-            "stroke-width": 17,
-            "stroke-dasharray": "7,7",
-            "fill-opacity": "0.5",
-            "stroke-opacity": 0.3
+            "type": "polyline",
+            "id": "polyline-Pltl3Tj575",
+            "points": "200,160 200,260 300,260 300,160",
+            "fill-opacity": 0,
+            "stroke-dasharray": "5",
+            "pathLength": 105
+        },
+        {
+            "type": "path",
+            "id": "path-Pathl3Tj575",
+            "d": "M 225 150\n h 50 v50 h-50\nv 50 h50",
+            "fill-opacity": 0,
+            "stroke-dasharray": "5",
+            "stroke-width": 5,
+            "pathLength": 105,
+            "stroke": "#00f900"
         }
     ]
 }
 
 const layer1 = {
-    "type": "g",
-    "subtype": "layer",
-    "style": "visibility:visible",
-    "id": "layer-Laltl3Tj123",
-    "name": "layer1",
-    "description": "layer1 desc",
-    "fill": "#00ff00",
+    "type": "layer",
+    "svg-type": "g",
+    "isfrozen": false,
+    "visibility": "visible",
+    "id": "layer-aLhhtl3Tj585",
+    "name": "images",
+    "description": "Image layer description long",
+    "fill": "#ffffff",
     "stroke": "#ffffff",
     "stroke-width": "2",
     "stroke-opacity": "1.0",
     "elements": [
         {
-            "type": "circle",
-            "id": "circle-NlwraSQuTI",
-            "cx": 50,
-            "cy": 50,
-            "r": 70,
-            "fill": "#00f900",
-            "stroke": "#00f900",
-            "stroke-width": 17,
-            "stroke-dasharray": "7,7",
-            "fill-opacity": "0.5",
-            "stroke-opacity": 0.3
+            "type": "image",
+            "id": "image-Grtl3Tj5d5",
+            "x": -290,
+            "y": -50,
+            "width": "100px",
+            "height": "100px",
+            "href": "https://live.mdnplay.dev/fr/docs/Web/CSS/object-fit/mdn_logo_only_color.png"
+        },
+        {
+            "type": "image",
+            "id": "image-kZlOrT9ynD",
+            "x": 446,
+            "y": -43,
+            "width": "30",
+            "height": "30",
+            "href": "https://www.svgheart.com/wp-content/uploads/2021/11/swirly-christmas-tree-with-star-holiday-free-svg-file-SvgHeart.Com.png",
+            "fill": "#ffffff",
+            "stroke": "#777777",
+            "stroke-width": 2
         }
     ]
 }
@@ -68,7 +82,11 @@ const layer1 = {
 export const useStore = defineStore('appStore', {
     state: () => ({
         scene: {
-            "currentLayerId": "layer-Laltl3Tj123",
+            "currentLayerId": "layer-Lthtl3Tj575",
+            "type": "svg",
+            "width": "21cm",
+            "height": "29.7cm",
+            "viewBox": "0 0 500 500",
             elements: [layer0, layer1],
         },
         //

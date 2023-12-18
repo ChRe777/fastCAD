@@ -101,3 +101,38 @@ watch(
 const cmdName = 'load'
 const args = [cmdName, 'scene.json']
 cmdStore.registeredCmdsByName[cmdName].action(args)
+
+// Test FunctionSet Style of Programming
+//
+
+import object from '../API/FnSets/Object.js'
+import sceneFn from '../API/FnSets/SceneFn.js'
+import parentFn from '../API/FnSets/ParentFn.js'
+import elementFn from '../API/FnSets/ElementFn.js'
+import childFn from '../API/FnSets/ChildFn.js'
+
+// Scene
+//
+let sceneObj = object.create(store.scene)
+sceneFn.setObject(sceneObj)
+
+// Walk through all in scene
+//
+sceneFn.forEach((parentObj, elementObj) => {
+
+    parentFn.setObject(elementObj)
+    elementFn.setObject(elementObj)
+    childFn.setObject(elementObj)
+
+    console.log("id:", elementFn.getId())
+    console.log("type:", elementObj.getType())
+    console.log("hasChilds:", parentFn.hasChilds())
+
+    elementFn.setObject(parentObj)
+    console.log("parent id:", elementFn.getId())
+
+    childFn.setObject(elementObj)
+    console.log("parent:", childFn.getParent())
+
+    console.log("")
+})

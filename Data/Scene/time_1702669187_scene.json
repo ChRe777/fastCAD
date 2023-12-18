@@ -363,18 +363,6 @@
                     "stroke": "#fffb00",
                     "stroke-width": 1,
                     "fill-opacity": 0.5
-                },
-                {
-                    "type": "text",
-                    "id": "text-TSDfC3zMXx",
-                    "x": -150,
-                    "y": -200,
-                    "text": "capacitorjs.com",
-                    "font-family": "Chalkduster",
-                    "font-size": "20px",
-                    "fill": "#777777",
-                    "stroke": "#ffffff",
-                    "stroke-width": 1
                 }
             ]
         },

@@ -117,7 +117,7 @@ function updateLayerEditingAttributes() {
     const selectionStore = useSelectionStore()
     const editorStore = useEditorStore()
 
-    console.log("updateLayerEditingAttributes layers:", selectionStore.selectedLayersSet)
+    //console.log("updateLayerEditingAttributes layers:", selectionStore.selectedLayersSet)
 
     if (selectionStore.selectedLayersSet.size >= 1) {
         const selectedLayer = Array.from(selectionStore.selectedLayersSet)[0] // Set to Array

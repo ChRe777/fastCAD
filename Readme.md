@@ -17,7 +17,24 @@
 
     https://marketplace.visualstudio.com/items?itemName=changjoo-park.vscode-vue-devpack
 
-
 ## Docs
 
- - https://docs.aspose.com/svg/net/drawing-basics/svg-path-data/
+### SVG
+
+
+
+    - https://docs.aspose.com/svg/net/drawing-basics/svg-path-data/
+
+## Make mobile App iPadOS
+
+    - https://capacitorjs.com
+
+## Libraries
+
+### Math
+
+see https://mathjs.org/docs/getting_started.html
+
+### Vector and Matrices
+
+see https://glmatrix.net

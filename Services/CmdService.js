@@ -451,7 +451,7 @@ function doCmdCopy(args) {
 
         const copiedElements = []
         api.selection.forEach(selectedElement => {
-            const newElement = api.create.copy(selectedElement)
+            const newElement = api.element.duplicate(selectedElement)
             copiedElements.push(newElement)
             api.element.move(newElement, p, relative)
         })
