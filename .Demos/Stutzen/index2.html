@@ -44,16 +44,11 @@
                         </marker>
                     </defs>
 
-                    <line id="line1" x1="0" y1="0" x2="50" y2="0" />
+                    <line id="line1" x1="0" y1="0" x2="50" y2="0" stroke-dasharray="2" />
                     <line id="line2" x1="0" y1="50" x2="0" y2="0" />
 
-                    <!--line id="line3" x1="0" y1="50" x2="0" y2="0" />
-                    <line id="line4" x1="0" y1="50" x2="0" y2="0" /-->
-
-                    <circle id="circle1" cx="0" cx="0" r="2" fill="red" stroke="none" />
-
-                    <circle id="point" cx="0" cx="0" r="2" fill="blue" stroke="none" />
-                    <!--circle id="point1" cx="0" cx="0" r="2" fill="green" stroke="none" /-->
+                    <circle id="sec_point" cx="0" cx="0" r="2" fill="red" stroke="none" visibility="hidden" />
+                    <circle id="hit_point" cx="0" cx="0" r="2" fill="blue" stroke="none" visibility="hidden" />
 
                     <rect id="box" x="-2" y="-2" width="4" height="4" stroke="blue" fill="none" stroke-width="0.5" />
                 </svg>
@@ -65,9 +60,11 @@
 
             console.log(math.sqrt(-4).toString())
 
-            function log(text) {
-                document.getElementById('output').innerText = text
+            function log(...text) {
+                document.getElementById('output').innerText = text.join(' ')
             }
+
+            const size = 4
 
             let line1 = [
                 [0, 0], [70, 50]
@@ -109,10 +106,7 @@
                 circle.setAttribute("visibility", visible ? 'visible' : 'hidden')
             }
 
-            function update() {
-                setLine('line1', lines[0])
-                setLine('line2', lines[1])
-
+            function intersectLines(line1, line2) {
                 let p1_ = lines[0][0]
                 let p2_ = lines[0][1]
 
@@ -120,29 +114,40 @@
                 let p_2 = lines[1][1]
 
                 let s = math.intersect(p1_, p2_, p_1, p_2)
-
-                setCircle('circle1', s, true)
+                return s
             }
 
-            function intersect(line, p, size) {
+            function update() {
+                setLine('line1', lines[0])
+                setLine('line2', lines[1])
 
-                let p1 = line[0]
-                let p2 = line[1]
+                let s = intersectLines(lines[0], lines[1])
+                log("S: ", s)
+                setCircle('sec_point', s, true)
+
+            }
+
+            function intersectBox(line, p, size) {
 
                 //        w
                 // (x,y) [ ] h
                 //
 
+                // Horizontal Line Selection Box 
+                // 
                 let x1 = p.x - size / 2
                 let y1 = p.y
 
                 let x2 = p.x + size / 2
                 let y2 = p.y
 
-                let p_1 = [x1, y1]
-                let p_2 = [x2, y2]
+                let h_1 = [x1, y1]
+                let h_2 = [x2, y2]
 
                 // ---
+
+                // Vertical Line Selection Box 
+                // 
 
                 x1 = p.x
                 y1 = p.y - size / 2
@@ -150,37 +155,114 @@
                 x2 = p.x
                 y2 = p.y + size / 2
 
-                let q_1 = [x1, y1]
-                let q_2 = [x2, y2]
+                let v_1 = [x1, y1]
+                let v_2 = [x2, y2]
 
-                //setLine('line3', [p_1, p_2])
-                //setLine('line4', [q_1, q_2])
 
-                let s = math.intersect(p1, p2, p_1, p_2)
-                if (math.distance(s, [p.x, p.y]) < size)
-                    return s
-                return null
+                // Line
+                //
+                let p1 = line[0]
+                let p2 = line[1]
+
+                // https://mathjs.org/docs/reference/functions/intersect.html
+
+                //       v
+                //       |
+                //    ---|--- h
+                //       |
+
+                function check(x1, x2, t) {
+                    let min = math.min(x1, x2)
+                    let max = math.max(x1, x2)
+
+                    return (min <= t) && (t <= max)
+                }
+
+                function inside(p1, p2, s) {
+                    let res = check(p1[0], p2[0], s[0]) &&
+                        check(p1[1], p2[1], s[1])
+                    return res
+                }
+
+                // check cross h
+                let s1 = math.intersect(p1, p2, h_1, h_2)
+                if (math.distance(s1, [p.x, p.y]) < size && inside(p1, p2, s1)) {
+                    console.log("intersectBox - line, s1", line, s1)
+                    return s1
+                }
+
+                // check cross v
+                let s2 = math.intersect(p1, p2, v_1, v_2)
+                if (math.distance(s2, [p.x, p.y]) < size && inside(p1, p2, s2)) {
+                    console.log("intersectBox - line, s2", line, s2)
+                    return s2
+                }
+
+                return undefined
             }
 
             document.getElementById('svg').addEventListener("pointermove", function (event) {
                 let p = getCoords(event)
                 let box = document.getElementById('box')
-                box.setAttribute('x', p.x - 2)
-                box.setAttribute('y', p.y - 2)
+                // x, y
+                box.setAttribute('x', p.x - size / 2)
+                box.setAttribute('y', p.y - size / 2)
+                // w, h
+                box.setAttribute('width', size)
+                box.setAttribute('height', size)
             })
 
             document.getElementById('svg').addEventListener("pointerdown", function (event) {
                 let p = getCoords(event)
 
-                lines.forEach((line, index) => {
-                    let s = intersect(line, p, 8)
+                function clipLines(lineToClip, trimLine) {
+                    let s = intersectLines(lineToClip, trimLine)
+
+
+
+                    //       A        B
+                    // p1 ------ s ------- p2
+
+                    return [
+                        [lineToClip[0], s],  // A
+                        [s, lineToClip[1]]   // B
+                    ]
+
+                }
+
+                let trimLine = lines[0]
+
+                lines.forEach((lineToClip, index) => {
+
+                    if (lineToClip === trimLine) {
+                        console.log("trimline")
+                        return
+                    }
+
+                    let s = intersectBox(lineToClip, p, size)
                     if (s) {
-                        setCircle('point', s, true)
-                        let d = math.distance(s, [p.x, p.x])
-                        log(s)
+
+                        let linesClip = clipLines(lineToClip, trimLine)
+
+                        let hitLineA = intersectBox(linesClip[0], p, size)
+                        let hitLineB = intersectBox(linesClip[1], p, size)
+
+                        if (hitLineA) {
+                            setCircle("hit_point", hitLineA, true)
+                            log("A: ", hitLineA)
+                            lines[index] = linesClip[1]
+                        }
+
+                        if (hitLineB) {
+                            setCircle("hit_point", hitLineB, true)
+                            log("B: ", hitLineB)
+                            lines[index] = linesClip[0]
+                        }
+
+                        update()
+
                     }
                 })
-
             })
 
             update()

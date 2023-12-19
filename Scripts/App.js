@@ -108,9 +108,9 @@ cmdStore.registeredCmdsByName[cmdName].action(args)
 import object from '../API/FnSets/Object.js'
 import sceneFn from '../API/FnSets/SceneFn.js'
 import parentFn from '../API/FnSets/ParentFn.js'
-import elementFn from '../API/FnSets/ElementFn.js'
 import childFn from '../API/FnSets/ChildFn.js'
 import layerFn from '../API/FnSets/LayerFn.js'
+import elementFn from '../API/FnSets/ElementFn.js'
 
 import { useCacheStore } from 'stores/cache'
 
@@ -119,14 +119,20 @@ import { useCacheStore } from 'stores/cache'
 let sceneObj = object.create(store.scene)
 sceneFn.setObject(sceneObj)
 
+
+let cacheStore = useCacheStore()
+cacheStore.clear()
+
 // Walk through all in scene
 //
 sceneFn.forEach((parentObj, elementObj) => {
 
-    // <!-- Fill Cache
+    // <!-- Fill Caches
     let cacheStore = useCacheStore()
     cacheStore.setParent(parentObj.getInternal(), elementObj.getInternal().id)
-    //      Fill Cache -->
+    cacheStore.setElementById(elementObj.getInternal(), elementObj.getInternal().id)
+
+    //      Fill Caches -->
 
     parentFn.setObject(elementObj)
     elementFn.setObject(elementObj)
@@ -147,3 +153,13 @@ sceneFn.forEach((parentObj, elementObj) => {
 
     console.log("")
 })
+console.log("---")
+
+let element = sceneFn.getElementById("layer-Laltl3Tj123")
+console.log("element.isEmpty:", element.isEmpty())
+
+elementFn.setObject(element)
+elementFn.getType()
+console.log("type of element:", elementFn.getType())
+
+console.log("---")

@@ -1,5 +1,6 @@
 // SceneFn.js
-//
+
+// Scene is like the document in a html page
 
 // Imports
 //
@@ -12,13 +13,13 @@ let obj_ = undefined
 
 // Local constants
 //
-const type_ = 'sceneFn'
+const fns_type__ = 'sceneFn'
 
 
 // Exports
 //
 export default {
-    getType,
+    getFnType,
     setObject,
     //
     getElementById,
@@ -30,33 +31,37 @@ export default {
 //
 
 function setObject(obj) {
-    if (obj.hasFn(getType())) {
+    if (obj.hasFn(getFnType())) {
         obj_ = obj.getInternal() // OK .. UnWrap
     } else {
         obj_ = undefined
     }
 }
 
-function getType() {
-    return type_
+function getFnType() {
+    return fns_type__
 }
 
 function getElementById(id) {
-    if (!obj_) {
-        console.error("SceneFn - Object not set")
-        return undefined
-    }
+    if (!obj_) return undefined
+
     const cacheStore_ = useCacheStore()
-    return cacheStore_.getElementById(id)
+    const element = cacheStore_.getElementById(id)
+
+    const wrappedParent = object.create(element)
+    return wrappedParent
 }
 
 function forEach_(fn, parent, element) {
 
     // Go out, so wrap internal objects
     //
-    fn(object.create(parent), object.create(element))
+    const wrappedParent = object.create(parent)
+    const wrappedElement = object.create(element)
+    fn(wrappedParent, wrappedElement)
 
     // Go down next level
+    //
     let parent_ = element
     if (parent_.elements) {
         for (let element_ of parent_.elements) {
@@ -74,9 +79,9 @@ function forEach(fn) {
         return
     }
 
-    let scene = obj_
-    let parent = scene
-    for (let element of parent.elements) {
+    const scene = obj_
+    for (let element of scene.elements) {
+        const parent = scene
         forEach_(fn, parent, element)
     }
 }

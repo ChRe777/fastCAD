@@ -1,39 +1,40 @@
 // ParentFn.js
 
+// - Parents can have zero or n childs
+// - Parents can check of they have childs
+// - Parents can add a child
+// - Parents can remove child
+// - Parents can return childs (readonly)
+
 // Local variables
 //
-
 let obj_ = undefined
 
 // Local constants
 //
-const type_ = 'parentFn'
-const compatibleTypes_ = ['layer', 'g', 'svg']
+const fns_type__ = 'parentFn'
 
 // Export
 //
 export default {
-    getType,
+    getFnType,
     setObject,
-    isCompatible,
+    //
     hasChilds,
     appendChild,
-    removeChild
+    removeChild,
+    childs,
 }
 
 // Public Functions
 //
 
-function getType() {
-    return type_
-}
-
-function isCompatible(obj) {
-    return compatibleTypes_.includes(obj.type)
+function getFnType() {
+    return fns_type__
 }
 
 function setObject(obj) {
-    if (obj.hasFn(getType())) {
+    if (obj.hasFn(getFnType())) {
         obj_ = obj.getInternal()
     } else {
         obj_ = undefined
@@ -49,12 +50,20 @@ function hasChilds() {
 function appendChild(child) {
     if (!obj_) return undefined
     obj_.elements.push(child)
-    return true
+    return child
 }
 
 function removeChild(child) {
     if (!obj_) return undefined
+    if (!obj_.elements) return undefined
     obj_.elements = obj_.elements.filter(child_ => child_.id !== child.id)
-    return true
+    return child
+}
+
+function childs() {
+    if (!obj_) return undefined
+    // https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/
+    let clone = [...obj_.elements];
+    return clone
 }
 

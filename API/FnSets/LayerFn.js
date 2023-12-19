@@ -1,17 +1,22 @@
 // LayerFn.js
 
+// - Layer is a special object like svg group element
+// - Layers can be frozen and thawed
+// - Layers can be invisble with all their childs
+// - Layers can have childs
+
 //  Local variable
 //
 let obj_ = undefined
 
 // Local constants
 //
-const type_ = 'layerFn'
+const fns_type__ = 'layerFn'
 
 // Exports
 
 export default {
-    getType,
+    getFnType,
     setObject,
     isOpen,
     isFrozen,
@@ -22,15 +27,15 @@ export default {
 //
 
 function setObject(obj) {
-    if (obj.hasFn(getType())) {
+    if (obj.hasFn(getFnType())) {
         obj_ = obj.getInternal() // OK .. UnWrap
     } else {
         obj_ = undefined
     }
 }
 
-function getType() {
-    return type_
+function getFnType() {
+    return fns_type__
 }
 
 // Determines whether or not the Function Set is compatible 
