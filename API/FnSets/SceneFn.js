@@ -16,7 +16,7 @@ const type_ = 'sceneFn'
 
 
 // Exports
-
+//
 export default {
     getType,
     setObject,
@@ -42,7 +42,10 @@ function getType() {
 }
 
 function getElementById(id) {
-    if (!obj_) return undefined
+    if (!obj_) {
+        console.error("SceneFn - Object not set")
+        return undefined
+    }
     const cacheStore_ = useCacheStore()
     return cacheStore_.getElementById(id)
 }
@@ -66,8 +69,9 @@ function forEach_(fn, parent, element) {
 //
 function forEach(fn) {
 
-    if (obj_ === undefined) {
-        return "Object not set"
+    if (!obj_) {
+        console.error("SceneFn - Object not set")
+        return
     }
 
     let scene = obj_

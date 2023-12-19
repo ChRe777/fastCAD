@@ -3,6 +3,7 @@
 // Imports
 //
 import { useCacheStore } from 'stores/cache'
+import object from './Object.js'
 
 // Local Constants
 //
@@ -39,5 +40,6 @@ function getParent() {
     if (!obj_) return undefined
     let child = obj_
     const cacheStore_ = useCacheStore()
-    return cacheStore_.getParent(child.id)
+    let parent = cacheStore_.getParent(child.id)
+    return object.create(parent) // Go out -> wrap it
 }

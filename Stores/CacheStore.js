@@ -15,12 +15,15 @@ export const useCacheStore = defineStore('cacheStore', {
         parentFromChildId_: {},
         elementsById_: {}
     }),
+    //
+    // Actions
+    //
     actions: {
-        getParent(child) {
-            return this.parentFromChildId_[child.id]
+        getParent(id) {
+            return this.parentFromChildId_[id]
         },
-        setParent(parent, child) {
-            this.parentFromChildId_[child.id] = parent
+        setParent(parent, childId) {
+            this.parentFromChildId_[childId] = parent
         },
         getElementById(id) {
             return this.elementsById_[id]

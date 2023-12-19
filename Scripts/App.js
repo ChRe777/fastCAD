@@ -110,6 +110,9 @@ import sceneFn from '../API/FnSets/SceneFn.js'
 import parentFn from '../API/FnSets/ParentFn.js'
 import elementFn from '../API/FnSets/ElementFn.js'
 import childFn from '../API/FnSets/ChildFn.js'
+import layerFn from '../API/FnSets/LayerFn.js'
+
+import { useCacheStore } from 'stores/cache'
 
 // Scene
 //
@@ -120,19 +123,27 @@ sceneFn.setObject(sceneObj)
 //
 sceneFn.forEach((parentObj, elementObj) => {
 
+    // <!-- Fill Cache
+    let cacheStore = useCacheStore()
+    cacheStore.setParent(parentObj.getInternal(), elementObj.getInternal().id)
+    //      Fill Cache -->
+
     parentFn.setObject(elementObj)
     elementFn.setObject(elementObj)
     childFn.setObject(elementObj)
+    layerFn.setObject(elementObj)
 
     console.log("id:", elementFn.getId())
     console.log("type:", elementObj.getType())
     console.log("hasChilds:", parentFn.hasChilds())
+    console.log("layer - isopen:", layerFn.isOpen())
 
     elementFn.setObject(parentObj)
     console.log("parent id:", elementFn.getId())
 
     childFn.setObject(elementObj)
-    console.log("parent:", childFn.getParent())
+    elementFn.setObject(childFn.getParent())
+    console.log("parent id:", elementFn.getId())
 
     console.log("")
 })

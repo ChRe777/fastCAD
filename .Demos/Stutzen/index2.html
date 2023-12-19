@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+    <head>
+        <title>Stutzen Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/mathjs@12.2.0/lib/browser/math.js"></script>
+
+
+        <style>
+            :root,
+            [data-bs-theme=dark] {
+                --bs-blue: #ff6efd !important;
+                --bs-primary: #ff6efd !important;
+                --bs-body-color: white !important;
+            }
+
+            .btn-primary {
+                --bs-btn-color: #fff;
+                --bs-btn-bg: #ff6efd;
+            }
+
+            svg {
+                background-color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container w-50">
+            <center>
+                <h3 class="mb-3 mt-3">Stutzen Example</h3>
+
+                <svg id="svg" class="rounded-2" width="100%" height="400" viewBox="-25 -25 100 100" stroke="black"
+                    stroke-width="0.5">
+
+                    <defs>
+                        <marker id="triangle" viewBox="0 0 10 10" refX="+10" refY="5" markerUnits="strokeWidth"
+                            markerWidth="10" markerHeight="10" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f00" stroke="none" />
+                        </marker>
+                    </defs>
+
+                    <line id="line1" x1="0" y1="0" x2="50" y2="0" />
+                    <line id="line2" x1="0" y1="50" x2="0" y2="0" />
+
+                    <!--line id="line3" x1="0" y1="50" x2="0" y2="0" />
+                    <line id="line4" x1="0" y1="50" x2="0" y2="0" /-->
+
+                    <circle id="circle1" cx="0" cx="0" r="2" fill="red" stroke="none" />
+
+                    <circle id="point" cx="0" cx="0" r="2" fill="blue" stroke="none" />
+                    <!--circle id="point1" cx="0" cx="0" r="2" fill="green" stroke="none" /-->
+
+                    <rect id="box" x="-2" y="-2" width="4" height="4" stroke="blue" fill="none" stroke-width="0.5" />
+                </svg>
+                <div id="output" class="mt-3 bg-white text-black w-100 p-2 border-1 border-dark rounded-2">sdfsdf</div>
+            </center>
+        </div>
+
+        <script type="module">
+
+            console.log(math.sqrt(-4).toString())
+
+            function log(text) {
+                document.getElementById('output').innerText = text
+            }
+
+            let line1 = [
+                [0, 0], [70, 50]
+            ]
+
+            let line2 = [
+                [0, 50], [70, 0]
+            ]
+
+            let lines = [
+                line1,
+                line2
+            ]
+
+            function getCoords(event) {
+                let svg = document.getElementById('svg')
+                const CTM = svg.getScreenCTM()
+                const point = {
+                    x: (event.clientX - CTM.e) / CTM.a,
+                    y: (event.clientY - CTM.f) / CTM.d
+                }
+                return point
+            }
+
+            function setLine(id, points) {
+                let p1 = points[0]
+                let p2 = points[1]
+                const line = document.getElementById(id)
+                line.setAttribute("x1", p1[0])
+                line.setAttribute("x2", p2[0])
+                line.setAttribute("y1", p1[1])
+                line.setAttribute("y2", p2[1])
+            }
+
+            function setCircle(id, p, visible) {
+                const circle = document.getElementById(id)
+                circle.setAttribute("cx", p[0])
+                circle.setAttribute("cy", p[1])
+                circle.setAttribute("visibility", visible ? 'visible' : 'hidden')
+            }
+
+            function update() {
+                setLine('line1', lines[0])
+                setLine('line2', lines[1])
+
+                let p1_ = lines[0][0]
+                let p2_ = lines[0][1]
+
+                let p_1 = lines[1][0]
+                let p_2 = lines[1][1]
+
+                let s = math.intersect(p1_, p2_, p_1, p_2)
+
+                setCircle('circle1', s, true)
+            }
+
+            function intersect(line, p, size) {
+
+                let p1 = line[0]
+                let p2 = line[1]
+
+                //        w
+                // (x,y) [ ] h
+                //
+
+                let x1 = p.x - size / 2
+                let y1 = p.y
+
+                let x2 = p.x + size / 2
+                let y2 = p.y
+
+                let p_1 = [x1, y1]
+                let p_2 = [x2, y2]
+
+                // ---
+
+                x1 = p.x
+                y1 = p.y - size / 2
+
+                x2 = p.x
+                y2 = p.y + size / 2
+
+                let q_1 = [x1, y1]
+                let q_2 = [x2, y2]
+
+                //setLine('line3', [p_1, p_2])
+                //setLine('line4', [q_1, q_2])
+
+                let s = math.intersect(p1, p2, p_1, p_2)
+                if (math.distance(s, [p.x, p.y]) < size)
+                    return s
+                return null
+            }
+
+            document.getElementById('svg').addEventListener("pointermove", function (event) {
+                let p = getCoords(event)
+                let box = document.getElementById('box')
+                box.setAttribute('x', p.x - 2)
+                box.setAttribute('y', p.y - 2)
+            })
+
+            document.getElementById('svg').addEventListener("pointerdown", function (event) {
+                let p = getCoords(event)
+
+                lines.forEach((line, index) => {
+                    let s = intersect(line, p, 8)
+                    if (s) {
+                        setCircle('point', s, true)
+                        let d = math.distance(s, [p.x, p.x])
+                        log(s)
+                    }
+                })
+
+            })
+
+            update()
+
+        </script>
+    </body>
+
+</html>

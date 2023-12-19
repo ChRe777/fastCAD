@@ -47,7 +47,7 @@
                     <line id="line1" x1="0" y1="0" x2="50" y2="0" />
                     <line id="line2" x1="0" y1="50" x2="0" y2="0" />
                     <circle id="circle1" cx="0" cx="0" r="2" fill="red" stroke="none" />
-
+                    <rect id="box" x="-2" y="-2" width="4" height="4" stroke="blue" fill="none" stroke-width="0.5" />
                 </svg>
                 <div id="output" class="mt-3 bg-white text-black w-100 p-2 border-1 border-dark rounded-2">sdfsdf</div>
             </center>
@@ -57,12 +57,17 @@
 
             console.log(math.sqrt(-4).toString())
 
-            const line1 = [
+            let line1 = [
                 [0, 0], [70, 50]
             ]
 
-            const line2 = [
-                [0, 50], [50, 0]
+            let line2 = [
+                [0, 25], [50, 20]
+            ]
+
+            let lines = [
+                line1,
+                line2
             ]
 
 
@@ -143,10 +148,10 @@
 
             function update() {
 
-                setLine('line1', line1)
-                setLine('line2', line2)
+                setLine('line1', lines[0])
+                setLine('line2', lines[1])
 
-                let [p, found] = calcIntersection(line1, line2)
+                let [p, found] = calcIntersection(lines[0], lines[1])
 
                 function log(text) {
                     document.getElementById('output').innerText = text
@@ -173,12 +178,176 @@
                 return point
             }
 
+            /*
             document.getElementById('svg').addEventListener("pointermove", function (event) {
                 let p = getCoords(event)
                 line1[0][0] = p.x
                 line1[0][1] = p.y
                 update()
             })
+            */
+
+            document.getElementById('svg').addEventListener("pointermove", function (event) {
+                let p = getCoords(event)
+                let box = document.getElementById('box')
+                box.setAttribute('x', p.x - 2)
+                box.setAttribute('y', p.y - 2)
+                //update()
+            })
+
+            function lineIntersectsRect2(line, p, size) {
+                console.log("p", p)
+                let rx = p.x - (size / 2)
+                let ry = p.y - (size / 2)
+                let width = size
+                let height = size
+
+
+                return lineIntersectsRect(line[0][0], line[0][1], line[1][0], line[1][1], rx, ry, width, height)
+            }
+            function lineIntersectsRect(x1, y1, x2, y2, rx, ry, width, height) {
+                // Check if line is completely outside the rectangle
+                if (x1 > rx + width || x2 < rx || y1 > ry + height || y2 < ry) {
+                    return null; // No intersection
+                }
+
+                // Calculate the slope (m) and y-intercept (b) of the line
+                const m = (y2 - y1) / (x2 - x1);
+                const b = y1 - m * x1;
+
+                // Check if the line is vertical (avoid division by zero)
+                if (!isFinite(m)) {
+                    const ix = x1;
+                    const iy = Math.max(ry, Math.min(ry + height, y1));
+                    return { x: ix, y: iy };
+                }
+
+                // Check intersection with the left vertical line of the rectangle
+                let ix = (ry - b) / m;
+                let iy = ry;
+                if (ix >= rx && ix <= rx + width) {
+                    return { x: ix, y: iy };
+                }
+
+                // Check intersection with the right vertical line of the rectangle
+                ix = (ry + height - b) / m;
+                iy = ry + height;
+
+                if (ix >= rx && ix <= rx + width) {
+                    return { x: ix, y: iy };
+                }
+
+                // Check intersection with the top horizontal line of the rectangle
+                iy = m * (rx - x1) + y1;
+                ix = rx;
+                if (iy >= ry && iy <= ry + height) {
+                    return { x: ix, y: iy };
+                }
+
+                // Check intersection with the bottom horizontal line of the rectangle
+                iy = m * (rx + width - x1) + y1;
+                ix = rx + width;
+                if (iy >= ry && iy <= ry + height) {
+                    return { x: ix, y: iy };
+                }
+
+                return null; // No intersection
+            }
+
+            function doHit(pointer, line) {
+                function calculateIntersection(line, rect) {
+
+                    console.log("line", line)
+                    console.log("rect", rect)
+                    const [x1, y1] = line[0];
+                    const [x2, y2] = line[1];
+                    const [rx, ry, width, height] = rect;
+
+                    const intersection = math.intersect(
+                        [x1, y1, x2, y2],
+                        [rx, ry, rx + width, ry, rx + width, ry + height, rx, ry + height, rx, ry]
+                    );
+
+                    return intersection ? [intersection[0], intersection[1]] : null;
+                }
+
+                let size = 4
+                let rx = pointer.x - (size / 2)
+                let ry = pointer.y - (size / 2)
+                let rect = [rx, ry, size, size]
+
+                return null !== calculateIntersection(line, rect)
+            }
+
+            function splitLine(p, line) {
+                // LineA: p1 -> p
+                // LineB: p -> p2
+                return [
+                    [line[0], [p[0], p[1]]],
+                    [[p[0], p[1]], line[1]]
+                ]
+            }
+
+            function clip(pointer, sectionPoint, lineIndex) {
+
+                let [lineA, lineB] = splitLine(sectionPoint, lines[lineIndex])
+
+                if (doHit(pointer, lineA)) lines[lineIndex] = lineB
+                if (doHit(pointer, lineB)) lines[lineIndex] = lineA
+
+                update()
+            }
+
+            document.getElementById('svg').addEventListener("pointerdown", function (event) {
+                let pointer = getCoords(event)
+
+                let [sectionPoint, found] = calcIntersection(lines[0], lines[1])
+                if (found) {
+                    if (doHit(pointer, lines[0])) clip(pointer, sectionPoint, 0)
+                    if (doHit(pointer, lines[1])) clip(pointer, sectionPoint, 1)
+                }
+
+            })
+
+
+            function doRectanglesIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+                // Check if one rectangle is to the left of the other
+                if (x3 > x2 || x4 < x1) {
+                    return false;
+                }
+
+                // Check if one rectangle is above the other
+                if (y3 > y2 || y4 < y1) {
+                    return false;
+                }
+
+                // Check if the line segment intersects with any of the rectangle's edges
+                if (
+                    (x3 <= x2 && x3 >= x1 && y3 <= y2 && y3 >= y1) || // (x3, y3) is inside the rectangle
+                    (x4 <= x2 && x4 >= x1 && y4 <= y2 && y4 >= y1) || // (x4, y4) is inside the rectangle
+                    doLinesIntersect(x1, y1, x2, y1, x3, y3, x4, y4) || // Top edge
+                    doLinesIntersect(x1, y2, x2, y2, x3, y3, x4, y4) || // Bottom edge
+                    doLinesIntersect(x1, y1, x1, y2, x3, y3, x4, y4) || // Left edge
+                    doLinesIntersect(x2, y1, x2, y2, x3, y3, x4, y4) // Right edge
+                ) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            // Helper function to check if two line segments intersect
+            function doLinesIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+                let ua, ub, denom;
+
+                denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+                ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+                ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+
+                return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+            }
+
+
 
         </script>
     </body>
