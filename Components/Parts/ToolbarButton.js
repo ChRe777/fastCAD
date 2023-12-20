@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/internal'
 
 const style = {
     "bg": "bg-dark-75 rounded",

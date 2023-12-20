@@ -4,7 +4,7 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/internal'
 import { svgElementTypes, svgLayerAttributes } from 'components/types'
 
 // Template

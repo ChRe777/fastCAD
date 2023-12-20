@@ -5,7 +5,8 @@
 // Imports
 //
 import { useCacheStore } from 'stores/cache'
-import object from './Object.js'
+import PObject from 'fnSets/Object'
+import { Status as PStatus } from 'fnSets/Status'
 
 //  Local variable
 //
@@ -13,7 +14,7 @@ let obj_ = undefined
 
 // Local constants
 //
-const fns_type__ = 'sceneFn'
+const fns_type_ = 'sceneFn'
 
 
 // Exports
@@ -31,6 +32,7 @@ export default {
 //
 
 function setObject(obj) {
+    //console.log("obj", obj)
     if (obj.hasFn(getFnType())) {
         obj_ = obj.getInternal() // OK .. UnWrap
     } else {
@@ -39,25 +41,25 @@ function setObject(obj) {
 }
 
 function getFnType() {
-    return fns_type__
+    return fns_type_
 }
 
 function getElementById(id) {
     if (!obj_) return undefined
 
     const cacheStore_ = useCacheStore()
-    const element = cacheStore_.getElementById(id)
+    const internalElement = cacheStore_.getElementById(id)
 
-    const wrappedParent = object.create(element)
-    return wrappedParent
+    const publicObj = PObject.create(internalElement)
+    return [publicObj, PStatus.kSuccess]
 }
 
 function forEach_(fn, parent, element) {
 
     // Go out, so wrap internal objects
     //
-    const wrappedParent = object.create(parent)
-    const wrappedElement = object.create(element)
+    const wrappedParent = PObject.create(parent)
+    const wrappedElement = PObject.create(element)
     fn(wrappedParent, wrappedElement)
 
     // Go down next level

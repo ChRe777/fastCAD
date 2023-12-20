@@ -7,7 +7,7 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/internal'
 import SvgSelectionRect from 'components/selectionRect'
 import { useSelectionStore } from 'stores/selection';
 

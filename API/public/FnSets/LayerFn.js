@@ -5,19 +5,28 @@
 // - Layers can be invisble with all their childs
 // - Layers can have childs
 
+
+import ICreate from 'api/create'
+import PObject from 'fnSets/Object'
+import { Status as PStatus } from 'fnSets/Status'
+
 //  Local variable
 //
+
 let obj_ = undefined
 
 // Local constants
 //
-const fns_type__ = 'layerFn'
+const fns_type_ = 'layerFn'
 
 // Exports
 
 export default {
     getFnType,
     setObject,
+    //
+    create,
+    //
     isOpen,
     isFrozen,
     isVisible
@@ -35,8 +44,24 @@ function setObject(obj) {
 }
 
 function getFnType() {
-    return fns_type__
+    return fns_type_
 }
+
+function create(attrs) {
+    //
+    // see Douglas Crockford = https://gist.github.com/benpriebe/55b7e950b5e9d056b47e
+    //
+    // let { name, description } = attrs
+
+    let internalObj = ICreate.layer(attrs)
+
+    // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+    //
+    let publicObj = PObject.create(internalObj)
+
+    return [publicObj, PStatus.kSuccess]
+}
+
 
 // Determines whether or not the Function Set is compatible 
 // with the specified Maya Object within the API RTTI system.

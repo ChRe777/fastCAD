@@ -1,15 +1,16 @@
 // ChildFn.js
 
-// Childs have parents
+//  - Childs have parents
 
 // Imports
 //
 import { useCacheStore } from 'stores/cache'
-import object from './Object.js'
+import PObject from 'fnSets/Object'
+import { Status as PStatus } from 'fnSets/Status'
 
 // Local Constants
 //
-const fns_type__ = 'childFn'
+const fns_type_ = 'childFn'
 
 // Local variables
 //
@@ -27,7 +28,7 @@ export default {
 //
 
 function getFnType() {
-    return fns_type__
+    return fns_type_
 }
 
 function setObject(obj) {
@@ -48,5 +49,5 @@ function getParent() {
     const cacheStore_ = useCacheStore()
     let parent = cacheStore_.getParent(child.id)
 
-    return object.create(parent) // Go out -> wrap it
+    return [PObject.create(parent), PStatus.kSuccess] // Go out -> wrap it
 }

@@ -6,7 +6,7 @@ import { defaults } from 'services/defaults'
 import { addPoints } from 'services/utils'
 import { useStore } from 'stores/store'
 //
-import api from 'api/api'
+import api from 'api/internal'
 
 // Constants
 //
@@ -325,8 +325,7 @@ function group(elements) {
 //
 function layer(attrs) {
 
-    let name = attrs['name']
-    let description = attrs['description']
+    let { name, description } = attrs
 
     const obj = create("layer", {
         'svg-type': 'g',

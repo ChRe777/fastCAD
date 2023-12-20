@@ -28,6 +28,10 @@
 
 */
 
+// Imports
+//
+import { Status as PStatus } from 'fnSets/Status'
+
 // Constants // TODO: Move to a Registry STORE, because of Plugins
 //
 
@@ -66,8 +70,8 @@ function create(obj) {
 
     function isCompatible_(fnsType) {
         if (!obj_) return undefined
-        let fns_type__ = getType()
-        return fnsTypesCompatibleList_[fnsType].includes(fns_type__)
+        let fns_type_ = getType()
+        return fnsTypesCompatibleList_[fnsType].includes(fns_type_)
     }
 
     // Public functions
@@ -89,10 +93,15 @@ function create(obj) {
         return isCompatible_(fnsType)
     }
 
-    return {
+    //
+    // see Douglas Crockford = https://gist.github.com/benpriebe/55b7e950b5e9d056b47e
+    //
+
+    const publicObj = Object.freeze({
         isEmpty,
         getType,
         hasFn,
         getInternal
-    }
+    })
+    return publicObj
 }

@@ -6,9 +6,15 @@
 // - Element can set attribute value for key
 // - Element can get value of attribute
 
+// Imports
+//
+import IElement from 'api/element' // "api/intern/element" TODO: Internal API
+import PObject from 'fnSets/Object'
+import { Status as PStatus } from 'fnSets/Status'
+
 // Local Constants
 //
-const fns_type__ = 'elementFn'
+const fns_type_ = 'elementFn'
 
 // Local variables
 //
@@ -19,6 +25,8 @@ let obj_ = undefined
 export default {
     getFnType,
     setObject,
+    //
+    create,
     //
     getId,
     getType,
@@ -32,7 +40,7 @@ export default {
 //
 
 function getFnType() {
-    return fns_type__
+    return fns_type_
 }
 
 function setObject(obj) {
@@ -41,6 +49,12 @@ function setObject(obj) {
     } else {
         obj_ = undefined
     }
+}
+
+function create(type, attrs) {
+    let internalObj = IElement.create(type, attrs)
+    let publicObj = PObject.create(internalObj)
+    return [publicObj, PStatus.kSuccess]
 }
 
 function getId() {
@@ -57,7 +71,7 @@ function attributes() {
     if (!obj_) return undefined
 
     // https://www.freecodecamp.org/news/clone-an-object-in-javascript/
-    let attrs = Object.assign({}, obj_)
+    let attrs = Object.freeze(Object.create(obj_))
     return attrs
 }
 

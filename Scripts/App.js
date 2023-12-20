@@ -105,19 +105,20 @@ cmdStore.registeredCmdsByName[cmdName].action(args)
 // Test FunctionSet Style of Programming
 //
 
-import object from '../API/FnSets/Object.js'
-import sceneFn from '../API/FnSets/SceneFn.js'
-import parentFn from '../API/FnSets/ParentFn.js'
-import childFn from '../API/FnSets/ChildFn.js'
-import layerFn from '../API/FnSets/LayerFn.js'
-import elementFn from '../API/FnSets/ElementFn.js'
+import PObject from 'fnSets/Object'
+
+import SceneFn from 'fnSets/SceneFn'
+import ParentFn from 'fnSets/ParentFn'
+import ChildFn from 'fnSets/ChildFn'
+import LayerFn from 'fnSets/LayerFn'
+import ElementFn from 'fnSets/ElementFn'
 
 import { useCacheStore } from 'stores/cache'
 
 // Scene
 //
-let sceneObj = object.create(store.scene)
-sceneFn.setObject(sceneObj)
+let sceneObj = PObject.create(store.scene)
+SceneFn.setObject(sceneObj)
 
 
 let cacheStore = useCacheStore()
@@ -125,8 +126,9 @@ cacheStore.clear()
 
 // Walk through all in scene
 //
-sceneFn.forEach((parentObj, elementObj) => {
+SceneFn.forEach((parentObj, elementObj) => {
 
+    console.log("parentObj", parentObj)
     // <!-- Fill Caches
     let cacheStore = useCacheStore()
     cacheStore.setParent(parentObj.getInternal(), elementObj.getInternal().id)
@@ -134,32 +136,33 @@ sceneFn.forEach((parentObj, elementObj) => {
 
     //      Fill Caches -->
 
-    parentFn.setObject(elementObj)
-    elementFn.setObject(elementObj)
-    childFn.setObject(elementObj)
-    layerFn.setObject(elementObj)
+    ParentFn.setObject(elementObj)
+    ElementFn.setObject(elementObj)
+    ChildFn.setObject(elementObj)
+    LayerFn.setObject(elementObj)
 
-    console.log("id:", elementFn.getId())
+    console.log("id:", ElementFn.getId())
     console.log("type:", elementObj.getType())
-    console.log("hasChilds:", parentFn.hasChilds())
-    console.log("layer - isopen:", layerFn.isOpen())
+    console.log("hasChilds:", ParentFn.hasChilds())
+    console.log("layer - isopen:", LayerFn.isOpen())
 
-    elementFn.setObject(parentObj)
-    console.log("parent id:", elementFn.getId())
+    ElementFn.setObject(parentObj)
+    console.log("parent id:", ElementFn.getId())
 
-    childFn.setObject(elementObj)
-    elementFn.setObject(childFn.getParent())
-    console.log("parent id:", elementFn.getId())
+    ChildFn.setObject(elementObj)
+    let [parentObj_, status] = ChildFn.getParent()
+    ElementFn.setObject(parentObj_)
+    console.log("parent id:", ElementFn.getId(), "status ok:", status.isSuccess())
 
     console.log("")
 })
 console.log("---")
 
-let element = sceneFn.getElementById("layer-Laltl3Tj123")
-console.log("element.isEmpty:", element.isEmpty())
+let [element, status] = SceneFn.getElementById("layer-Laltl3Tj123")
+console.log("element.isEmpty:", element.isEmpty(), "status ok:", status.isSuccess())
 
-elementFn.setObject(element)
-elementFn.getType()
-console.log("type of element:", elementFn.getType())
+ElementFn.setObject(element)
+ElementFn.getType()
+console.log("type of element:", ElementFn.getType())
 
 console.log("---")

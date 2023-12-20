@@ -12,7 +12,7 @@ let obj_ = undefined
 
 // Local constants
 //
-const fns_type__ = 'parentFn'
+const fns_type_ = 'parentFn'
 
 // Export
 //
@@ -30,7 +30,7 @@ export default {
 //
 
 function getFnType() {
-    return fns_type__
+    return fns_type_
 }
 
 function setObject(obj) {

@@ -2,7 +2,7 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/internal'
 
 // TODO: the API should use the SERVICE not other around
 

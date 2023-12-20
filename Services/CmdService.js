@@ -3,7 +3,7 @@
 
 // Imports
 //
-import api from 'api/api'
+import api from 'api/internal'
 
 import { argFns } from 'services/utils'
 import { useStore } from 'stores/store'
