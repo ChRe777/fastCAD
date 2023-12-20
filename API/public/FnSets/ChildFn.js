@@ -5,8 +5,8 @@
 // Imports
 //
 import { useCacheStore } from 'stores/cache'
-import PObject from 'fnSets/Object'
 import { Status as PStatus } from 'fnSets/Status'
+import PObject from 'fnSets/Object'
 
 // Local Constants
 //
@@ -44,7 +44,7 @@ function getParent() {
 
     let child = obj_
 
-    // in cache are internal objects
+    // In cache are internal objects
     //
     const cacheStore_ = useCacheStore()
     let parent = cacheStore_.getParent(child.id)

@@ -6,6 +6,11 @@
 // - Parents can remove child
 // - Parents can return childs (readonly)
 
+// Imports
+//
+import PObject from 'fnSets/Object'
+import ElementFn from 'fnSets/ElementFn'
+
 // Local variables
 //
 let obj_ = undefined
@@ -23,7 +28,7 @@ export default {
     hasChilds,
     appendChild,
     removeChild,
-    childs,
+    getChilds,
 }
 
 // Public Functions
@@ -47,23 +52,31 @@ function hasChilds() {
     return obj_.elements.length > 0
 }
 
-function appendChild(child) {
+function appendChild(pchild) {
     if (!obj_) return undefined
-    obj_.elements.push(child)
-    return child
+    if (!obj_.elements) return undefined // TODO: Error
+    let internalObj = pchild.getInternal()
+    obj_.elements.push(internalObj)
+    return pchild
 }
 
-function removeChild(child) {
+function removeChild(pchild) {
+    if (!obj_) return undefined
+    if (!obj_.elements) return undefined // TODO Error Status
+
+    ElementFn.setObject(pchild)
+    const id = ElementFn.getId()
+
+    obj_.elements = obj_.elements.filter(child_ => child_.id !== id)
+    return pchild
+}
+
+function getChilds() {
     if (!obj_) return undefined
     if (!obj_.elements) return undefined
-    obj_.elements = obj_.elements.filter(child_ => child_.id !== child.id)
-    return child
-}
 
-function childs() {
-    if (!obj_) return undefined
-    // https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/
-    let clone = [...obj_.elements];
-    return clone
+    // Internal Object go out -> wrapped all
+    //
+    return obj_.elements.map(PObject.create)
 }
 

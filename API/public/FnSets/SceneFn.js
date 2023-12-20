@@ -32,7 +32,6 @@ export default {
 //
 
 function setObject(obj) {
-    //console.log("obj", obj)
     if (obj.hasFn(getFnType())) {
         obj_ = obj.getInternal() // OK .. UnWrap
     } else {
@@ -75,11 +74,7 @@ function forEach_(fn, parent, element) {
 // For each element tree walker
 //
 function forEach(fn) {
-
-    if (!obj_) {
-        console.error("SceneFn - Object not set")
-        return
-    }
+    if (!obj_) return
 
     const scene = obj_
     for (let element of scene.elements) {

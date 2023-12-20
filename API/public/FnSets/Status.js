@@ -32,24 +32,19 @@ export const StatusCodeText = {
 
 export const Status = {
     // TODO: Rethink
-    "kSuccess": create({ "statusCode": StatusCode.kSuccess }),
-    "kFailure": create({ "statusCode": StatusCode.kFailure })
+    "kSuccess": create({ statusCode: StatusCode.kSuccess }),
+    "kFailure": create({ statusCode: StatusCode.kFailure, errorText: 'unknown' })
 }
 
 function create(spec) {
 
-    console.log("Status.create - spec", spec)
+    //console.log("Status.create - spec", spec)
 
     // Private 
     //
     let { statusCode, errorText } = spec
 
-    console.log("Status.create - statusCode", statusCode)
-
-    // Private 
-    //
-    // const errorText = errorText_
-    // const statusCode = statusCode_
+    //console.log("Status.create - statusCode", statusCode)
 
     // Public functions
     //

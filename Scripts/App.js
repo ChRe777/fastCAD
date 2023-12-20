@@ -144,6 +144,7 @@ SceneFn.forEach((parentObj, elementObj) => {
     console.log("id:", ElementFn.getId())
     console.log("type:", elementObj.getType())
     console.log("hasChilds:", ParentFn.hasChilds())
+    console.log("getChilds:", ParentFn.getChilds())
     console.log("layer - isopen:", LayerFn.isOpen())
 
     ElementFn.setObject(parentObj)
