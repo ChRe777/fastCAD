@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Riot App</title>
+        <link href="https://unpkg.com/skeleton-css@2.0.4/css/normalize.css" rel="stylesheet" />
+        <link href="https://unpkg.com/skeleton-css@2.0.4/css/skeleton.css" rel="stylesheet" />
+
+    </head>
+
+    <body>
+        <app title="Site"></app>
+
+        <!-- https://riot.js.org/compiler/ -->
+        <!-- https://riot.js.org/online-compiler/ -->
+        <!-- You might prefer using data-src instead of src on your <script> tags to prevent 
+            the browser from automatically prefetching any Riot script tag in order and avoid 
+            loading the same resources twice. Riot will automatically fetch and compile your 
+            tags via AJAX. -->
+
+        <script data-src="./app.riot" type="riot"></script>
+        <script data-src="./test.riot" type="riot"></script>
+        <script data-src="./form.riot" type="riot"></script>
+        <script data-src="./todo.riot" type="riot"></script>
+
+        <script src="https://unpkg.com/riot@9.1.2/riot+compiler.min.js"></script>
+
+        <!-- compile and mount -->
+        <script>
+            (async function main() {
+
+                var startTime = performance.now()
+                await riot.compile()
+                var endTime = performance.now()
+                console.log(`Compiling took ${endTime - startTime} milliseconds`)
+
+                //
+                startTime = performance.now()
+                riot.mount('app', { title: 'Site2' } /*Props*/)
+                endTime = performance.now()
+                console.log(`Mounting took ${endTime - startTime} milliseconds`)
+            }())
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,84 @@
+<app>
+  <router on-started={onRouterStarted} initial-route={props.initialRoute}>
+    <nav>
+      <a each={page in props.pages} href={page.path}>
+        {page.label}
+      </a>
+    </nav>
+
+    <not-found if={state.showNotFound}/>
+
+    <route each={page in props.pages} path={page.path}>
+      <main is={page.component}/>
+    </route>
+  </router>
+
+  <script>
+    import erre from 'erre'
+    import Home from './pages/home.riot'
+    import NotFound from './pages/not-found.riot'
+    import About from './pages/about.riot'
+    import {Router, Route, route, toRegexp, match} from '@riotjs/route'
+
+    export default {
+      components: {
+        Router,
+        Route,
+        Home,
+        About,
+        NotFound
+      },
+      state: {
+        showNotFound: false
+      },
+      // the isServer property is automatically injected by @riotjs/ssr
+      onBeforeMount({isServer, initialRoute}) {
+        // create a stream on all routes
+        this.anyRouteStream = route('(.*)')
+        // create a stream to check the riot-router state
+        this.routerStateStream = erre()
+        // update the state of the not found component depending on the initial route
+        this.state.showNotFound = this.isNotFoundVisible(initialRoute)
+        // check any route change to understand if the not found site should be displayed
+        this.anyRouteStream.on.value(this.onAnyRoute)
+      },
+      onRouterStarted() {
+        // broadcast the router started event
+        this.routerStateStream.push('started')
+      },
+      // Needed only for SSR
+      onAsyncRendering(resolve) {
+        const onReady = () => {
+          this.routerStateStream.off.value(onReady)
+          resolve()
+        }
+
+        // wait the router started event
+        this.routerStateStream.on.value(onReady)
+      },
+      isNotFoundVisible(path) {
+        return !this.props.pages.some(p => match(path, toRegexp(p.path)))
+      },
+      onAnyRoute(path) {
+        // show the not found page if none of the page paths are matched
+        this.update({
+          showNotFound: this.isNotFoundVisible(path.pathname)
+        })
+      },
+      onBeforeUnmount() {
+        this.routerStateStream.end()
+        this.anyRouteStream.end()
+      }
+    }
+  </script>
+
+  <style>
+    :host {
+      font-family: Helvetica Neue, Helvetica, Arial;
+    }
+
+    nav a {
+      margin: 0 0.2rem;
+    }
+  </style>
+</app>

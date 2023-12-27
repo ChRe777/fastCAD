@@ -38,13 +38,14 @@ import { Status as PStatus } from 'fnSets/Status'
 // FnSets Compatibility
 //
 const fnsTypesCompatibleList_ = {
+    // Special
     'sceneFn': ['svg'],
     'layerFn': ['layer'],
-    //
+    // Abstract
     'parentFn': ['layer', 'g', 'svg'],
     'childFn': ['layer', 'g', 'line', 'circle', 'ellipse', 'polyline', 'polygon', 'rect', 'image', 'path', 'text'],
     'elementFn': ['svg', 'layer', 'g', 'line', 'circle', 'ellipse', 'polyline', 'polygon', 'rect', 'image', 'path', 'text'],
-    //
+    // Element
     'polylineFn': ['polyline', 'polygon'],
     'ellipseFn': ['circle', 'ellipse'],
     'pathFn': ['path'],

@@ -1,0 +1,52 @@
+<app-help>
+  <route path="#/:id/(.*)?">
+    <h2>Help</h2>
+    <p>
+      { getHelpText(route) }
+    </p>
+  </route>
+  <script>
+    export default {
+      state: {
+        data: {
+          first: "This is the help for the first page.",
+          second: "This is the help for the second page."
+        }
+      },
+      getHelpText(route) {
+        const {id} = route.params
+
+        return this.state.data[id] || 'Help not found.'
+      }
+    }
+  </script>
+
+  <style>
+    :host {
+      position: fixed;
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 130px;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1em;
+      text-align: center;
+      color: #666;
+      background: #f7f7f7;
+    }
+    @media (min-width: 480px) {
+      :host {
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: auto;
+        width: 200px;
+        height: 100%;
+      }
+    }
+  </style>
+</app-help>

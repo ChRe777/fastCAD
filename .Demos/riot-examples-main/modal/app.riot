@@ -1,0 +1,19 @@
+<app>
+  <h2>{ props.title }</h2>
+  <a href="#modal-target">
+    <button>Show Modal</button>
+  </a>
+  <!-- use the modal component, pass in the prop -->
+  <modal>
+    <h3 slot="header">{ props.header }</h3>
+
+    <div slot="footer">
+      default footer
+      <a href="#">
+        <button class="modal-default-button">
+          OK
+        </button>
+      </a>
+    </div>
+  </modal>
+</app>

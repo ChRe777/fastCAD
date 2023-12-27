@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+    <head>
+        <title>OFang Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/mathjs@12.2.0/lib/browser/math.js"></script>
+        <script src="https://unpkg.com/snapsvg@0.5.1/dist/snap.svg-min.js"></script>
+
+        <!--link href="../../Libs/bootstrap.min.css" rel="stylesheet">
+        <script src="../../Libs/bootstrap.bundle.min.js"></script>
+        <script src="../../Libs/math.js"></script-->
+
+        <style>
+            :root,
+            [data-bs-theme=dark] {
+                --bs-blue: #ff6efd !important;
+                --bs-primary: #ff6efd !important;
+                --bs-body-color: white !important;
+            }
+
+            .btn-primary {
+                --bs-btn-color: #fff;
+                --bs-btn-bg: #ff6efd;
+            }
+
+            svg {
+                background-color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container w-50">
+            <center>
+                <h3 class="mb-3 mt-3">OFang Example</h3>
+
+                <svg id="svg" class="rounded-2" width="100%" height="400" viewBox="-25 -25 100 100" stroke="black"
+                    stroke-width="0.5">
+
+                    <style>
+                        .snapPoint {
+                            fill: none;
+                            stroke: red;
+                            stroke-width: 0.5px;
+                        }
+
+                        .blackStroke {
+                            fill: none;
+                            stroke: black;
+                            stroke-width: 0.5px;
+                        }
+
+                        .selected {
+                            fill: none;
+                            stroke: blue;
+                            stroke-width: 0.5px;
+                            stroke-dasharray: 2;
+                        }
+                    </style>
+
+                    <defs>
+                        <rect class="snapPoint" id="endPoint" x="0" y="0" width="4" height="4" />
+                        <path class="snapPoint" id="middlePoint" d="M 0 4 l 4 0 l -2 -4 z" />
+                        <circle class="snapPoint" id="centerPoint" cx="0" cy="0" r="2" />
+                        <path class="snapPoint" id="intersection" d="M -2 -2 L 2 2 M 2 -2 L -2 2" />
+                    </defs>
+
+                    <g id="layer0">
+                        <!--line id="line1" x1="0" y1="0" x2="50" y2="0" />
+                        <line id="line2" x1="0" y1="0" x2="0" y2="50" />
+                        <line id="line3" x1="0" y1="0" x2="50" y2="50" />
+                        <circle id="circle4" cx="30" cy="0" r="10" class="blackStroke" /-->
+                        <!--line id="line5" x1="0" y1="50" x2="50" y2="25" /-->
+
+                        <line id="line3" x1="25" y1="0" x2="25" y2="50" />
+                        <line id="line4" x1="0" y1="25" x2="50" y2="25" />
+
+                        <circle id="circle6" cx="25" cy="25" r="15" class="blackStroke" />
+
+                        <path id="path7" d="" class="blackStroke" transform="rotate(30, 25, 25)" />
+                        <path id="path8" d="" class="blackStroke" transform="rotate(30, 25,25)" />
+                    </g>
+
+                    <g id="layerInternal">
+                        <use id="boxType1" x="0" y="0" href="#endPoint" visibility="hidden"
+                            transform="translate(-2,-2)" />
+                        <use id="boxType2" x="0" y="0" href="#middlePoint" visibility="hidden"
+                            transform="translate(-2,-2)" />
+                        <use id="boxType3" x="0" y="0" href="#centerPoint" visibility="hidden" />
+                        <use id="boxType4" x="0" y="0" href="#intersection" visibility="hidden" />
+                    </g>
+                </svg>
+
+                <div class="container w-100 mt-3">
+
+                    <div class="form-check-inline">
+                        <input id="endpoint_" checked="checked" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="endpoint">
+                            Endpoint
+                        </label>
+                    </div>
+
+                    <div class="form-check-inline">
+                        <input id="middlepoint_" checked="checked" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="endpoint">
+                            Middlepoint
+                        </label>
+                    </div>
+
+                    <div class="form-check-inline">
+                        <input id="centerpoint_" checked="checked" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="endpoint">
+                            Centerpoint
+                        </label>
+                    </div>
+
+                    <div class="form-check-inline">
+                        <input id="intersection_" checked="checked" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="endpoint">
+                            Intersection
+                        </label>
+                    </div>
+
+                </div>
+
+                <div id="output" class="mt-3 bg-white text-black w-100 p-2 border-1 border-dark rounded-2">sdfsdf</div>
+
+            </center>
+        </div>
+
+        <script type="module">
+
+            const snapTolerance = 4
+            const boxSize = 4
+
+            const endPoint = 1
+            const middlePoint = 2
+            const centerPoint = 3
+            const intersection = 4
+
+            const typeToStr = {
+                1: 'endpoint',
+                2: 'middlepoint',
+                3: 'centerpoint',
+                4: 'intersection'
+            }
+
+            let snapPoints = [
+                [0, 50],
+                [0, 25],
+                [0, 0],
+                [25, 0],
+                [50, 0],
+                [25, 25],
+                [50, 50],
+                [30, 0],
+                [33, 33],
+            ]
+
+            const pointsType = [
+                endPoint,
+                middlePoint,
+                endPoint,
+                middlePoint,
+                endPoint,
+                middlePoint,
+                endPoint,
+                centerPoint,
+                intersection
+            ]
+
+            // o-------o    end_point
+            // ----v----    middle_point
+            //   ( o )      center_point
+            //     |
+            // ----x----    intersection_point
+            //     |
+            // ----L----    perpendicular_point
+
+            // 2^5 = 32 for 5 Types 
+
+            // Line -> Path
+            // Rect -> Path
+            // Circle/Ellipse -> Path
+            // Polyline/Polygon -> Path
+
+            function log(...text) {
+                document.getElementById('output').innerText = text.join(' ')
+            }
+
+            function getCoords(event) {
+                let svg = document.getElementById('svg')
+                const CTM = svg.getScreenCTM()
+
+                let x = (event.clientX - CTM.e) / CTM.a
+                let y = (event.clientY - CTM.f) / CTM.d
+
+                return [x, y]
+            }
+
+            function showBox(sType, show) {
+                const box = document.getElementById('boxType' + sType)
+                box.setAttribute('visibility', show ? 'visible' : 'hidden')
+            }
+
+            function setBoxPos(sType, p) {
+                const box = document.getElementById('boxType' + sType)
+                box.setAttribute('x', p[0])
+                box.setAttribute('y', p[1])
+            }
+
+            function inside(rect, p) {
+
+                rect.x -= 10
+                rect.y -= 10
+                rect.width += 20
+                rect.height += 20
+
+                return (
+                    p[0] >= rect.x &&
+                    p[0] <= rect.x + rect.width &&
+                    p[1] >= rect.y &&
+                    p[1] <= rect.y + rect.height
+                )
+            }
+
+            function getSnapPointsLine(line) {
+                const points = []
+
+                let x1 = parseFloat(line.getAttribute("x1"))
+                let y1 = parseFloat(line.getAttribute("y1"))
+                points.push([x1, y1, endPoint])
+
+                let x2 = parseFloat(line.getAttribute("x2"))
+                let y2 = parseFloat(line.getAttribute("y2"))
+                points.push([x2, y2, endPoint])
+
+                let xm = (x1 + x2) / 2
+                let ym = (y1 + y2) / 2
+                points.push([xm, ym, middlePoint])
+
+                return points
+            }
+
+            function getSnapPointsCircle(circle) {
+                const points = []
+
+                let x = circle.getAttribute("cx")
+                let y = circle.getAttribute("cy")
+                points.push([x, y, centerPoint])
+
+                return points
+            }
+
+            function getPoints(line) {
+                let x1 = parseFloat(line.getAttribute("x1"))
+                let y1 = parseFloat(line.getAttribute("y1"))
+
+                let x2 = parseFloat(line.getAttribute("x2"))
+                let y2 = parseFloat(line.getAttribute("y2"))
+                return [[x1, y1], [x2, y2]]
+            }
+
+            function intersectLines(line1, line2) {
+
+                let [p1a, p2a] = getPoints(line1)
+                let [p1b, p2b] = getPoints(line2)
+
+                let path1 = `M ${p1a[0]} ${p1a[1]} L ${p2a[0]} ${p2a[1]}`
+                let path2 = `M ${p1b[0]} ${p1b[1]} L ${p2b[0]} ${p2b[1]}`
+
+                let xs = Snap.path.intersection(path1, path2)
+                let ys = xs.map(s => [s.x, s.y])
+                if (ys.length === 1) {
+                    console.log("Snap line-line:s", ys[0])
+                    return ys[0]
+                }
+
+                let s = math.intersect(p1a, p2a, p1b, p2b)
+                return s
+            }
+
+            // 0, 1, 2, 3
+            // ----------
+            // 0: 1, 2, 3 ..  01 ,  02 ,  03
+            // 1: 0, 2, 3 .. (01),  12 ,  13
+            // 2: 0, 1, 3 .. (02), (12),  23
+            // 3: 0, 1, 2 .. (03), (13), (23)
+
+            function getIndices(i, j) {
+                return "" + math.min(i, j) + math.max(i, j)
+            }
+
+            function getLineEquation(x1, y1, x2, y2) {
+                // see https://en.wikipedia.org/wiki/Slope
+                const k = (y2 - y1) / (x2 - x1)
+                // see https://en.wikipedia.org/wiki/Y-intercept
+                // Calculate the y-intercept (b)
+                const d = y1 - k * x1
+                return [k, d]
+            }
+
+            function findCircleLineIntersections(r, cx, cy, p1, p2) {
+
+                let path1 = `
+                    M ${cx - r}, ${cy}
+                    a ${r},${r} 0 1,0 ${+r * 2}, 0
+                    a ${r},${r} 0 1,0 ${-r * 2}, 0
+                    `
+
+                let path7 = document.getElementById("path7")
+                path7.setAttribute("d", path1)
+                path7.setAttribute("stroke-width", "2")
+
+                let path2 = `M ${p1[0]} ${p1[1]} L ${p2[0]} ${p2[1]}`
+
+                document.getElementById("path8").setAttribute("d", path2)
+
+                let xs = Snap.path.intersection(path1, path2)
+                let ys = xs.map(s => [s.x, s.y])
+                console.log("With Snap", path1, path2)
+                return ys
+
+                // circle: (x - h)^2 + (y - k)^2 = r^2
+                // line: y = m * x + n
+                // r: circle radius
+                // h: x value of circle centre
+                // k: y value of circle centre
+
+                // m: slope
+                // n: y-intercept
+
+                let sq = x => x * x
+                let sqrt = math.sqrt
+
+                let h = cx
+                let k = cy
+
+                let [m, n] = getLineEquation(p1[0], p1[1], p2[0], p2[1])
+
+                function calcY(x) {
+                    let y = m * x + n
+                    return y
+                }
+
+                // get a, b, c values
+                var a = 1 + sq(m)
+                var b = -h * 2 + (m * (n - k)) * 2
+                var c = sq(h) + sq(n - k) - sq(r)
+
+                // get discriminant
+                var d = sq(b) - 4 * a * c
+                if (d >= 0) {
+                    // insert into quadratic formula
+                    let x1 = (-b + sqrt(sq(b) - 4 * a * c)) / (2 * a)
+                    let x2 = (-b - sqrt(sq(b) - 4 * a * c)) / (2 * a)
+                    var intersections = [
+                        [x1, calcY(x1)],
+                        [x2, calcY(x2)]
+                    ]
+                    if (d == 0) {
+                        // only 1 intersection
+                        return [intersections[0]]
+                    }
+                    console.log("intersections", intersections)
+                    return intersections
+                }
+                // no intersection
+                return []
+            }
+
+            // see https://cscheng.info/2016/06/09/calculate-circle-line-intersection-with-javascript-and-p5js.html
+
+            function intersectLineCircle(node1, node2) {
+                let circle = node1
+                let line = node2
+                if (node1.nodeName == 'line') {
+                    line = node1
+                    circle = node2
+                }
+
+                let r = parseFloat(circle.getAttribute("r"))
+                let cx = parseFloat(circle.getAttribute("cx"))
+                let cy = parseFloat(circle.getAttribute("cy"))
+
+                let [p1, p2] = getPoints(line)
+
+                let xs = findCircleLineIntersections(r, cx, cy, p1, p2)
+                return xs
+            }
+
+
+            // line - line
+            // circle/ellipse - line
+            // path (line, arc(=circle/ellipse), bezier )
+            //
+            // 3 basic types (ellipse, line, bezier)
+            // see http://snapsvg.io/docs/#Snap.path.intersection
+
+            function calcIntersectionSnapPoints(nodes) {
+
+                const points = []
+                const indices = {}
+
+                // Everyone with Everyone, but not two-times!!
+                //
+                nodes.forEach((nodeI, i) => {
+                    nodes.forEach((nodeJ, j) => {
+                        if (i === j) {
+                            return
+                        }
+                        const ij = getIndices(i, j)
+
+                        if (!(ij in indices)) {
+                            indices[ij] = true
+
+                            // Line with Line
+                            //
+                            if (nodeI.nodeName === 'line' && nodeJ.nodeName === 'line') {
+                                let s = intersectLines(nodeI, nodeJ)
+                                points.push([s[0], s[1], intersection])
+                            }
+
+                            // Circle with Line
+                            //
+                            if ((nodeI.nodeName === 'circle' && nodeJ.nodeName === 'line') ||
+                                (nodeI.nodeName === 'line' && nodeJ.nodeName === 'circle')) {
+
+                                let xs = intersectLineCircle(nodeI, nodeJ)
+                                xs.forEach(s => points.push([s[0], s[1], intersection]))
+                            }
+
+                        }
+                    })
+                })
+
+                return points
+            }
+
+
+            function getSnapPointsForType(node) {
+                let points = []
+                if (node.nodeName === 'line') {
+                    points = points.concat(getSnapPointsLine(node))
+                }
+                if (node.nodeName === 'circle') {
+                    points = points.concat(getSnapPointsCircle(node))
+                }
+                return points
+            }
+
+            function getHitNodesNearPointer(nodes, p) {
+                nodes.map(node => node.setAttribute && node.setAttribute('class', 'blackStroke'))
+                let nodesHit = nodes.filter(node => node.getBBox && inside(node.getBBox(), p))
+                nodesHit.map(node => node.setAttribute('class', 'selected'))
+                return nodesHit
+            }
+
+            function calcSnapPoints(p) {
+
+                let g = document.getElementById('layer0')
+                let nodes = Array.from(g.childNodes)
+                let nodesHit = getHitNodesNearPointer(nodes, p)
+                let points = []
+
+                // Snaps for Element Types (line, circle, ...)
+                //
+                nodesHit.map(node => points = points.concat(getSnapPointsForType(node)))
+                // Snaps for Intersections (line-line, line-circle)
+                //
+                points = points.concat(calcIntersectionSnapPoints(nodesHit))
+
+                return points
+            }
+
+
+            function snapToPoint(currentPoint) {
+
+                // EndPoint
+                // MiddlePoint
+                // 90° Point
+                // Intersection Point
+                // Middle Point (Circle, ..)
+
+                function getSType(sp) {
+                    let [x, y, stype] = sp
+                    return stype
+                }
+
+                const snapPoints_ = snapPoints.filter(sp => selectedSnapTypes.includes(getSType(sp)))
+
+                for (const point of snapPoints_) {
+
+                    // [x,y, stype]
+                    const distance = Math.hypot(currentPoint[0] - point[0], currentPoint[1] - point[1])
+                    const snapType = point[2]
+
+                    // TODO: List dleectze
+
+                    if (distance < snapTolerance) {
+                        return [point, snapType]
+                    }
+
+                }
+
+                return [undefined, undefined]
+            }
+
+            let lastSType = undefined
+
+            function getSelectedSnapTypes() {
+                let selectedTypes = Object.entries(typeToStr).map((val, index) => {
+                    let [sType, sTypeStr] = val
+
+                    if (document.getElementById(sTypeStr + '_').checked) {
+                        return parseInt(sType)
+                    }
+                })
+                return selectedTypes.filter(x => x !== undefined)
+            }
+
+            function registerOnChange() {
+                Object.entries(typeToStr).map(val => {
+                    let [sType, sTypeStr] = val
+                    document.getElementById(sTypeStr + '_').onchange = updateSelectTypes
+                })
+            }
+
+            registerOnChange()
+
+            let selectedSnapTypes = getSelectedSnapTypes()
+
+            function updateSelectTypes() {
+                selectedSnapTypes = getSelectedSnapTypes()
+                //console.log(selectedSnapTypes)
+            }
+
+            document.getElementById('svg').addEventListener("pointermove", function (event) {
+                let p = getCoords(event)
+
+                // TODO: Do not calc points that not needed
+                snapPoints = calcSnapPoints(p)
+
+                log(p)
+
+                if (lastSType)
+                    showBox(lastSType, false)
+
+                let [pSnap, sType] = snapToPoint(p)
+                let found = selectedSnapTypes.find(x => x === sType)
+
+                if (pSnap && found) {
+                    setBoxPos(sType, pSnap)
+                    showBox(sType, true)
+                    lastSType = sType
+                    log("[", pSnap, "]", "-", typeToStr[sType])
+                }
+
+            })
+
+        </script>
+    </body>
+
+</html>

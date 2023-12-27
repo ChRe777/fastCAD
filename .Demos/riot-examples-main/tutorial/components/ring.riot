@@ -1,0 +1,26 @@
+<ring>
+  <a href={ props.url } target="_blank" rel="noopener noreferrer">{ props.title }</a>
+
+  <style>
+    :host {
+      display: inline-grid;
+      font-size: 120%;
+      height: 7em;
+      line-height: 7em;
+      margin: .5em;
+      position: relative;
+      width: 7em;
+    }
+    a {
+      background: #1794A5;
+      border-radius: 50%;
+      color: white;
+      display: block;
+      height: 100%;
+      text-decoration: none;
+    }
+    a:hover {
+      opacity: .8;
+    }
+  </style>
+</ring>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Riot live editor</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <sample></sample>
+    <!-- scripts we need -->
+    <script src="https://unpkg.com/riot@9/riot+compiler.min.js"></script>
+    <script>
+      window.addEventListener('message', function(e) {
+        const { code } = riot.compileFromString(e.data)
+        riot.inject(code, 'sample', './sample.riot')
+        riot.mount('sample')
+      }, false)
+    </script>
+  </body>
+
+</html>

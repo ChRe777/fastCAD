@@ -1,0 +1,21 @@
+<app>
+  <app-menu items={ menus } />
+  <app-hero title={ props.heroTitle } />
+  <app-links items={ urls } />
+  <app-footer message={ props.footer } />
+
+  <script>
+    export default {
+      menus: [
+        { title: 'menu1', url: '#' },
+        { title: 'menu2', url: '#' },
+        { title: 'menu3', url: '#' }
+      ],
+      urls: [
+        { title: 'GitHub',   url: 'https://github.com/kkeeth' },
+        { title: 'Twitter',  url: 'https://twitter.com/kuwahara_jsri' },
+        { title: 'Facebook', url: 'https://www.facebook.com/kiyohito.kuwahara' }
+      ]
+    }
+  </script>
+</app>

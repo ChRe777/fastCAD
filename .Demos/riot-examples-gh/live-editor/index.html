@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Riot live editor</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <live-editor src="sample.riot?"></live-editor>
+
+    <!-- riot tags -->
+    <script type="riot" src="live-editor.riot"></script>
+
+    <!-- scripts we need -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/ace.js"></script>
+    <script src="https://unpkg.com/riot@9/riot+compiler.min.js"></script>
+    <script>
+      riot.compile().then(() => {
+        riot.mount('live-editor')
+      })
+    </script>
+  </body>
+
+</html>

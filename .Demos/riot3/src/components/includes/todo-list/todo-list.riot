@@ -1,0 +1,14 @@
+<todo-list>
+    <!--p each={ letter in letters }>{ letter }</p-->
+    <todo-item each={item in props.items} text={item}></todo-item>
+    <script>
+        import TodoItem from '../../includes/todo-item/todo-item.riot'
+        export default {
+            letters: 'hello',
+            items: [1,2,3],
+            components: {
+                TodoItem
+            }
+        }
+    </script>
+</todo-list>

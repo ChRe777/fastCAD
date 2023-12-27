@@ -1,0 +1,43 @@
+<layer>
+
+    <h3>Layer</h3>
+    <ul>
+        <li each="layer in state.layers">{ layer.name }</li>
+    </ul>
+
+    <script>
+
+    import Store from '../../../store/store.js'
+
+    export default {
+        onBeforeMount() {
+            this.state.scene = Store.getScene()
+            this.state.layers = this.getLayers()
+        },
+
+        onBeforeUpdate(newData) {
+            // Update the local data and re-render the tag
+            console.log('layer - onBeforeUpdate')
+            this.state.scene = Store.getScene()
+            this.state.layers = this.getLayers()
+        },
+        getLayers() {
+            let layers = []
+
+            function walkTree(parent) {
+                if (!parent.elements) return
+                parent.elements.forEach(element => {
+                    if (element.type === 'layer') {
+                        layers.push(element)
+                    }
+                    walkTree(element)
+                })
+            }
+
+            walkTree(this.state.scene)
+            return layers
+        }
+    }
+    </script>
+    
+</layer>

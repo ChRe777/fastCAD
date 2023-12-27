@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Riot Example: Timer</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <timer></timer>
+
+    <!-- riot tags -->
+    <script src="timer.riot" type="riot"></script>
+
+    <!-- scripts we need -->
+    <script src="https://unpkg.com/riot@9/riot+compiler.min.js"></script>
+
+    <!-- mount this app -->
+    <script>
+      riot.compile().then(() => {
+        riot.mount('timer', { start: 0 })
+      })
+    </script>
+  </body>
+
+</html>

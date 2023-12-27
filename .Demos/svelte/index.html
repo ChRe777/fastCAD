@@ -1,0 +1,49 @@
+<html>
+
+    <head>
+
+    </head>
+
+    <body>
+        <h1>Svelte Compiler</h1>
+
+        <textarea id="input" rows="10" cols="100"
+            style="font-family: monospace; font-size: large; margin-bottom:1em;"></textarea>
+
+        <button id="compile">Compile</button>
+
+        <textarea id="output" rows="10" cols="100" style="font-family: monospace; font-size: large;"></textarea>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "svelte/internal" : "https://unpkg.com/svelte@3.59.2/internal/index.mjs"
+                }
+            }
+        </script>
+
+        <!--script id="svelte" type="svelte" src="./comp.svelte">
+        </script-->
+
+        <script type="module">
+
+            import { compile } from 'https://unpkg.com/svelte@3.59.2/compiler.mjs'
+
+            let button = document.getElementById('compile')
+            button.addEventListener('click', doCompile)
+
+            function doCompile() {
+                console.log("compile")
+                let source = document.getElementById("input").value
+                console.log("source", source)
+                let compiled = compile(source)
+                console.log("compiled", compiled)
+                document.getElementById("output").innerHTML = compiled.js.code
+            }
+
+        </script>
+
+
+    </body>
+
+</html>

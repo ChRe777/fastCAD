@@ -1,0 +1,33 @@
+{
+  "name": "riot-examples",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "modal": "http-server ./modal -o",
+    "github": "http-server ./github -o",
+    "tree": "http-server ./tree-view -o",
+    "bheader": "http-server ./bounds-header -o",
+    "radar": "http-server ./radar-chart -o",
+    "tutorial": "http-server ./tutorial -o",
+    "svg": "http-server ./svg-bindings -o",
+    "plunker": "http-server ./plunker-template -o",
+    "event-handler": "http-server ./nested-event-handler -o",
+    "todo": "http-server ./todo-app -o",
+    "event": "http-server ./nested-event-handler -o",
+    "countdown": "http-server ./countdown -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kkeeth/riot-examples.git"
+  },
+  "keywords": [],
+  "author": "kkeeth <zensin0082@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kkeeth/riot-examples/issues"
+  },
+  "homepage": "https://github.com/kkeeth/riot-examples#readme",
+  "devDependencies": {
+    "http-server": "14.1.1"
+  }
+}

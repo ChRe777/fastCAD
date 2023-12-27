@@ -1,0 +1,94 @@
+<html>
+
+    <head>
+        <script src="https://unpkg.com/snapsvg@0.5.1/dist/snap.svg-min.js"></script>
+        <script src="https://unpkg.com/paper@0.12.17/dist/paper-core.min.js"></script>
+
+        <style>
+            #svg {
+                background-color: aliceblue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <center>
+            <h1>Snap</h1>
+            <svg id="svg" width="500" height="500" viewBox="0 0 50 50"></svg>
+            <script type="module">
+
+                // see https://medium.com/geekculture/june-17-calculating-svg-bézier-curve-intersections-without-snap-adff3fc6aae7
+
+                import intersect from '../../../Libs/intersect.js';
+
+                var s = Snap(document.getElementById('svg'))
+
+                let style = {
+                    fill: "none",
+                    stroke: "#000",
+                    strokeWidth: 0.25
+                }
+
+                let cx = 25
+                let cy = 25
+                let r = 15
+
+                let pathCircle = `M ${cx - r} ${cy}
+                    a ${r},${r} 0 1,0 ${+2 * r},0
+                    a ${r},${r} 0 1,0 ${-2 * r}, 0
+                    `
+
+                var circle = s.path(pathCircle).attr(style)
+
+                let ts = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+                let r_ = 20
+
+                ts.forEach(t => {
+
+                    let alpha = t * 10
+
+                    let x1 = r_ * Snap.sin(alpha) + 25
+                    let y1 = r_ * Snap.cos(alpha) + 25
+
+                    let x2 = r_ * Snap.sin(alpha + 180) + 25
+                    let y2 = r_ * Snap.cos(alpha + 180) + 25
+
+                    let pathLine3 = `M ${x1} ${y1} L ${x2} ${y2}`
+
+                    // Snap
+                    let zs = Snap.path.intersection(pathCircle, pathLine3)
+                    zs.forEach(p => {
+                        s.path(pathLine3).attr(style)
+                        s.circle(p.x, p.y, 0.5).attr({ fill: "blue" })
+                    })
+
+                    // Lib intersect.js
+                    //
+                    let ws = intersect(pathCircle, pathLine3)
+                    ws.forEach(p => {
+                        s.circle(p.x, p.y, 0.5).attr({ fill: "orange" })
+                    })
+
+                    // Paper.js - Headless
+                    //
+                    const canvas = document.createElement('canvas')
+                    paper.setup(canvas)
+
+                    var circlePath = new paper.Path(pathCircle)
+                    var linePath = new paper.Path(pathLine3)
+
+                    let intersections = circlePath.getIntersections(linePath)
+                    for (var i = 0; i < intersections.length; i++) {
+                        let p = intersections[i].point
+                        let c = s.circle(p.x, p.y, 0.5)
+                        c.attr({ fill: "red" })
+                    }
+
+                })
+
+            </script>
+        </center>
+    </body>
+
+
+</html>

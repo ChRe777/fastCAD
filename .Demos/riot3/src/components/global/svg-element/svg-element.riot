@@ -1,0 +1,38 @@
+<svg-element>
+    <line if={props.element.type === 'line'} 
+        x1={props.element.x1} 
+        y1={props.element.y1} 
+        x2={props.element.x2} 
+        y2={props.element.y2} 
+        stroke="red" stroke-width="10">
+    </line>
+
+    <circle if={props.element.type === 'circle'} 
+        cx={props.element.cx}
+        cy={props.element.cy}
+        r={props.element.r}
+        stroke="blue" stroke-width="10" fill="none">
+    </circle>
+
+    <rect if={props.element.type === 'rect'} 
+        x={props.element.x}
+        y={props.element.y}
+        rx={props.element.rx}
+        width={props.element.width}
+        height={props.element.height}
+        stroke="green" stroke-width="5" fill="none">
+    </rect>
+
+    <g if={props.element.type === 'layer'} data-type="layer">
+        <template is="svg-element" each={childElement in props.element.elements} element={childElement} parent={props.element}></template>
+    </g>
+
+    <script>
+        export default {
+            onBeforeMount(props, state) {
+                state.element = props.element
+            }
+        }
+    </script>
+
+</svg-element>

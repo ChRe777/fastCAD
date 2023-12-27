@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Opening Plunker...</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  </head>
+
+  <body>
+    <app></app>
+
+    <!-- riot tags -->
+    <script type="riot" src="app.riot"></script>
+
+    <!-- scripts we need -->
+    <script src="https://unpkg.com/riot@9/riot+compiler.min.js"></script>
+
+    <!-- mount this app -->
+    <script>
+      riot.compile().then(() => {
+        riot.mount('app')
+      })
+    </script>
+  </body>
+
+</html>

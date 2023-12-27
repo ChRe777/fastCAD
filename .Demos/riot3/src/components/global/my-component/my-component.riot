@@ -1,0 +1,17 @@
+<my-component>
+  <p>{ props.message } - {props.text} - {props.title}</p>
+  <h3>Todos</h3>
+
+  <todo-list items={items}></todo-list>
+
+  <script>
+    import TodoList from '../../includes/todo-list/todo-list.riot'
+
+    export default {
+      items: [1,2,3,4],
+      components: {
+        TodoList
+      }
+    }
+  </script>
+</my-component>

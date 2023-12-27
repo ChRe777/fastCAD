@@ -115,11 +115,12 @@ import ElementFn from 'fnSets/ElementFn'
 
 import { useCacheStore } from 'stores/cache'
 
+console.log("-------START-------")
+
 // Scene
 //
 let sceneObj = PObject.create(store.scene)
 SceneFn.setObject(sceneObj)
-
 
 let cacheStore = useCacheStore()
 cacheStore.clear()
@@ -133,8 +134,7 @@ SceneFn.forEach((parentObj, elementObj) => {
     let cacheStore = useCacheStore()
     cacheStore.setParent(parentObj.getInternal(), elementObj.getInternal().id)
     cacheStore.setElementById(elementObj.getInternal(), elementObj.getInternal().id)
-
-    //      Fill Caches -->
+    // Fill Caches -->
 
     ParentFn.setObject(elementObj)
     ElementFn.setObject(elementObj)
@@ -157,7 +157,8 @@ SceneFn.forEach((parentObj, elementObj) => {
 
     console.log("")
 })
-console.log("---")
+
+console.log("--------------------")
 
 let [element, status] = SceneFn.getElementById("layer-Laltl3Tj123")
 console.log("element.isEmpty:", element.isEmpty(), "status ok:", status.isSuccess())
@@ -166,4 +167,4 @@ ElementFn.setObject(element)
 ElementFn.getType()
 console.log("type of element:", ElementFn.getType())
 
-console.log("---")
+console.log("---------END---------")

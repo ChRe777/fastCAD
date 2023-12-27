@@ -1,0 +1,56 @@
+<app>
+
+  <div class="container mt-3">
+    <div class="row">
+      <div class="four columns right">
+        <h3>My { props.title }</h3>
+      </div>
+      <div class="eight columns"></div>
+    </div>
+
+     <div class="row">
+      <div class="four columns right"><h5>Buttons</h5></div>
+      <div class="eight columns">
+        <a class="button button-primary me-2" href="#">Anchor button</a>
+        <a class="button button-secondary" href="#">Anchor button</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="four columns right"><h5>Test</h5></div>
+      <div class="eight columns" is="test">
+        <!--test></test-->
+      </div>
+    </div>
+
+    <div class="row">
+     <div class="four columns right"><h5>Form example</h5></div>
+      <div class="eight columns">
+        <aform></aform>
+      </div>
+    </div>
+
+    <div class="row">
+     <div class="four columns right"><h5>Todo example</h5></div>
+      <div class="eight columns">
+        <todo title="Todo's" items={todos}></todo>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    .mt-3 {margin-top: 3rem}
+    .me-2 {margin-right: 2rem}
+    .right {text-align: right}
+  </style>
+
+  <script>
+    export default {
+      todos: [
+        { title: 'Learn Riot', done:false }
+      ]
+    }
+  </script>
+
+</app>

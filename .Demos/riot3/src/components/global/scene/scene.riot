@@ -1,0 +1,40 @@
+<scene>
+    <h3>Scene</h3>
+    <svg viewBox="{state.scene.viewBox}" width="300" height="300">
+        <template is="svg-element" each={item in state.scene.elements}  element={item} parent={undefined}>
+        </template>
+    </svg>
+
+    <script>
+
+        import SvgElement from '../svg-element/svg-element.riot'
+        import Store from '../../../store/store.js'
+
+        export default {
+            
+            // see https://github.com/kkeeth/riot-examples/blob/main/tree-view/tree-item.riot
+
+            onBeforeMount(props, state) {
+                state.scene = Store.getScene()
+            },
+
+            // Listen for updates from the parent tag
+            onBeforeUpdate(newData) {
+                // Update the local data and re-render the tag
+                console.log('scene - onBeforeUpdate')
+                this.state.scene = Store.getScene()
+            },
+
+            components: {
+                SvgElement
+            }
+        }
+    </script>
+
+    <style>
+        svg {
+            background-color: lightgray;
+        }
+    </style>
+
+</scene>

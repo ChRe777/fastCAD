@@ -1,0 +1,68 @@
+<todo>
+    <!-- https://riot.js.org/documentation/#todo-example -->
+    <h3 id="title">{props.title}</h3>
+    <ul>
+        <li each="{item in state.items}">
+            <label class={ item.done ? 'completed' : null }>
+            <input
+                class="me-1"
+                type="checkbox"
+                checked={ item.done }
+                onclick={ () => toggle(item) } />
+            {item.title}
+            </label>
+        </li>
+    </ul>
+
+    <form onsubmit={ add }>
+        <label for="addInput">Add new item</label>
+        <input onkeyup={ edit } value={ state.text } type="text" class="me-1" id="addInput"/>
+        <template if={ state.text }>
+        <button disabled={ !state.text } class="{ state.text ? 'button-primary' : 'button' }" type="submit">
+            Add #{ state.items.length + 1 }
+        </button>
+        </template>
+    </form>
+
+    <script>
+    export default {
+        onBeforeMount(props, state) {
+            state.items = props.items
+            state.text = undefined
+        }, 
+        onMounted(props, state) {
+            const titleH3 = this.$('#title') // Access DOM Element
+            console.log('text:', titleH3.innerText)
+            console.log('mount todo')
+        }, 
+        toggle(item) {
+            item.done = !item.done
+            this.update()
+        },
+        edit(e) {
+            // update only the text state
+            this.update({
+                text: e.target.value
+            })
+        },    
+        add(e) {
+            console.log("add")
+            e.preventDefault()
+            let newItem = {
+                title: this.state.text,
+                done: false
+            }
+            this.state.items.push(newItem)
+            this.update()
+        }
+    }
+    </script>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+        .me-1 {
+            margin-right: 0.5rem;
+        }
+    </style>
+</todo>

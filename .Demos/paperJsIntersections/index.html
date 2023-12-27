@@ -1,0 +1,119 @@
+<html>
+
+    <head>
+        <script src="https://unpkg.com/snapsvg@0.5.1/dist/snap.svg-min.js"></script>
+        <script src="https://unpkg.com/paper@0.12.17/dist/paper-core.min.js"></script>
+
+        <style>
+            #svg {
+                background-color: aliceblue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <center>
+            <h1>Calc intersections with Paper.js</h1>
+            <svg id="svg" width="500" height="500" viewBox="0 0 50 50"></svg>
+            <script type="module">
+
+                import convert from './ElemToPath.js'
+                import utils from './Utils.js'
+
+                var snap = Snap(document.getElementById('svg'))
+
+                let style = {
+                    fill: "none",
+                    stroke: "#333",
+                    strokeWidth: 0.15,
+                    strokeDasharray: 0.1
+                }
+
+                let cx = 25
+                let cy = 25
+                let r = 17
+
+                let circlePath = convert.circleToPath(cx, cy, r)
+                var circle = snap.path(circlePath).attr(style)
+
+                let ellipsePath = convert.ellipseToPath(cx, cy, r / 1.0, r / 5)
+                var ellipse = snap.path(ellipsePath).attr(style)
+
+                let points = "10,10 40,10 40,40 10,40 10,10"
+                let polylinePath = convert.polylineToPath(points)
+                var polyline = snap.path(polylinePath).attr(style)
+
+                let points2 = "15,15 35,15 35,35 15,35"
+                let polygonPath = convert.polygonToPath(points2)
+                var polygon = snap.path(polygonPath).attr(style)
+
+                let x1 = 10
+                let x2 = x1 + 30
+                let y1 = 10
+                let y2 = y1 + 30
+                let linePath = convert.lineToPath(x1, y1, x2, y2)
+                var line = snap.path(linePath).attr(style)
+
+                let x12 = 25
+                let x22 = 25
+                let y12 = 0
+                let y22 = 50
+                let linePath2 = convert.lineToPath(x12, y12, x22, y22)
+                var line2 = snap.path(linePath2).attr(style)
+
+                let x = 20
+                let y = 20
+                let width = 10
+                let height = 10
+                let rectPath = convert.rectToPath(x, y, width, height)
+                var rect = snap.path(rectPath).attr(style)
+
+                function drawDot(p) {
+                    snap.circle(p.x, p.y, 0.5).attr({ fill: "#a00" })
+                }
+
+                // Setup Headless for paper.js
+                //
+                paper.setup([10, 10])
+
+                function getIntersections(pathData1, pathData2) {
+                    const x = new paper.Path(pathData1)
+                    const y = new paper.Path(pathData2)
+                    const xs = x.getIntersections(y)
+                    return xs
+                }
+
+                let pathDatas = [
+                    circlePath,
+                    ellipsePath,
+                    polylinePath,
+                    polygonPath,
+                    linePath,
+                    rectPath,
+                    linePath2
+                ]
+
+                // Intersect all Paths with each other 0-1, 0-2, 3-0, 2-3
+                //
+                let pairIndices = utils.uniquePairs(utils.range(pathDatas.length))
+                pairIndices.forEach(pairIndex => {
+
+                    const twoPaths = utils.unpair(pairIndex).map(index => pathDatas[index])
+                    const ints = getIntersections(...twoPaths)
+
+                    ints.forEach(isection => {
+                        drawDot(isection.point)
+                    })
+
+                })
+
+                const a = pair(100, 99)
+                console.log(a)
+                const [i, j] = unpair(a)
+                console.log(i, j)
+            </script>
+        </center>
+    </body>
+
+
+</html>

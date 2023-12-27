@@ -1,0 +1,14 @@
+<app>
+  <router base={base}>
+    <app-main></app-main>
+    <app-navi></app-navi>
+    <app-help></app-help>
+  </router>
+  <script>
+    const loc = window.location
+
+    export default {
+      base: `${loc.pathname}/`
+    }
+  </script>
+</app>

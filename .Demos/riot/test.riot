@@ -1,0 +1,35 @@
+<test>
+    <h3 {...attributes}>Hello Test</h3>
+    <p>{state.name} - {state.surname}</p>
+    <button onclick={updateText}>Update Text</button>
+    <p>{state.text}</p>
+    <textarea value={state.value}></textarea>
+    <div>
+        <span each={ (name, index) in state.stuff }>{ index }: { name };&nbsp;</span>
+    </div>
+    <script>
+        export default {
+            onMounted() {
+                // this is good but doesn't update the component DOM
+                this.state.name = 'Jack'
+                this.state.stuff = ["one", "two","three"]
+
+                // this call updates the state and the component DOM as well
+                this.update({
+                    surname: 'Black'
+                })
+            },
+            updateText (event) {
+                this.update({
+                    text: 'this might not work as expected',
+                    value: 'this works'
+                });
+            },
+            attributes: {
+                id: 'my-id',
+                role: 'contentinfo',
+                class: 'main-paragraph'
+            }
+    }
+    </script>
+</test>

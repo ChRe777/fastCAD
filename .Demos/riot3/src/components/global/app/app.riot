@@ -1,0 +1,86 @@
+<app>
+    <div class="container">
+      <div class="row">
+        <main class="column column-60">
+
+        <h1>Hello that's my first Riot.js App</h1>
+        
+         <div class="row">
+
+            <div class="column one-half">
+            
+                <div is="scene" data-riot-component></div>
+                <button class="button button-primary" onclick={ addRect }>Add Rect</button>
+
+            </div>
+
+            <div class="column one-half">
+                <div is="layer" data-riot-component></div>
+            </div>
+
+          </div>
+        
+          <div is="my-component" data-riot-component message="Hello There" text="foo"></div>
+        
+        </main>
+
+        <aside is="sidebar" data-riot-component class="column"></aside>
+      </div>
+    </div>
+
+    <script>
+
+    import AppStore from '../../../store/app-store.js'
+    import Store from '../../../store/store.js'
+    import Layer from '../../includes/layer/layer.riot'
+
+    export default {
+        shared: [
+            'scene'
+        ],
+        onMounted() {
+            AppStore.install(this)
+            this.update()
+        },
+        onBeforeMount(props, state) {
+            this.state = {
+                scene: {}
+            }
+        },
+        components: {
+            Layer
+        },
+        addRect() {
+            
+            let scene = Store.getScene()
+            let xs = [1,2,3,4]
+            
+            xs.forEach(i => {
+     
+                let rect = {
+                    type:'rect',
+                    x: 50 + i*10,
+                    y: 50 + i*10,
+                    rx: i*5,
+                    width: 300,
+                    height: 300
+                }
+               
+                scene.elements.push(rect)
+            })
+
+            let layer = {
+                type: 'layer',
+                name: 'layer1',
+                elements: []
+            }
+
+            scene.elements.push(layer)
+
+            // Manually update after all changes
+            // 
+            this.update()
+        }
+    }
+    </script>
+</app>
