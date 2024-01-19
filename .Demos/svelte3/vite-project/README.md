@@ -1,5 +1,8 @@
 # Svelte + Vite
 
+## SVG
+see https://svelte.dev/repl/86553af5c35449ab88e34f1e50eb298f?version=3.38.0
+
 This template should help get you started developing with Svelte in Vite.
 
 ## Recommended IDE Setup

@@ -1,1 +1,38 @@
-{"dependencies":{"@riotjs/hot-reload":"^9.0.1","@riotjs/lazy":"^9.0.0","@riotjs/route":"^9.1.2","riot":"^9.1.1"},"name":"riot2","version":"1.0.0","main":"index.js","devDependencies":{"@riotjs/compiler":"^9.0.6","@riotjs/register":"^9.0.0","@riotjs/webpack-loader":"^9.0.1","c8":"^8.0.1","chai":"^4.3.10","html-webpack-plugin":"^5.5.3","jsdom":"^23.0.1","jsdom-global":"^3.0.2","mocha":"^10.2.0","prettier":"^3.1.0","webpack":"^5.89.0","webpack-cli":"^5.1.4","webpack-dev-server":"^4.15.1"},"scripts":{"test":"NODE_OPTIONS=\"--loader @riotjs/register\" c8 mocha --require jsdom-global/register src/**/*.spec.js","cov":"c8 report --reporter=text-lcov","cov-html":"c8 report --reporter=html","build":"webpack --mode production","prepublishOnly":"npm test","start":"webpack serve --mode development --hot --port 3000"},"author":"","license":"ISC","description":"","type":"module"}
+{
+    "dependencies": {
+        "@riotjs/hot-reload": "^9.0.1",
+        "@riotjs/lazy": "^9.0.0",
+        "@riotjs/route": "^9.1.2",
+        "riot": "^9.1.1"
+    },
+    "name": "riot2",
+    "version": "1.0.0",
+    "main": "index.js",
+    "devDependencies": {
+        "@riotjs/compiler": "^9.0.6",
+        "@riotjs/register": "^9.0.0",
+        "@riotjs/webpack-loader": "^9.0.1",
+        "c8": "^8.0.1",
+        "chai": "^4.3.10",
+        "html-webpack-plugin": "^5.5.3",
+        "jsdom": "^23.0.1",
+        "jsdom-global": "^3.0.2",
+        "mocha": "^10.2.0",
+        "prettier": "^3.1.0",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    },
+    "scripts": {
+        "test": "NODE_OPTIONS=\"--loader @riotjs/register\" c8 mocha --require jsdom-global/register src/**/*.spec.js",
+        "cov": "c8 report --reporter=text-lcov",
+        "cov-html": "c8 report --reporter=html",
+        "build": "webpack --mode production",
+        "prepublishOnly": "npm test",
+        "start": "webpack serve --mode development --hot --port 3000"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "type": "module"
+}

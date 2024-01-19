@@ -41,6 +41,17 @@
                     >
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/CmdLine"
+                        ><i class="bi bi-terminal"></i> CmdLine</a
+                    >
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Layer"
+                        ><i class="bi bi-layers"></i> Layer</a
+                    >
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/API/random-number"
                         ><i class="bi bi-wrench-adjustable"></i> API</a
                     >
