@@ -20,20 +20,20 @@ app = FastAPI()
 
 #  THIS ADDRESS ARE ALLOWED TO USE the IO-Server
 origins = [
-    "http://localhost:8000",  # APP-Server allowed
+    "https://weare.gleeze.com",  # Dynu.com
     "http://127.0.0.1:8000",  # APP-Server allowed
     "http://127.0.0.1:5500",  # Live Server / Browser
-    "http://127.0.0.1:52615",
-    "null",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# app.add_middleware(HTTPSRedirectMiddleware)
 
 # Constants
 #
@@ -50,14 +50,14 @@ class Item(BaseModel):
 
 
 # Define a route that handles POST requests
-@app.post("/v2/save/")
+@app.post("/v2/save")
 async def save(item: Item):
     data = json.dumps(item.data, indent=4)
     save_data(data, item.name)
     return item
 
 
-@app.post("/v2/load/")
+@app.post("/v2/load")
 async def load(item: Item):
     jsonStr = load_data(item.name)
     return json.loads(jsonStr)
@@ -110,8 +110,35 @@ def save_data(data, name):
     print(f"Data saved to {DATA_FOLDER+file_name}")
 
 
+@app.get("/api/")
+async def api():
+    return "Hello from API"
+
+
 # ------------------------------------------------------------------------------
+
+ssl_certfile = "/opt/homebrew/etc/nginx/certs/cert.pem"
+ssl_keyfile = "/opt/homebrew/etc/nginx/certs/cert.key"
+ssl_keyfile_password = "#foobar#"
+
 if __name__ == "__main__":
     from uvicorn import run
 
-    run("IOServer:app", host="0.0.0.0", port=9000, reload=True)
+    ssl_certfile = (
+        "/etc/letsencrypt/live/weare.gleeze.com/fullchain.pem"  # managed by Certbot
+    )
+    ssl_keyfile = (
+        "/etc/letsencrypt/live/weare.gleeze.com/privkey.pem"  # managed by Certbot
+    )
+
+    run(
+        "IOServer:app",
+        host="0.0.0.0",
+        port=9000,
+        reload=True,
+        # ssl_keyfile=ssl_keyfile,
+        # ssl_keyfile_password=ssl_keyfile_password,
+        # ssl_certfile=ssl_certfile,
+    )
+
+    # run("IOServer:app", host="0.0.0.0", port=9000, reload=True)

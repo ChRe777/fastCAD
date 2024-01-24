@@ -9,3 +9,15 @@ GET http://0.0.0.0:8000/Scripts/App.js
 
 ###
 GET http://0.0.0.0:8000/Assests/Image/favicon.ico
+
+###
+
+@HOSTNAME = weare.gleeze.com
+@IP_ADDRESS = 188.23.54.176
+@IPv6_ADDRESS = 2001:870:210:3377::a1:fee1:f2ee
+@PASSWORD_MD5 = 1636544d30590398ce07394a38a277c7
+# https://www.dynu.com/NetworkTools/Hash
+
+GET https://api.dynu.com/nic/update?hostname={{HOSTNAME}}&myip={{IP_ADDRESS}}&myipv6={{IPv6_ADDRESS}}&password={{PASSWORD_MD5}} 
+
+https://api.dynu.com/nic/update?hostname=<domain>&myip=<ipaddr>&myipv6=<ip6addr>&password=<passwd>

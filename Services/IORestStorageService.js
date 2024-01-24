@@ -1,13 +1,24 @@
 // IORestService.js
 //
 
+// weare.gleeze.com:443 -> 64.123.234.15:443 -> localhost:8000 -> index.html
+// index.html -> JS -> load -> localhost:9000
+
 // Constants
 //
-const loadURL = 'http://localhost:9000/v2/load/'
-const saveURL = 'http://localhost:9000/v2/save/'
+//const loadURL = 'http://localhost:9000/v2/load'
+//const saveURL = 'http://localhost:9000/v2/save'
+
+// TODO: 
+// Store in LocalStorage for website and configure in settings.
+//
+// const loadURL = 'http://store.reif.com:9000/v2/load'
+// const saveURL = 'http://store.reif.com:9000/v2/save'
+
+const loadURL = 'https://weare.gleeze.com/io/v2/load'
+const saveURL = 'https://weare.gleeze.com/io/v2/save'
 
 function makeOptions(data, name) {
-
     const json = {
         'cmd': 'save_data',
         'data': data,

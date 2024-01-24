@@ -14,7 +14,7 @@ app = FastAPI()
 
 # CORS
 #
-origins = ["http://127.0.0.1:5500", "null", "http://www.orf.at/", "null"]
+origins = ["http://127.0.0.1:5500", "https://weare.gleeze.com"]
 
 app.add_middleware(
     CORSMiddleware,

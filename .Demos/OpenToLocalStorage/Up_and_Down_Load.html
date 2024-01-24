@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JSON File Upload and Download</title>
+    </head>
+
+    <body>
+        <input type="file" id="jsonFileInput" accept=".json" />
+        <button onclick="handleFile()">Upload and Store</button>
+        <a id="downloadLink" style="display: none" download="userData.json">Download JSON</a>
+
+        <script>
+            function handleFile() {
+                const fileInput = document.getElementById('jsonFileInput');
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        try {
+                            const jsonData = JSON.parse(event.target.result);
+                            localStorage.setItem('userData', JSON.stringify(jsonData));
+                            console.log('Data stored in localStorage:', jsonData);
+                        } catch (error) {
+                            console.error('Error parsing JSON:', error);
+                        }
+                    };
+
+                    reader.readAsText(file);
+                } else {
+                    console.error('No file selected.');
+                }
+            }
+
+            // Function to download JSON data from localStorage
+            function downloadJSON() {
+                const jsonData = localStorage.getItem('userData');
+
+                if (jsonData) {
+                    const blob = new Blob([jsonData], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = url;
+                    downloadLink.style.display = 'block';
+
+                    // You can also trigger a click to simulate the download
+                    // downloadLink.click();
+                } else {
+                    console.error('No JSON data in localStorage.');
+                }
+            }
+        </script>
+        <button onclick="downloadJSON()">Download JSON</button>
+    </body>
+
+</html>
