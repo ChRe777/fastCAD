@@ -8,13 +8,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 
+
+
 # App
 #
 app = FastAPI()
 
 # CORS
 #
-origins = ["http://127.0.0.1:5500", "https://weare.gleeze.com"]
+origins = [
+    "http://127.0.0.1:5500",  # Local Development
+    "https://weare.gleeze.com",  # Over Server
+]
 
 app.add_middleware(
     CORSMiddleware,

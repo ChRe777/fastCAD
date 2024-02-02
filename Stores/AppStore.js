@@ -21,6 +21,15 @@ const layer0 = {
     "stroke-opacity": "1.0",
     "elements": [
         {
+            "type": "line",
+            "x1": 0,
+            "y1": 0,
+            "x2": 50,
+            "y2": 50,
+            "stroke-width": 3,
+            "stroke": "#00f900"
+        },
+        {
             "type": "polyline",
             "id": "polyline-Pltl3Tj575",
             "points": "200,160 200,260 300,260 300,160",

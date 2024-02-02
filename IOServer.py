@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import json
+from zipfile import ZipFile
 
 # App
 #
@@ -22,12 +23,12 @@ app = FastAPI()
 origins = [
     "https://weare.gleeze.com",  # Dynu.com
     "http://127.0.0.1:8000",  # APP-Server allowed
-    "http://127.0.0.1:5500",  # Live Server / Browser
+    # "http://127.0.0.1:5500",  # Live Server / Browser
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # origins,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,6 +40,7 @@ app.add_middleware(
 #
 DATA_FOLDER = "./Data/Scene/"
 DEFAULT_FILE_NAME = "scene.json"
+ZIP_FILE = "store.zip"
 
 
 # Create a Pydantic model to define the request data structure
@@ -53,14 +55,28 @@ class Item(BaseModel):
 @app.post("/v2/save")
 async def save(item: Item):
     data = json.dumps(item.data, indent=4)
-    save_data(data, item.name)
+    # save_data(data, item.name)
+    save_data_to_zip(data, item.name)
     return item
 
 
 @app.post("/v2/load")
 async def load(item: Item):
-    jsonStr = load_data(item.name)
-    return json.loads(jsonStr)
+    # jsonStr = load_data(item.name)
+    try:
+        jsonStr = load_data(item.name)
+        # jsonStr = load_data_from_zip(item.name)
+        return json.loads(jsonStr)
+    except KeyError as e:
+        return str(e)
+
+
+@app.get("/api/")
+async def api():
+    return "Hello from API"
+
+
+# -FILESYSTEM-------------------------------------------------------------------
 
 
 def load_data(name):
@@ -75,6 +91,9 @@ def load_data(name):
         content = file.read()
         print(f"Load from {DATA_FOLDER+file_name}")
         return content
+
+
+# ------------------------------------------------------------------------------
 
 
 def save_data(data, name):
@@ -110,13 +129,31 @@ def save_data(data, name):
     print(f"Data saved to {DATA_FOLDER+file_name}")
 
 
-@app.get("/api/")
-async def api():
-    return "Hello from API"
+# -ZIP-----------------------------------------------------------------------------
+
+
+def save_data_to_zip(data, name):
+    with ZipFile(ZIP_FILE, mode="a") as store_zip:
+        store_zip.writestr(name, data=data)
+        store_zip.printdir()
 
 
 # ------------------------------------------------------------------------------
 
+
+##
+##
+def load_data_from_zip(name):
+    with ZipFile(ZIP_FILE, mode="r") as store_zip:
+        with store_zip.open(name) as json_file:
+            content = json_file.read().decode("UTF-8")
+            return content
+
+
+# ------------------------------------------------------------------------------
+
+# Local Cert created with openSSL and trusted with Cert App
+#
 ssl_certfile = "/opt/homebrew/etc/nginx/certs/cert.pem"
 ssl_keyfile = "/opt/homebrew/etc/nginx/certs/cert.key"
 ssl_keyfile_password = "#foobar#"
@@ -124,21 +161,14 @@ ssl_keyfile_password = "#foobar#"
 if __name__ == "__main__":
     from uvicorn import run
 
-    ssl_certfile = (
-        "/etc/letsencrypt/live/weare.gleeze.com/fullchain.pem"  # managed by Certbot
-    )
-    ssl_keyfile = (
-        "/etc/letsencrypt/live/weare.gleeze.com/privkey.pem"  # managed by Certbot
-    )
-
     run(
         "IOServer:app",
         host="0.0.0.0",
         port=9000,
-        reload=True,
-        # ssl_keyfile=ssl_keyfile,
-        # ssl_keyfile_password=ssl_keyfile_password,
-        # ssl_certfile=ssl_certfile,
+        reload=False,
+        ssl_keyfile=ssl_keyfile,
+        ssl_keyfile_password=ssl_keyfile_password,
+        ssl_certfile=ssl_certfile,
     )
 
     # run("IOServer:app", host="0.0.0.0", port=9000, reload=True)

@@ -1,4 +1,4 @@
-// IORestService.js
+// IORestStorageService.js
 //
 
 // weare.gleeze.com:443 -> 64.123.234.15:443 -> localhost:8000 -> index.html

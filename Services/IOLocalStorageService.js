@@ -38,7 +38,7 @@ function downloadJSON() {
 function save(data, name, onSuccessFn) {
 
     // SAVE INTO LOCALSTORAGE as FileSystem
-    
+
     const key = 'file://fastCAD/' + name
 
     localStorage.setItem(key, JSON.stringify(data))
@@ -46,7 +46,7 @@ function save(data, name, onSuccessFn) {
     if (onSuccessFn) {
         onSuccessFn(data, name)
     }
-    
+
 
     // TODO
 }
