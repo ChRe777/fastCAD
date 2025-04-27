@@ -1,4 +1,8 @@
-# Read me
+# FastCAD
+
+FastCAD is a web-based simple CAD application with command line and attribute editor.
+
+![FastCAD](fastCAD.png)
 
 ## Architecture
 
@@ -47,5 +51,4 @@ see https://glmatrix.net
 ### FastAPI and SSL
 https://medium.com/@mariovanrooij/adding-https-to-fastapi-ad5e0f9e084e#:~:text=To%20use%20HTTPS%2C%20simply%20change,.com%2Fapi%2Fendpoint%20.
 
-### Let Encrypt
 
